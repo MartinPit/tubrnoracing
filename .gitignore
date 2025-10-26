@@ -1,0 +1,13 @@
+#directus
+/directus/node_modules/
+/directus/.env
+/directus/.data/
+/directus/uploads/
+/directus/*.log
+#app
+/app/.env
+/app/.env.*.local
+/app/node_modules/
+/app/dist/
+/app/.vite/
+

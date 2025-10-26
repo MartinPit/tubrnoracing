@@ -1,0 +1,44 @@
+services:
+  # 1. PostgreSQL Database Service
+  postgres:
+    image: postgres:15-alpine
+    container_name: directus_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - directus_db_data:/var/lib/postgresql/data
+
+  # 2. Directus CMS Application Service
+  directus:
+    image: directus/directus:latest
+    container_name: directus_cms
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      # Database Connection
+      DB_CLIENT: pg
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # Directus Security (CRITICAL - Uses keys from .env)
+      KEY: ${AUTH_KEY}
+      SECRET: ${AUTH_SECRET}
+
+      # Public Access and CORS Configuration
+      PUBLIC_URL: http://localhost:8055
+      CORS_ENABLED: 'true'
+      CORS_ORIGIN: http://localhost:3000
+    ports:
+      - "8055:8055"
+    volumes:
+      - directus_uploads:/directus/uploads
+
+volumes:
+  directus_db_data:
+  directus_uploads:
