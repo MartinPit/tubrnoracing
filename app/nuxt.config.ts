@@ -1,6 +1,8 @@
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   // Setting the compatibility date is standard for Nuxt 3 projects
-  compatibilityDate: '2025-07-15', 
+  compatibilityDate: '2025-07-15',
 
   // Enable Nuxt Devtools
   devtools: { enabled: true },
@@ -12,5 +14,12 @@ export default defineNuxtConfig({
       // The variable VITE_DIRECTUS_URL is read from your app/.env file
       directusUrl: process.env.VITE_DIRECTUS_URL 
     }
+  },
+  modules: ['@tresjs/nuxt'],
+  css: ['./app/assets/css/main.css'],
+  vite: {
+    plugins: [
+        tailwindcss()
+    ]
   }
 })
