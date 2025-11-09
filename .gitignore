@@ -11,3 +11,8 @@
 /app/dist/
 /app/.vite/
 
+#node
+/node_modules
+
+#editor
+.idea
