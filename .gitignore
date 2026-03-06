@@ -1,18 +1,27 @@
-#directus
-/directus/node_modules/
-/directus/.env
-/directus/.data/
-/directus/uploads/
-/directus/*.log
-#app
-/app/.env
-/app/.env.*.local
-/app/node_modules/
-/app/dist/
-/app/.vite/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-#node
+# dependencies
 /node_modules
 
-#editor
-.idea
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
