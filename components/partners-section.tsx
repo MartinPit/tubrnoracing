@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { RacingButton } from "./racing-button"
+import { NavigationButton } from "./racing-button"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -77,10 +77,10 @@ export function PartnersSection() {
         <div className="mt-16 text-center">
           <p className="text-muted-foreground mb-8">Interested in partnering with us?</p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <RacingButton href="/partners" variant="outline">
+            <NavigationButton href="/partners" variant="outline">
               View All Partners
-            </RacingButton>
-            <RacingButton href="#contact">Become A Partner</RacingButton>
+            </NavigationButton>
+            <NavigationButton href="#contact">Become A Partner</NavigationButton>
           </div>
         </div>
       </div>

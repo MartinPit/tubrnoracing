@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { RacingButton } from "./racing-button"
+import { NavigationButton } from "./racing-button"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -71,7 +71,7 @@ export function TeamSection() {
 
         <div className="mt-16 flex flex-col items-center gap-4">
           <p className="text-muted-foreground">200+ passionate students working together to push the limits</p>
-          <RacingButton href="/team">Meet The Full Team</RacingButton>
+          <NavigationButton href="/team">Meet The Full Team</NavigationButton>
         </div>
       </div>
     </section>

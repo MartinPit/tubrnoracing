@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Play } from "lucide-react"
-import { RacingButton } from "./racing-button"
+import { NavigationButton } from "./racing-button"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -57,9 +57,9 @@ export function MediaSection() {
             <h2 className="font-heading text-4xl sm:text-6xl font-bold uppercase tracking-tight">
               Media <span className="text-primary">Gallery</span>
             </h2>
-            <RacingButton href="/media" variant="outline">
+            <NavigationButton href="/media" variant="outline">
               View All
-            </RacingButton>
+            </NavigationButton>
           </div>
         </div>
 
