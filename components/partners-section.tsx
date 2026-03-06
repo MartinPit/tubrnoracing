@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { NavigationButton } from "./racing-button"
+import { NavigationButton } from "./navigation-button"
 
 gsap.registerPlugin(ScrollTrigger)
 
