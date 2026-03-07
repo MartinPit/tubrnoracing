@@ -6,12 +6,26 @@ const config: Config = {
   // ... your existing config
   theme: {
     extend: {
-      // You can add custom animations or spacing here
+      keyframes: {
+        "enterFromRight": {
+          from: { opacity: 0, transform: "translateX(200px)" },
+          to: { opacity: 1, transform: "translateX(0)" },
+        },
+        "enterFromLeft": {
+          from: { opacity: 0, transform: "translateX(-200px)" },
+          to: { opacity: 1, transform: "translateX(0)" },
+        },
+        // ... ensure you have the standard shadcn animations here
+      },
+      animation: {
+        "nav-enter": "enterFromRight 0.25s ease",
+        "nav-exit": "exitToLeft 0.25s ease",
+      },
     },
   },
   plugins: [
     require("tailwindcss-animate"),
-    plugin(function ({ addUtilities }) {
+    plugin(function({ addUtilities }) {
       addUtilities({
         ".perspective-1000": {
           perspective: "1000px",
