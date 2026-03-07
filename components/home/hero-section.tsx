@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger)
 export function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const bgRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
   const ctx = gsap.context(() => {
@@ -31,16 +30,6 @@ export function HeroSection() {
       },
       "-=0.6",
     )
-
-    gsap.to(bgRef.current, {
-      y: 200,
-      scrollTrigger: {
-        trigger: "#hero",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-    })
   })
 
   return () => ctx.revert()
