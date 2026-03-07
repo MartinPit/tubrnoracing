@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { Navigation } from "@/components/navigation"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
@@ -88,7 +87,6 @@ export default function ContactPage() {
 
   return (
     <>
-      <Navigation />
       <main
         ref={containerRef}
         className="bg-background text-foreground min-h-screen pb-32"

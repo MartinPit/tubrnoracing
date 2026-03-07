@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { Navigation } from "@/components/navigation"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
@@ -117,7 +116,6 @@ export default function SponsorsPage() {
 
   return (
     <>
-      <Navigation />
       <main ref={containerRef} className="bg-background text-foreground min-h-screen pb-32" style={{ paddingTop: "120px" }}>
         <div className="max-w-6xl mx-auto px-6 md:px-10">
           <div className="sponsors-hero mb-20">

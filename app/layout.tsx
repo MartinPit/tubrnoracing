@@ -1,8 +1,10 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import {  Oswald } from "next/font/google"
+import { Oswald } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Navigation } from "@/components/navigation"
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -15,7 +17,6 @@ export const metadata: Metadata = {
   description:
     "We are a student team from Brno University of Technology, designing and building Formula Student racing cars to compete worldwide.",
   keywords: ["Formula Student", "TU Brno", "Racing", "Engineering", "University"],
-  generator: "v0.app",
   icons: {
     icon: [
       {
@@ -47,8 +48,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${oswald.variable} antialiased`}>
+        <Navigation />
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

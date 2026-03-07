@@ -4,7 +4,6 @@ import { useRef, useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import gsap from "gsap"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { Navigation } from "@/components/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import type * as THREE from "three"
 
@@ -222,7 +221,6 @@ function TeamInner() {
 
   return (
     <main className="fixed inset-0 bg-background text-foreground overflow-hidden flex flex-col">
-      <Navigation />
       <div className="flex-1 flex overflow-hidden" style={{ paddingTop: "80px", paddingBottom: "76px" }}>
         <div className="w-full md:w-[42%] shrink-0 flex flex-col justify-center px-8 md:px-12 overflow-hidden">
           <div ref={leftRef} className="flex flex-col gap-6">

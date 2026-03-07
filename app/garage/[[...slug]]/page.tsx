@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, Suspense, useCallback } from "react"
 import { useRouter, useParams } from "next/navigation"
-import { Navigation } from "@/components/navigation"
 import { Canvas, useFrame } from "@react-three/fiber"
 import gsap from "gsap"
 import { ChevronLeft, ChevronRight, Zap, Flame, Monitor } from "lucide-react"
@@ -217,7 +216,6 @@ export default function GaragePage() {
 
   return (
     <main className="bg-background text-foreground overflow-hidden" style={{ paddingTop: "72px" }}>
-      <Navigation />
       <div className="hidden lg:flex flex-col" style={{ height: "calc(100vh - 72px)" }}>
         <div className="flex justify-center pt-5 pb-1 px-4 gap-0 shrink-0">
           {categories.map(({ id, label, Icon }, i) => {
