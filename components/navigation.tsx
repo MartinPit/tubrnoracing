@@ -3,28 +3,25 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import gsap from "gsap"
+import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
+import { SOCIALS } from "@/lib/data"
 
 const navLinks = [
-  { href: "#about", label: "ABOUT", highlight: false },
-  { href: "#team", label: "TEAM", highlight: true },
-  { href: "#media", label: "MEDIA", highlight: false },
-  { href: "#partners", label: "PARTNERS", highlight: true },
-  { href: "#contact", label: "CONTACT", highlight: false },
-]
-
-const menuImages = [
-  "/placeholder.svg?height=400&width=350",
-  "/placeholder.svg?height=400&width=350",
-  "/placeholder.svg?height=400&width=350",
-  "/placeholder.svg?height=400&width=350",
+  { href: "/about", label: "ABOUT", highlight: false },
+  { href: "/team", label: "TEAM", highlight: true },
+  { href: "/garage", label: "GARAGE", highlight: false },
+  { href: "/media", label: "MEDIA", highlight: true },
+  { href: "/partners", label: "PARTNERS", highlight: false },
+  { href: "/contact", label: "CONTACT", highlight: true },
 ]
 
 export function Navigation() {
+  const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const linksRef = useRef<HTMLDivElement>(null)
-  const imagesRef = useRef<HTMLDivElement>(null)
   const tl = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
@@ -36,17 +33,6 @@ export function Navigation() {
         duration: 0.6,
         ease: "power4.inOut",
       })
-      .from(
-        ".menu-image",
-        {
-          y: 100,
-          opacity: 0,
-          duration: 0.5,
-          stagger: 0.08,
-          ease: "power3.out",
-        },
-        "-=0.2",
-      )
       .from(
         ".menu-link",
         {
@@ -87,11 +73,9 @@ export function Navigation() {
   const handleLinkClick = (href: string) => {
     setIsMenuOpen(false)
     setTimeout(() => {
-      const element = document.querySelector(href)
-      element?.scrollIntoView({ behavior: "smooth" })
+      router.push(href)
     }, 600)
   }
-
   return (
     <>
       <button
@@ -101,19 +85,16 @@ export function Navigation() {
       >
         <div className="relative w-6 h-5 flex flex-col justify-center items-center">
           <span
-            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${
-              isMenuOpen ? "rotate-45" : "-translate-y-2"
-            }`}
+            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "rotate-45" : "-translate-y-2"
+              }`}
           />
           <span
-            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${
-              isMenuOpen ? "opacity-0 scale-0" : ""
-            }`}
+            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "opacity-0 scale-0" : ""
+              }`}
           />
           <span
-            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${
-              isMenuOpen ? "-rotate-45" : "translate-y-2"
-            }`}
+            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "-rotate-45" : "translate-y-2"
+              }`}
           />
         </div>
       </button>
@@ -141,18 +122,6 @@ export function Navigation() {
         />
 
         <div className="container mx-auto h-full px-6 py-24 flex flex-col lg:flex-row">
-          <div ref={imagesRef} className="hidden lg:grid grid-cols-2 gap-3 w-1/2 pr-12 content-center">
-            {menuImages.map((src, index) => (
-              <div key={index} className="menu-image aspect-[4/5] overflow-hidden">
-                <img
-                  src={src || "/placeholder.svg"}
-                  alt=""
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-
           <div ref={linksRef} className="flex flex-col justify-center lg:w-1/2 lg:pl-12">
             <nav className="space-y-1">
               {navLinks.map((link) => (
@@ -164,16 +133,19 @@ export function Navigation() {
                     className="block text-left w-full py-2 group relative"
                   >
                     <span
-                      className={`font-heading text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight inline-block transition-all duration-300 ${
-                        link.highlight ? "text-primary" : "text-foreground"
-                      } ${hoveredLink && hoveredLink !== link.href ? "opacity-20" : "opacity-100"}`}
+                      className={cn("font-heading text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight inline-block transition-all duration-300",
+                        link.highlight ? "text-primary" : "text-foreground",
+                        hoveredLink && hoveredLink !== link.href ? "opacity-20" : "opacity-100"
+                      )}
                     >
                       <span className="relative inline-block">
                         {link.label}
                         <span
-                          className={`absolute left-0 top-1/2 h-[3px] bg-primary transition-all duration-300 ease-out ${
+                          className={cn(
+                            "absolute left-0 top-1/2 h-[3px] bg-primary transition-all duration-300 ease-out",
+                            !link.highlight ? "bg-primary" : "bg-foreground",
                             hoveredLink === link.href ? "w-full" : "w-0"
-                          }`}
+                          )}
                         />
                       </span>
                     </span>
@@ -184,23 +156,22 @@ export function Navigation() {
 
             <div className="menu-footer mt-16 pt-8 border-t border-foreground/10">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 border border-foreground/30 rounded-full flex items-center justify-center">
-                  <span className="font-heading text-xs font-bold">TBR</span>
-                </div>
                 <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Formula Student Since 2009
                 </span>
               </div>
 
               <div className="flex gap-8">
-                {["Instagram", "YouTube", "Facebook", "LinkedIn"].map((social) => (
-                  <a
-                    key={social}
-                    href="#"
-                    className="text-xs uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-colors duration-300"
+                {SOCIALS.filter(({ name }) => name != "LinkedIn").map(({ name, link }) => (
+                  <Link
+                    key={name}
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs uppercase tracking-[0.1em] text-muted-foreground hover:text-primary transition-colors duration-300 border-b border-transparent hover:border-primary pb-1"
                   >
-                    {social}
-                  </a>
+                    {name}
+                  </Link>
                 ))}
               </div>
             </div>
