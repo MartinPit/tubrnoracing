@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Instagram, Facebook, Youtube, Linkedin, Mail, MapPin } from "lucide-react"
+import { SOCIALS } from "@/lib/data"
 
 const socialLinks = [
   { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
@@ -15,9 +16,6 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                <span className="font-bold text-lg text-primary-foreground">TBR</span>
-              </div>
               <span className="text-xl font-semibold tracking-wider">TU BRNO RACING</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -50,17 +48,16 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold uppercase tracking-wider mb-6">Follow Us</h3>
             <div className="flex gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
+              {SOCIALS.map((social) => (
+                <Link
+                  key={social.name}
+                  href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={social.label}
                   className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors"
                 >
                   <social.icon className="w-5 h-5" />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -68,14 +65,6 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} TU Brno Racing. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-primary transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">
-              Terms
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

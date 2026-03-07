@@ -1,11 +1,9 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { useGLTF, Environment, ContactShadows, Float } from "@react-three/drei"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import type * as THREE from "three"
+import { FormulaScene } from "./formula-model"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -15,79 +13,6 @@ const stats = [
   { value: "10", label: "Vehicles Built" },
   { value: "50+", label: "Competitions" },
 ]
-
-function AboutModel() {
-  const meshRef = useRef<THREE.Group>(null)
-  const { scene } = useGLTF("https://cdn.tinyglb.com/models/12a3d06872f64153bc9803bc2d504f12.glb")
-  const { viewport } = useThree()
-
-  useEffect(() => {
-    if (!meshRef.current) return
-
-    // Spin animation on scroll
-    gsap.to(meshRef.current.rotation, {
-      y: Math.PI * 2,
-      scrollTrigger: {
-        trigger: "#about",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    })
-
-    // Move down on scroll
-    gsap.to(meshRef.current.position, {
-      y: -2,
-      scrollTrigger: {
-        trigger: "#about",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-    })
-
-    // Slight x rotation for dynamic feel
-    gsap.to(meshRef.current.rotation, {
-      x: 0.3,
-      scrollTrigger: {
-        trigger: "#about",
-        start: "top center",
-        end: "bottom center",
-        scrub: 1,
-      },
-    })
-  }, [])
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      // Subtle floating animation
-      meshRef.current.position.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1
-    }
-  })
-
-  return (
-    <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}>
-      <group ref={meshRef} scale={viewport.width > 10 ? 3 : 2} position={[0, 1, 0]}>
-        <primitive object={scene} scale={0.16} />
-      </group>
-    </Float>
-  )
-}
-
-function AboutScene() {
-  return (
-    <div className="absolute inset-0 z-0">
-      <Canvas camera={{ position: [0, 1, 6], fov: 50 }} gl={{ antialias: true, alpha: true }}>
-        <ambientLight intensity={1.5} />
-        <spotLight position={[5, 10, 5]} angle={0.3} penumbra={0.5} intensity={4} color="#e31937" />
-        <spotLight position={[-5, 5, 5]} angle={0.3} penumbra={1} intensity={2} color="#ffffff" />
-        <AboutModel />
-        <ContactShadows position={[0, -2, 0]} opacity={0.4} scale={8} blur={2} color="#e31937" />
-        <Environment preset="night" />
-      </Canvas>
-    </div>
-  )
-}
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -141,14 +66,17 @@ export function AboutSection() {
   return (
     <section id="about" ref={sectionRef} className="relative min-h-[150vh] py-32">
       <div className="sticky top-0 h-screen w-full">
-        <AboutScene />
+        <FormulaScene />
       </div>
 
-      <div className="relative z-10 -mt-[100vh] pointer-events-none">
+      <div className="relative z-10 -mt-[120vh] pointer-events-none">
         <div className="container mx-auto px-6">
           <div className="min-h-screen flex items-center">
             <div className="grid lg:grid-cols-2 gap-16 w-full">
-              <div ref={leftContentRef} className="pointer-events-auto">
+              <div
+                ref={leftContentRef}
+                className="max-w-lg pointer-events-auto bg-background/80 backdrop-blur-sm p-8"
+              >
                 <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tight">
                   About
                   <span className="block text-primary">Us</span>
@@ -159,8 +87,6 @@ export function AboutSection() {
                   worldwide competition - Formula Student.
                 </p>
               </div>
-
-              <div className="hidden lg:block" />
             </div>
           </div>
 
@@ -168,7 +94,6 @@ export function AboutSection() {
             <div
               ref={rightContentRef}
               className="max-w-lg pointer-events-auto bg-background/80 backdrop-blur-sm p-8"
-              style={{ clipPath: "polygon(5% 0, 100% 0, 100% 100%, 0 100%)" }}
             >
               <p className="text-lg leading-relaxed text-muted-foreground">
                 Every year, we design and build a Formula Student racing car, with which we then compete with other

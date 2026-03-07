@@ -30,4 +30,4 @@ export type Partner = {
   tier: PartnerTier
 }
 
-export type PartnerTier = "platinum" | "gold" | "silver" | "bronze"
+export type PartnerTier = "platinum" | "gold" | "silver" | "bronze" | "university"
