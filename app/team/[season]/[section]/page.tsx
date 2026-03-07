@@ -231,15 +231,90 @@ export default function TeamPage() {
 
   return (
     <main className="fixed inset-0 bg-background text-foreground overflow-hidden flex flex-col">
-      <div className="flex-1 flex overflow-hidden" style={{ paddingTop: "80px", paddingBottom: "76px" }}>
+      <div className="flex-1 flex overflow-hidden" style={{ paddingTop: "80px" }}>
 
         {/* ── Left panel ── */}
         <div className="w-full md:w-[42%] shrink-0 flex flex-col justify-center px-8 md:px-12 overflow-hidden">
           <div ref={leftRef} className="flex flex-col gap-6">
+
+            {/* ── Season + Section selectors ── */}
+            <div className="flex flex-col gap-4">
+
+              {/* Season row */}
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.25em] text-muted-foreground font-heading mb-2">Season</p>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={scrollYearsLeft}
+                    disabled={yearStart === 0}
+                    aria-label="Previous years"
+                    className="w-7 h-7 flex items-center justify-center text-muted-foreground hover:text-primary disabled:opacity-20 transition-colors shrink-0"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <div className="flex items-center gap-2">
+                    {visibleYears.map((yr) => {
+                      const active = yr === season
+                      return (
+                        <button
+                          key={yr}
+                          onClick={() => handleSeasonChange(yr)}
+                          aria-current={active ? "page" : undefined}
+                          className={`relative font-heading text-sm font-bold uppercase tracking-wider transition-all duration-150 px-3 py-1 ${
+                            active
+                              ? "text-primary-foreground bg-primary"
+                              : "text-muted-foreground hover:text-foreground bg-secondary"
+                          }`}
+                        >
+                          {yr}
+                          {active && (
+                            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-foreground/30" />
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <button
+                    onClick={scrollYearsRight}
+                    disabled={yearStart >= years.length - 3}
+                    aria-label="Next years"
+                    className="w-7 h-7 flex items-center justify-center text-muted-foreground hover:text-primary disabled:opacity-20 transition-colors shrink-0"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Section row */}
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.25em] text-muted-foreground font-heading mb-2">Section</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {subsections.map((sub) => {
+                    const active = sub.id === section
+                    return (
+                      <button
+                        key={sub.id}
+                        onClick={() => handleSectionChange(sub.id)}
+                        aria-current={active ? "page" : undefined}
+                        className={`relative font-heading text-xs font-bold uppercase tracking-wider px-3 py-1 transition-all duration-150 ${
+                          active
+                            ? "text-primary-foreground bg-primary"
+                            : "text-muted-foreground hover:text-foreground bg-secondary"
+                        }`}
+                      >
+                        {sub.short}
+                        {active && (
+                          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-foreground/30" />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* ── Title block ── */}
             <div>
-              <p className="text-xs uppercase tracking-[0.25em] text-primary font-heading mb-2">
-                {season} · {current.short}
-              </p>
               <h1 className="font-heading text-5xl md:text-6xl font-bold uppercase leading-none tracking-tight text-balance">
                 {current.label.includes(" ") ? (
                   <>
@@ -259,6 +334,7 @@ export default function TeamPage() {
                 <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Members</span>
               </div>
             </div>
+
             <div className="w-full h-52 md:h-64 relative">
               <Canvas key={`${season}-${section}`} camera={{ position: [0, 0, 6], fov: 50 }}>
                 <ambientLight intensity={0.5} />
@@ -293,129 +369,12 @@ export default function TeamPage() {
         </div>
       </div>
 
-      {/* ── Bottom bar ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border/20 flex items-stretch"
-        style={{ height: "68px" }}
-      >
-        {/* Season selector */}
-        <YearSelector
-          season={season}
-          visibleYears={visibleYears}
-          yearStart={yearStart}
-          yearsLength={years.length}
-          onSeasonChange={handleSeasonChange}
-          onScrollLeft={scrollYearsLeft}
-          onScrollRight={scrollYearsRight}
-        />
-
-        <div
-          className="w-6 shrink-0 self-stretch"
-          style={{ background: "linear-gradient(to right, var(--border) 0px, transparent 100%)" }}
-        />
-
-        {/* Section selector */}
-        <div className="flex-1 flex items-center gap-1 px-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-          <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-heading mr-2 shrink-0 whitespace-nowrap">
-            SECTION
-          </span>
-          {subsections.map((sub, idx) => {
-            const active = sub.id === section
-            return (
-              <button
-                key={sub.id}
-                onClick={() => handleSectionChange(sub.id)}
-                aria-current={active ? "page" : undefined}
-                className={`relative shrink-0 h-9 px-4 font-heading text-xs font-bold uppercase tracking-wider transition-colors duration-150 ${
-                  active ? "text-background" : "text-muted-foreground hover:text-foreground"
-                }`}
-                style={{
-                  clipPath: idx === 0
-                    ? "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%)"
-                    : idx === subsections.length - 1
-                    ? "polygon(10px 0%, 100% 0%, 100% 100%, 10px 100%, 0% 50%)"
-                    : "polygon(10px 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0% 50%)",
-                  background: active ? "var(--primary)" : "var(--secondary)",
-                  marginLeft: idx === 0 ? "0" : "-6px",
-                }}
-              >
-                {sub.short}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
       {/* Corner accents */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.07]">
         <div className="absolute top-0 right-0 w-28 h-28 border-r-2 border-t-2 border-primary" />
-        <div className="absolute bottom-16 left-0 w-28 h-28 border-l-2 border-b-2 border-primary" />
+        <div className="absolute bottom-0 left-0 w-28 h-28 border-l-2 border-b-2 border-primary" />
       </div>
     </main>
   )
 }
 
-// ── Year selector sub-component ──────────────────────────────────────────────
-
-function YearSelector({
-  season,
-  visibleYears,
-  yearStart,
-  yearsLength,
-  onSeasonChange,
-  onScrollLeft,
-  onScrollRight,
-}: {
-  season: string
-  visibleYears: string[]
-  yearStart: number
-  yearsLength: number
-  onSeasonChange: (yr: string) => void
-  onScrollLeft: () => void
-  onScrollRight: () => void
-}) {
-  return (
-    <div className="flex items-center gap-1 px-4 border-r border-border/20 shrink-0">
-      <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-heading mr-2 whitespace-nowrap">
-        SEASON
-      </span>
-      <button
-        onClick={onScrollLeft}
-        disabled={yearStart === 0}
-        aria-label="Previous years"
-        className="w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-primary disabled:opacity-20 transition-colors"
-      >
-        <ChevronLeft className="w-3.5 h-3.5" />
-      </button>
-      <div className="flex items-center gap-1.5">
-        {visibleYears.map((yr) => {
-          const active = yr === season
-          return (
-            <button
-              key={yr}
-              onClick={() => onSeasonChange(yr)}
-              aria-current={active ? "page" : undefined}
-              className={`relative h-9 w-16 font-heading text-sm font-bold transition-colors duration-150 ${
-                active ? "text-background" : "text-muted-foreground hover:text-foreground"
-              }`}
-              style={{
-                clipPath: "polygon(10px 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0% 50%)",
-                background: active ? "var(--primary)" : "var(--secondary)",
-              }}
-            >
-              {yr}
-            </button>
-          )
-        })}
-      </div>
-      <button
-        onClick={onScrollRight}
-        disabled={yearStart >= yearsLength - 3}
-        aria-label="Next years"
-        className="w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-primary disabled:opacity-20 transition-colors"
-      >
-        <ChevronRight className="w-3.5 h-3.5" />
-      </button>
-    </div>
-  )
-}
