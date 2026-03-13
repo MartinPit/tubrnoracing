@@ -35,7 +35,6 @@ export function MemberCard({ member, className }: { member: Member; className?: 
       ease: "power2.out",
       overwrite: "auto"
     })
-    gsap.to(".corner-accent", { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1 })
   })
   const handleMouseLeave = contextSafe(() => {
     gsap.to(".parallax-img", {
@@ -47,7 +46,6 @@ export function MemberCard({ member, className }: { member: Member; className?: 
       overwrite: "auto"
     })
     gsap.to(".parallax-text", { x: 0, y: 0, duration: 0.6 })
-    gsap.to(".corner-accent", { opacity: 0, scale: 0.8, duration: 0.4 })
   })
 
   const hexClip = "polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)"
