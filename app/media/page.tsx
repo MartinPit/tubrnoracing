@@ -5,7 +5,7 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import { GalleryGrid } from "@/components/media/gallery-grid"
-import { Media } from "@/types"
+import { Media, MediaCategory } from "@/types"
 import { Lightbox } from "@/components/media/ligthbox"
 
 if (typeof window !== "undefined") {
@@ -13,9 +13,8 @@ if (typeof window !== "undefined") {
 }
 
 const CATEGORIES = ["All", "Car", "Team", "Competition", "Workshop"] as const
-type Category = (typeof CATEGORIES)[number]
 
-const mediaItems: (Media & { category: Category; aspectRatio?: "wide" | "tall" | "square" })[] = [
+const mediaItems: (Media & { category: MediaCategory; aspectRatio?: "wide" | "tall" | "square" })[] = [
   { type: "image", name: "Dragon X — Front Wing Detail", src: "/placeholder.svg?height=506&width=900", category: "Car", aspectRatio: "wide" },
   { type: "image", name: "Team Photo 2024", src: "/placeholder.svg?height=700&width=700", category: "Team", aspectRatio: "square" },
   { type: "video", name: "Season Highlights 2024", src: "/placeholder.svg?height=900&width=600", category: "Competition", aspectRatio: "tall" },
@@ -36,7 +35,7 @@ const mediaItems: (Media & { category: Category; aspectRatio?: "wide" | "tall" |
 
 export default function MediaPage() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [activeCategory, setActiveCategory] = useState<Category>("All")
+  const [activeCategory, setActiveCategory] = useState<MediaCategory>("All")
   const [lightboxItem, setLightboxItem] = useState<(typeof mediaItems)[number] | null>(null)
 
   const filtered = activeCategory === "All" ? mediaItems : mediaItems.filter((m) => m.category === activeCategory)
@@ -64,7 +63,7 @@ export default function MediaPage() {
             <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-heading mb-4">Team Gallery</p>
             <h1 className="font-heading text-6xl md:text-8xl font-bold uppercase leading-none tracking-tight text-balance">
               Media<br />
-              <span className="text-primary">Gallery.</span>
+              <span className="text-primary">Gallery</span>
             </h1>
             <p className="mt-6 text-sm text-muted-foreground leading-relaxed max-w-lg">
               Behind every lap is a season of work. Browse photos and videos from our workshops, competitions, and events worldwide.
