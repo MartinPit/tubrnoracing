@@ -83,30 +83,42 @@ export default function TeamPage() {
   const teamMembers = getTeamMembers(season, section)
 
   return (
-    <main ref={container} className="relative flex flex-col md:flex-row items-start pt-16 md:pt-20 bg-background min-h-screen">
+    <main ref={container} className="min-h-screen pt-16 flex flex-col md:flex-row">
 
-      {/* ── STICKY CONTROL PANEL ── */}
-      {/* On mobile: sticks to top (top-16 for navbar offset), full width, glass effect */}
-      <aside className="w-full md:w-[40%] lg:w-[35%] sticky top-16 md:top-20 z-30 bg-background/95 backdrop-blur-md md:bg-transparent border-b border-border/10 md:border-b-0 md:border-r">
+      <div className="md:hidden fixed top-24 left-0 right-0 z-[45] bg-background/80 backdrop-blur-xl border-b border-border/10 px-5 py-3">
+        <TeamControlDeck
+          currentSeason={season}
+          years={years}
+          sections={subsections}
+          currentSection={section}
+          onNavigate={(yr, sec) => navigate(yr ?? season, sec ?? section)}
+        />
+      </div>
+
+      <aside className="w-full md:w-[40%] lg:w-[35%] md:sticky md:top-16 pt-8 z-30 self-start">
+
+        <div className="h-[72px] md:hidden" />
         <div ref={leftRef} className="px-5 py-6 md:px-10 md:py-12 space-y-6 md:space-y-10">
 
-          <TeamControlDeck
-            currentSeason={season}
-            years={years}
-            sections={subsections}
-            currentSection={section}
-            onNavigate={(yr, sec) => navigate(yr ?? season, sec ?? section)}
-          />
+          <div className="hidden md:block">
+            <TeamControlDeck
+              currentSeason={season}
+              years={years}
+              sections={subsections}
+              currentSection={section}
+              onNavigate={(yr, sec) => navigate(yr ?? season, sec ?? section)}
+            />
+          </div>
 
           <div className="space-y-4 md:space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-px w-6 md:w-8 bg-primary" />
               <p className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
-                TBR SEASON {season}
+                SEASON {season}
               </p>
             </div>
 
-            <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold uppercase italic leading-[0.9] tracking-tighter">
+            <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.9] tracking-tighter">
               {current.label.includes(" ") ? (
                 <>
                   <span className="text-foreground">{current.label.split(" ")[0]}</span>
@@ -123,7 +135,6 @@ export default function TeamPage() {
             </p>
           </div>
 
-          {/* HIDDEN ON MOBILE: The 3D Viewport */}
           <div className="hidden md:block h-60 md:h-72 w-full relative">
             <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
               <ambientLight intensity={0.5} />
@@ -136,9 +147,7 @@ export default function TeamPage() {
         </div>
       </aside>
 
-      {/* ── MEMBER GRID ── */}
       <section ref={rightRef} className="flex-1 px-5 py-8 md:px-12 md:py-12">
-        {/* Mobile-friendly grid: 1 column on very small, 2 on most mobiles, 3 on large desktop */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {teamMembers.map((member, i) => (
             <MemberCard

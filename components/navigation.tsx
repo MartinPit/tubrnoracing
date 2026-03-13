@@ -78,38 +78,41 @@ export function Navigation() {
   }
   return (
     <>
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="fixed top-6 right-6 z-[100] w-14 h-14 bg-primary rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-primary/90"
-        aria-label="Toggle menu"
-      >
-        <div className="relative w-6 h-5 flex flex-col justify-center items-center">
-          <span
-            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "rotate-45" : "-translate-y-2"
-              }`}
-          />
-          <span
-            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "opacity-0 scale-0" : ""
-              }`}
-          />
-          <span
-            className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "-rotate-45" : "translate-y-2"
-              }`}
-          />
-        </div>
-      </button>
+      <header className="fixed top-0 left-0 right-0 h-24 z-[100] bg-background/80 backdrop-blur-md border-b flex items-center justify-between px-6">
+        <Link href="/" className="z-[100]">
+          <div className="font-heading text-xl font-bold tracking-wider leading-tight">
+            <span className="text-foreground">TU BRNO</span>
+            <br />
+            <span className="text-primary">RACING</span>
+          </div>
+        </Link>
 
-      <Link href="/" className="fixed top-6 left-6 z-[100]">
-        <div className="font-heading text-xl font-bold tracking-wider leading-tight">
-          <span className="text-foreground">TU BRNO</span>
-          <br />
-          <span className="text-primary">RACING</span>
-        </div>
-      </Link>
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="z-[100] w-14 h-14 bg-primary rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-primary/90"
+          aria-label="Toggle menu"
+        >
+          <div className="relative w-6 h-5 flex flex-col justify-center items-center">
+            <span
+              className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "rotate-45" : "-translate-y-2"
+                }`}
+            />
+            <span
+              className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "opacity-0 scale-0" : ""
+                }`}
+            />
+            <span
+              className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ease-out ${isMenuOpen ? "-rotate-45" : "translate-y-2"
+                }`}
+            />
+          </div>
+        </button>
+
+      </header>
 
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-[90] bg-[#0d0d0d]"
+        className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-xl"
         style={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
       >
         <div
