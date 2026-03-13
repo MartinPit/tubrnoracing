@@ -14,6 +14,9 @@ export type Media = {
   type: "image" | "video"
   name: string
   src: string
+  description?: string
+  category: "Car" | "Team" | "Competition" | "Workshop" | "All"
+  aspectRatio?: "tall" | "wide" | "square"
 }
 
 export type Social = {
