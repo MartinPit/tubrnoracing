@@ -15,8 +15,22 @@ export type Media = {
   name: string
   src: string
   description?: string
-  category: "Car" | "Team" | "Competition" | "Workshop" | "All"
+  category: MediaCategory
   aspectRatio?: "tall" | "wide" | "square"
+}
+
+export type MediaCategory = "Car" | "Team" | "Competition" | "Workshop" | "All"
+export type VehicleCategory = "cv" | "ev" | "simulator"
+
+export type Vehicle = {
+  id: string
+  name: string
+  category: VehicleCategory
+  year: number
+  image: string
+  description: string
+  stats: { label: string; value: string; unit?: string }[]
+  highlights: string[]
 }
 
 export type Social = {
