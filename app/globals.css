@@ -3,7 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Racing theme - dark background with red primary */
 :root {
   --background: oklch(0.1 0 0);
   --foreground: oklch(0.98 0 0);
@@ -40,7 +39,6 @@
   --sidebar-ring: oklch(0.55 0.22 25);
 }
 
-/* Dark mode same as root for this dark-first design */
 .dark {
   --background: oklch(0.1 0 0);
   --foreground: oklch(0.98 0 0);
@@ -128,7 +126,6 @@
   }
 }
 
-/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -144,4 +141,14 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
