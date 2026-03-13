@@ -16,22 +16,22 @@ const CATEGORIES = ["All", "Car", "Team", "Competition", "Workshop"] as const
 type Category = (typeof CATEGORIES)[number]
 
 const mediaItems: (Media & { category: Category; aspectRatio?: "wide" | "tall" | "square" })[] = [
-  { type: "image", name: "Dragon X — Front Wing Detail", src: "/placeholder.svg?height=600&width=900", category: "Car", aspectRatio: "wide" },
+  { type: "image", name: "Dragon X — Front Wing Detail", src: "/placeholder.svg?height=506&width=900", category: "Car", aspectRatio: "wide" },
   { type: "image", name: "Team Photo 2024", src: "/placeholder.svg?height=700&width=700", category: "Team", aspectRatio: "square" },
-  { type: "video", name: "Season Highlights 2024", src: "/placeholder.svg?height=900&width=700", category: "Competition", aspectRatio: "tall" },
-  { type: "image", name: "Formula Student Germany", src: "/placeholder.svg?height=600&width=900", category: "Competition", aspectRatio: "wide" },
+  { type: "video", name: "Season Highlights 2024", src: "/placeholder.svg?height=900&width=600", category: "Competition", aspectRatio: "tall" },
+  { type: "image", name: "Formula Student Germany", src: "/placeholder.svg?height=506&width=900", category: "Competition", aspectRatio: "wide" },
   { type: "image", name: "Aerodynamics Workshop", src: "/placeholder.svg?height=700&width=700", category: "Workshop", aspectRatio: "square" },
-  { type: "image", name: "Dragon E — Reveal", src: "/placeholder.svg?height=600&width=900", category: "Car", aspectRatio: "wide" },
+  { type: "image", name: "Dragon E — Reveal", src: "/placeholder.svg?height=506&width=900", category: "Car", aspectRatio: "wide" },
   { type: "video", name: "Dynamic Event Run", src: "/placeholder.svg?height=700&width=700", category: "Competition", aspectRatio: "square" },
-  { type: "image", name: "Carbon Fibre Layup", src: "/placeholder.svg?height=900&width=700", category: "Workshop", aspectRatio: "tall" },
-  { type: "image", name: "Scrutineering", src: "/placeholder.svg?height=600&width=900", category: "Competition", aspectRatio: "wide" },
+  { type: "image", name: "Carbon Fibre Layup", src: "/placeholder.svg?height=900&width=600", category: "Workshop", aspectRatio: "tall" },
+  { type: "image", name: "Scrutineering", src: "/placeholder.svg?height=506&width=900", category: "Competition", aspectRatio: "wide" },
   { type: "image", name: "Powertrain Assembly", src: "/placeholder.svg?height=700&width=700", category: "Workshop", aspectRatio: "square" },
-  { type: "image", name: "Leadership Team", src: "/placeholder.svg?height=600&width=900", category: "Team", aspectRatio: "wide" },
+  { type: "image", name: "Leadership Team", src: "/placeholder.svg?height=506&width=900", category: "Team", aspectRatio: "wide" },
   { type: "video", name: "Autocross Lap 2024", src: "/placeholder.svg?height=700&width=700", category: "Competition", aspectRatio: "square" },
-  { type: "image", name: "Cockpit View", src: "/placeholder.svg?height=900&width=700", category: "Car", aspectRatio: "tall" },
-  { type: "image", name: "Team Celebration", src: "/placeholder.svg?height=600&width=900", category: "Team", aspectRatio: "wide" },
+  { type: "image", name: "Cockpit View", src: "/placeholder.svg?height=900&width=600", category: "Car", aspectRatio: "tall" },
+  { type: "image", name: "Team Celebration", src: "/placeholder.svg?height=506&width=900", category: "Team", aspectRatio: "wide" },
   { type: "image", name: "Suspension Geometry", src: "/placeholder.svg?height=700&width=700", category: "Workshop", aspectRatio: "square" },
-  { type: "video", name: "Behind The Build", src: "/placeholder.svg?height=600&width=900", category: "Car", aspectRatio: "wide" },
+  { type: "video", name: "Behind The Build", src: "/placeholder.svg?height=506&width=900", category: "Car", aspectRatio: "wide" },
 ]
 
 export default function MediaPage() {

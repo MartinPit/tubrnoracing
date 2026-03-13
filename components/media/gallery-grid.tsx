@@ -67,10 +67,10 @@ function GalleryCard({
 }) {
   const aspectClass =
     item.aspectRatio === "tall"
-      ? "aspect-[3/4]"
+      ? "aspect-[2/3]"
       : item.aspectRatio === "square"
         ? "aspect-square"
-        : "aspect-[4/3]"
+        : "aspect-video"
 
   return (
     <button
