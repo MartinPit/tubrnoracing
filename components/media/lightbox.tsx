@@ -17,6 +17,9 @@ export function Lightbox({ item, onClose }: Props) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
 
+  const isTall = item.aspectRatio === "tall"
+  const isSquare = item.aspectRatio === "square"
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(overlayRef.current, { opacity: 0, duration: 0.3, ease: "power2.out" })
@@ -40,6 +43,24 @@ export function Lightbox({ item, onClose }: Props) {
     if (e.target === overlayRef.current) onClose()
   }
 
+  // Tall: stack vertically, constrain image to 60vh
+  // Wide / Square: side-by-side, image fills left column
+  const panelClass = isTall
+    ? "relative flex flex-col w-full max-w-lg max-h-[90vh] bg-card border border-border/30 overflow-hidden"
+    : isSquare
+      ? "relative flex flex-col md:flex-row w-full max-w-3xl max-h-[90vh] bg-card border border-border/30 overflow-hidden"
+      : "relative flex flex-col md:flex-row w-full max-w-5xl max-h-[90vh] bg-card border border-border/30 overflow-hidden"
+
+  const imageAreaClass = isTall
+    ? "relative w-full bg-muted overflow-hidden"
+    : "relative flex-1 bg-muted overflow-hidden"
+
+  const imageAreaStyle = isTall
+    ? { aspectRatio: "2/3", maxHeight: "62vh" }
+    : isSquare
+      ? { aspectRatio: "1/1", minHeight: "260px" }
+      : { minHeight: "320px" }
+
   return (
     <div
       ref={overlayRef}
@@ -51,18 +72,18 @@ export function Lightbox({ item, onClose }: Props) {
     >
       <div
         ref={panelRef}
-        className="relative flex flex-col lg:flex-row w-full max-w-5xl max-h-[90vh] bg-card border border-border/30 overflow-hidden"
+        className={panelClass}
         style={{
           clipPath: "polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px))",
         }}
       >
         {/* Image / Video area */}
-        <div className="relative flex-1 min-h-[40vh] lg:min-h-[60vh] bg-muted overflow-hidden">
+        <div className={imageAreaClass} style={imageAreaStyle}>
           <Image
             src={item.src || "/placeholder.svg"}
             alt={item.name}
             fill
-            sizes="(max-width: 1024px) 100vw, 70vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 60vw, 70vw"
             className="object-cover"
             priority
           />
@@ -79,7 +100,9 @@ export function Lightbox({ item, onClose }: Props) {
         </div>
 
         {/* Info panel */}
-        <div className="flex flex-col justify-between p-8 lg:w-72 shrink-0 bg-card">
+        <div
+          className={`flex flex-col justify-between p-8 bg-card shrink-0 ${isTall ? "w-full" : "md:w-64 lg:w-72"}`}
+        >
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-heading mb-3">
               {item.type === "video" ? "Video" : "Photo"} — {item.category}
