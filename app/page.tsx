@@ -2,27 +2,24 @@ import dynamic from "next/dynamic"
 import { HeroSection } from "@/components/home/hero-section"
 import { Footer } from "@/components/home/footer"
 
-// Below-fold sections are dynamically imported to keep the critical JS bundle
-// small, which removes GSAP + Three.js from the initial parse/execute path.
+// Below-fold sections are dynamically imported so their JS (GSAP, Three.js)
+// is excluded from the critical bundle. ssr: false is not allowed in Server
+// Components (App Router), so we omit it — the sections are already "use client"
+// components and will hydrate lazily on the client.
 const AboutSection = dynamic(
-  () => import("@/components/home/about-section").then((m) => m.AboutSection),
-  { ssr: false }
+  () => import("@/components/home/about-section").then((m) => m.AboutSection)
 )
 const TeamSection = dynamic(
-  () => import("@/components/home/team-section").then((m) => m.TeamSection),
-  { ssr: false }
+  () => import("@/components/home/team-section").then((m) => m.TeamSection)
 )
 const MediaSection = dynamic(
-  () => import("@/components/home/media-section").then((m) => m.MediaSection),
-  { ssr: false }
+  () => import("@/components/home/media-section").then((m) => m.MediaSection)
 )
 const SocialSection = dynamic(
-  () => import("@/components/home/social-section").then((m) => m.SocialSection),
-  { ssr: false }
+  () => import("@/components/home/social-section").then((m) => m.SocialSection)
 )
 const PartnersSection = dynamic(
-  () => import("@/components/home/partners-section").then((m) => m.PartnersSection),
-  { ssr: false }
+  () => import("@/components/home/partners-section").then((m) => m.PartnersSection)
 )
 
 export default function HomePage() {
