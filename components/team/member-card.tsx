@@ -123,6 +123,12 @@ export function MemberCard({
         </div>
       </div>
 
-      <div className="absolute bottom-[1px] w-0 h-[2px] bg-primary group-hover:w-[90%] transition-all duration-500 z-40" />    </div>
+      <div className="corner-accent absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary opacity-0 scale-[0.8] z-30 pointer-events-none" />
+      <div className="corner-accent absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary opacity-0 scale-[0.8] z-30 pointer-events-none" />
+      <div className="corner-accent absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary opacity-0 scale-[0.8] z-30 pointer-events-none" />
+      <div className="corner-accent absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary opacity-0 scale-[0.8] z-30 pointer-events-none" />
+
+      <div className="absolute bottom-[1px] w-0 h-[2px] bg-primary group-hover:w-[90%] transition-all duration-500 z-40" />
+    </div>
   )
 }
