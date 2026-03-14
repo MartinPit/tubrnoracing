@@ -1,14 +1,16 @@
 "use client"
 
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import Image from "next/image"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { cn } from "@/lib/utils"
-import { Member } from "@/types"
+import { DirectusFile, Member } from "@/types/directus-schema"
+import { env } from "@/app/env"
+import { TeamMemberDisplay } from "@/types"
 
 interface Props {
-  member: Member
+  member: TeamMemberDisplay
   index: number
   className?: string,
   isScrollAnimated?: boolean
@@ -80,6 +82,13 @@ export function MemberCard({
   })
 
   const hexClip = "polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)"
+  const person = member.member as Member
+
+  const src = useMemo(() => {
+    if (!member.image) return "/placeholder.svg"
+    const image = member.image as DirectusFile
+    return `${env.NEXT_PUBLIC_DIRECTUS_URL}/assets/${image.id}?width=600&quality=80&format=webp`
+  }, [member.image]);
 
   return (
     <div
@@ -95,8 +104,8 @@ export function MemberCard({
     >
       <div className="parallax-img absolute inset-0 w-full h-full grayscale transition-opacity duration-700 will-change-transform">
         <Image
-          src={member.imageUrl || "/placeholder.svg"}
-          alt={member.name}
+          src={src || "/placeholder.svg"}
+          alt={person.name || "Team Member"}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover opacity-60 group-hover:opacity-100 transition-opacity"
@@ -107,10 +116,10 @@ export function MemberCard({
 
       <div className="parallax-text absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-none">
         <div className="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-black italic">
-          {member.role.name}
+          {member.season_subsection.subsection.label} {member.is_leader && " Leader"}
         </div>
         <div className="font-heading text-3xl font-bold text-white tracking-tighter uppercase leading-none">
-          {member.name}
+          {person.name}
         </div>
       </div>
 

@@ -1,15 +1,10 @@
 import { MEDIA_CATEGORIES } from "@/lib/data"
+import { DirectusFile, Member as Mem } from "./directus-schema"
 
 export type Member = {
   name: string
-  role: Role
+  subsection: Subsection
   imageUrl: string
-}
-
-export type Role = {
-  name: string
-  short: string
-  description: string
 }
 
 export type Media = {
@@ -42,6 +37,20 @@ export type Social = {
   link: string
 }
 
+export type Subsection = {
+  id: string
+  label: string
+  short: string
+  description: string
+  season: Season
+}
+
+export type Season = {
+  id: string
+  label: string
+  year: number
+}
+
 export type Partner = {
   logoUrl: string
   website: string
@@ -50,3 +59,15 @@ export type Partner = {
 }
 
 export type PartnerTier = "platinum" | "gold" | "silver" | "bronze" | "university"
+
+export interface TeamMemberDisplay {
+  id: number;
+  is_leader: boolean;
+  image: string | DirectusFile | null;
+  member: Mem,
+  season_subsection: {
+    subsection: {
+      label: string
+    }
+  }
+}

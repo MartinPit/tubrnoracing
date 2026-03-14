@@ -1,8 +1,6 @@
-// components/team/team-control-deck.tsx
 "use client"
 
-import * as React from "react"
-import { Calendar, Layers, Check, ChevronDown } from "lucide-react"
+import { Calendar, Layers } from "lucide-react"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,26 +9,21 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-
-interface Section {
-  id: string
-  short: string
-  label: string
-}
+import { Season, Subsection } from "@/types/directus-schema"
 
 interface TeamControlDeckProps {
   currentSeason: string
-  years: string[]
-  sections: Section[]
-  currentSection: string
+  seasons: Pick<Season, "id" | "label">[]
+  currentSubsection: Subsection
+  subsections: Pick<Subsection, "id" | "label" | "short">[]
   onNavigate: (year?: string, section?: string) => void
 }
 
 export function TeamControlDeck({
   currentSeason,
-  years,
-  sections,
-  currentSection,
+  seasons,
+  currentSubsection,
+  subsections,
   onNavigate,
 }: TeamControlDeckProps) {
   return (
@@ -44,21 +37,20 @@ export function TeamControlDeck({
               <span>Season {currentSeason}</span>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              {/* 2 columns on mobile (default), 3 columns on sm, 4+ on md */}
               <ul className="grid w-[66vw] md:w-[450px] grid-cols-2 md:grid-cols-3 gap-1 p-3">
                 <div className="col-span-full mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
                   Select Season
                 </div>
-                {years.map((yr) => (
-                  <li key={yr}>
+                {seasons.map(({ label, id }) => (
+                  <li key={id}>
                     <button
-                      onClick={() => onNavigate(yr, currentSection)}
+                      onClick={() => onNavigate(id, currentSubsection.id)}
                       className={cn(
                         "cursor-pointer flex w-full items-center justify-center rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent",
-                        yr === currentSeason ? "bg-accent font-semibold text-primary" : "text-muted-foreground"
+                        id === currentSeason ? "bg-accent font-semibold text-primary" : "text-muted-foreground"
                       )}
                     >
-                      {yr}
+                      {label}
                     </button>
                   </li>
                 ))}
@@ -66,11 +58,10 @@ export function TeamControlDeck({
             </NavigationMenuContent>
           </NavigationMenuItem>
 
-          {/* ── SECTION DROPDOWN (Wide 2-Column Grid) ── */}
           <NavigationMenuItem>
             <NavigationMenuTrigger className="h-9 px-4 font-medium text-xs gap-2 bg-transparent hover:bg-accent">
               <Layers className="h-3.5 w-3.5 text-muted-foreground hidden md:block" />
-              <span>{sections.find(s => s.id === currentSection)?.label || "Department"}</span>
+              <span>{subsections.find(s => s.id === currentSubsection.id)?.label || "Department"}</span>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               {/* 1 column on mobile, 2 columns on md (large screens) */}
@@ -78,18 +69,18 @@ export function TeamControlDeck({
                 <div className="col-span-full mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
                   Select Department
                 </div>
-                {sections.map((sec) => (
+                {subsections.map((sec) => (
                   <li key={sec.id}>
                     <button
                       onClick={() => onNavigate(currentSeason, sec.id)}
                       className={cn(
                         "cursor-pointer group flex w-full flex-col items-start rounded-md p-3 text-left transition-all hover:bg-accent",
-                        sec.id === currentSection ? "bg-accent/50 ring-1 ring-inset ring-border" : ""
+                        sec.id === currentSubsection.id ? "bg-accent/50 ring-1 ring-inset ring-border" : ""
                       )}
                     >
                       <span className={cn(
                         "text-sm font-medium",
-                        sec.id === currentSection ? "text-primary" : "text-foreground group-hover:text-primary"
+                        sec.id === currentSubsection.id ? "text-primary" : "text-foreground group-hover:text-primary"
                       )}>
                         {sec.label}
                       </span>

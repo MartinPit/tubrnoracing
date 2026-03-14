@@ -7,8 +7,8 @@ import { useGSAP } from "@gsap/react"
 import { Canvas } from "@react-three/fiber"
 import { SubsectionModel } from "@/components/team/subsection-model"
 import { TeamControlDeck } from "@/components/team/team-control-deck"
+import { Season, Subsection } from "@/types/directus-schema"
 
-const years = Array.from({ length: 15 }, (_, i) => String(2012 + i))
 const subsections = [
   { id: "leadership", label: "Leadership", short: "LEAD", description: "Strategic direction and team coordination for Formula Student excellence." },
   { id: "aerodynamics", label: "Aerodynamics", short: "AERO", description: "Designing airflow solutions for maximum downforce and minimal drag." },
@@ -22,19 +22,25 @@ const subsections = [
 ]
 
 interface TeamSidebarProps {
-  season: string
-  section: string
+  currentSeason: string
+  currentSubsection: Subsection
+  seasons: Pick<Season, "id" | "label">[]
+  subsections: Pick<Subsection, "id" | "label" | "short">[]
 }
 
-export function Sidebar({ season, section }: TeamSidebarProps) {
+export function Sidebar({
+  currentSeason,
+  currentSubsection,
+  seasons,
+  subsections
+}: TeamSidebarProps) {
   const router = useRouter()
   const sidebarRef = useRef<HTMLDivElement>(null)
   const busyRef = useRef(false)
-  const current = subsections.find((s) => s.id === section)!
 
-  const navigate = (newSeason: string, newSection: string) => {
+  const navigate = (newSeason: string, newSubsection: string) => {
     if (busyRef.current) return
-    if (newSeason === season && newSection === section) return
+    if (newSeason === currentSeason && newSubsection === currentSubsection.id) return
 
     busyRef.current = true
 
@@ -44,7 +50,7 @@ export function Sidebar({ season, section }: TeamSidebarProps) {
       duration: 0.3,
       ease: "power2.in",
       onComplete: () => {
-        router.push(`/team/${newSeason}/${newSection}`)
+        router.push(`/team/${newSeason}/${newSubsection}`)
       }
     })
   }
@@ -62,17 +68,17 @@ export function Sidebar({ season, section }: TeamSidebarProps) {
       ease: "power3.out",
       clearProps: "all"
     })
-  }, { dependencies: [season, section], scope: sidebarRef })
+  }, { dependencies: [currentSeason, currentSubsection], scope: sidebarRef })
 
   return (
     <>
       <div className="md:hidden fixed top-24 left-0 right-0 z-[45] bg-background/80 backdrop-blur-xl border-b border-border/10 px-5 py-3">
         <TeamControlDeck
-          currentSeason={season}
-          years={years}
-          sections={subsections}
-          currentSection={section}
-          onNavigate={(yr, sec) => navigate(yr ?? season, sec ?? section)}
+          currentSeason={currentSeason}
+          seasons={seasons}
+          subsections={subsections}
+          currentSubsection={currentSubsection}
+          onNavigate={(yr, sec) => navigate(yr ?? currentSeason, sec ?? currentSubsection.id)}
         />
       </div>
 
@@ -83,11 +89,11 @@ export function Sidebar({ season, section }: TeamSidebarProps) {
 
           <div className="hidden md:block">
             <TeamControlDeck
-              currentSeason={season}
-              years={years}
-              sections={subsections}
-              currentSection={section}
-              onNavigate={(yr, sec) => navigate(yr ?? season, sec ?? section)}
+              currentSeason={currentSeason}
+              seasons={seasons}
+              subsections={subsections}
+              currentSubsection={currentSubsection}
+              onNavigate={(yr, sec) => navigate(yr ?? currentSeason, sec ?? currentSubsection.id)}
             />
           </div>
 
@@ -95,24 +101,24 @@ export function Sidebar({ season, section }: TeamSidebarProps) {
             <div className="flex items-center gap-3">
               <div className="h-px w-6 md:w-8 bg-primary" />
               <p className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
-                SEASON {season}
+                SEASON {currentSeason}
               </p>
             </div>
 
             <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.9] tracking-tighter">
-              {current.label.includes(" ") ? (
+              {currentSubsection.label.includes(" ") ? (
                 <>
-                  <span className="text-foreground">{current.label.split(" ")[0]}</span>
+                  <span className="text-foreground">{currentSubsection.label.split(" ")[0]}</span>
                   <br className="hidden md:block" />{" "}
-                  <span className="text-primary">{current.label.split(" ").slice(1).join(" ")}</span>
+                  <span className="text-primary">{currentSubsection.label.split(" ").slice(1).join(" ")}</span>
                 </>
               ) : (
-                <span className="text-foreground">{current.label}</span>
+                <span className="text-foreground">{currentSubsection.label}</span>
               )}
             </h1>
 
             <p className="text-xs md:text-sm text-muted-foreground leading-relaxed max-w-sm opacity-80">
-              {current.description}
+              {currentSubsection.description}
             </p>
           </div>
 
@@ -121,7 +127,7 @@ export function Sidebar({ season, section }: TeamSidebarProps) {
               <ambientLight intensity={0.5} />
               <pointLight position={[10, 10, 10]} />
               <Suspense fallback={null}>
-                <SubsectionModel id={section} />
+                <SubsectionModel id={currentSubsection.id} />
               </Suspense>
             </Canvas>
           </div>
