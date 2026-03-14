@@ -98,9 +98,15 @@ export function Lightbox({ item, onClose }: Props) {
         )}>
           <div className={cn(isWide && "flex items-center gap-10 flex-1")}>
             <div className="space-y-4">
-              <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
-                {item.type === "video" ? "Video" : "Photo"} — {item.category}
-              </p>
+              <div className="flex items-center gap-3">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
+                  {item.type === "video" ? "Video" : "Photo"}
+                </p>
+                <div className="h-px w-4 md:w-6 bg-primary" />
+                <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
+                  {item.category}
+                </p>
+              </div>
               <h2 className="font-heading text-2xl md:text-3xl font-bold uppercase leading-tight tracking-tighter text-foreground max-w-sm">
                 {item.name}
               </h2>
@@ -116,7 +122,7 @@ export function Lightbox({ item, onClose }: Props) {
               className={cn(
                 "bg-primary shrink-0 transition-opacity",
                 isWide
-                  ? "mx-8 !h-8 md:!h-12 lg:!h-20 !w-[2px] opacity-40" // !important utility to override Radix inline height
+                  ? "mx-8 !h-8 md:!h-12 lg:!h-20 !w-[2px] opacity-40"
                   : "mt-8 w-10 !h-[2px] opacity-100"
               )}
             />

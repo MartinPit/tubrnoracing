@@ -7,12 +7,41 @@ import { useGSAP } from "@gsap/react"
 import { cn } from "@/lib/utils"
 import { Member } from "@/types"
 
-export function MemberCard({ member, className }: { member: Member; className?: string }) {
+interface Props {
+  member: Member
+  index: number
+  className?: string,
+  isScrollAnimated?: boolean
+};
+
+export function MemberCard({
+  member,
+  className,
+  index,
+  isScrollAnimated = true
+}: Props) {
   const container = useRef<HTMLDivElement>(null)
 
   const { contextSafe } = useGSAP({
     scope: container,
   }, []);
+
+  useGSAP(() => {
+    gsap.from(container.current, {
+      opacity: 0,
+      y: 40,
+      rotateX: -10,
+      duration: 1,
+      delay: index * 0.08,
+      ease: "power4.out",
+      clearProps: "opacity, transform",
+      scrollTrigger: isScrollAnimated ? {
+        trigger: container.current,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      } : undefined
+    })
+  }, { scope: container });
 
   useGSAP(() => {
     gsap.set(".parallax-img", { scale: 1.1 });
@@ -85,6 +114,6 @@ export function MemberCard({ member, className }: { member: Member; className?: 
         </div>
       </div>
 
-<div className="absolute bottom-[1px] w-0 h-[2px] bg-primary group-hover:w-[90%] transition-all duration-500 z-40" />    </div>
+      <div className="absolute bottom-[1px] w-0 h-[2px] bg-primary group-hover:w-[90%] transition-all duration-500 z-40" />    </div>
   )
 }

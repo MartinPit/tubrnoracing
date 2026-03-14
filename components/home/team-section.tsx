@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { NavigationButton } from "../navigation-button"
@@ -23,29 +22,8 @@ const teamPreview: Member[] = [
 ]
 
 export function TeamSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".team-card", {
-        y: 100,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: cardsRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
-    <section id="team" ref={sectionRef} className="min-h-screen py-24 px-6 bg-muted">
+    <section id="team" className="min-h-screen py-24 px-6 bg-muted">
       <div className="container mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16">
           <h2 className="font-heading text-5xl sm:text-7xl font-bold uppercase tracking-tight">
@@ -53,12 +31,12 @@ export function TeamSection() {
           </h2>
         </div>
 
-        <div ref={cardsRef} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {teamPreview.map((member, index) => (
             <MemberCard
               key={index}
               member={member}
-              className="team-card"
+              index={index}
             />
           ))}
         </div>
