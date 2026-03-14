@@ -49,3 +49,16 @@ export async function getTeamPageData(season: string, subsection: string) {
     subsection: currentSub[0]
   };
 }
+
+export async function getRandomFourMembers() {
+  const pool = await directus.request<TeamMemberDisplay[]>(
+    readItems("Team_Membership", {
+      fields: ["id", "is_leader", "image", { member: ["*"] }, { season_subsection: [{ subsection: ["label"] }] }],
+      limit: 20,
+    })
+  );
+
+  return pool
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4);
+}

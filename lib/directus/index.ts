@@ -1,4 +1,4 @@
-import { env } from '@/app/env';
+import { env } from '@/env';
 import { createDirectus, rest } from '@directus/sdk';
 import { Schema } from '@/types/directus-schema';
 

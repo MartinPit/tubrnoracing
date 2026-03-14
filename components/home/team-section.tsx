@@ -1,27 +1,10 @@
-"use client"
-
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { getRandomFourMembers } from "@/lib/directus/team";
 import { NavigationButton } from "../navigation-button"
 import { MemberCard } from "../team/member-card"
-import { Member, Role } from "@/types"
 
-gsap.registerPlugin(ScrollTrigger)
+export async function TeamSection() {
+  const members = await getRandomFourMembers();
 
-const role: Role = {
-  name: "Team Principal",
-  short: "PRINCE",
-  description: "Oversees the entire team, ensuring all departments work together seamlessly to achieve our goals.",
-}
-
-const teamPreview: Member[] = [
-  { role: role, name: "Team Leadership", imageUrl: "/placeholder.svg?height=400&width=300" },
-  { role: role, name: "Engineering Lead", imageUrl: "/placeholder.svg?height=400&width=300" },
-  { role: role, name: "Aero Team", imageUrl: "/placeholder.svg?height=400&width=300" },
-  { role: role, name: "Engine Team", imageUrl: "/placeholder.svg?height=400&width=300" },
-]
-
-export function TeamSection() {
   return (
     <section id="team" className="min-h-screen py-24 px-6 bg-muted">
       <div className="container mx-auto">
@@ -32,7 +15,7 @@ export function TeamSection() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {teamPreview.map((member, index) => (
+          {members.map((member, index) => (
             <MemberCard
               key={index}
               member={member}

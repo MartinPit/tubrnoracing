@@ -6,7 +6,7 @@ import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { cn } from "@/lib/utils"
 import { DirectusFile, Member } from "@/types/directus-schema"
-import { env } from "@/app/env"
+import { env } from "@/env"
 import { TeamMemberDisplay } from "@/types"
 
 interface Props {
