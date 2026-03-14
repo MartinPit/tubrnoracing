@@ -186,3 +186,5 @@ export const VEHICLE_CATEGORIES: { id: VehicleCategory; label: string; Icon: Luc
   { id: "ev", label: "Electric", Icon: Zap },
   { id: "simulator", label: "Simulator", Icon: Monitor },
 ]
+
+export const MEDIA_CATEGORIES = ["All", "Car", "Team", "Competition", "Workshop"] as const

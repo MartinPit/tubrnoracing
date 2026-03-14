@@ -1,3 +1,5 @@
+import { MEDIA_CATEGORIES } from "@/lib/data"
+
 export type Member = {
   name: string
   role: Role
@@ -19,7 +21,7 @@ export type Media = {
   aspectRatio?: "tall" | "wide" | "square"
 }
 
-export type MediaCategory = "Car" | "Team" | "Competition" | "Workshop" | "All"
+export type MediaCategory = (typeof MEDIA_CATEGORIES)[number]
 export type VehicleCategory = "cv" | "ev" | "simulator"
 
 export type Vehicle = {
