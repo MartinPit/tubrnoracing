@@ -15,18 +15,20 @@ export function HeroSection() {
   const ctx = gsap.context(() => {
     const tl = gsap.timeline()
 
+    // Keep opacity at 1 from the start so the browser can measure/report LCP
+    // immediately — only animate the y-translate as a progressive enhancement.
     tl.from(titleRef.current, {
       y: 100,
-      opacity: 0,
       duration: 1.2,
       ease: "power4.out",
+      clearProps: "transform",
     }).from(
       subtitleRef.current,
       {
         y: 50,
-        opacity: 0,
         duration: 1,
         ease: "power3.out",
+        clearProps: "transform",
       },
       "-=0.6",
     )

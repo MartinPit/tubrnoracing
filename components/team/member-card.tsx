@@ -14,13 +14,15 @@ interface Props {
   index: number
   className?: string,
   isScrollAnimated?: boolean
+  priority?: boolean
 };
 
 export function MemberCard({
   member,
   className,
   index,
-  isScrollAnimated = true
+  isScrollAnimated = true,
+  priority = false,
 }: Props) {
   const container = useRef<HTMLDivElement>(null)
 
@@ -108,6 +110,7 @@ export function MemberCard({
           alt={person.name || "Team Member"}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
+          priority={priority}
           className="object-cover opacity-60 group-hover:opacity-100 transition-opacity"
         />
       </div>

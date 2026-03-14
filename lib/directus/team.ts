@@ -28,7 +28,7 @@ export async function getTeamPageData(season: string, subsection: string) {
           season: { id: { _eq: season } },
         }
       },
-      fields: ["id", "is_leader", "image", { member: ["*"] }, { season_subsection: [{ subsection: ["label"] }] }]
+      fields: ["id", "is_leader", "image", { member: ["id", "name"] }, { season_subsection: [{ subsection: ["label"] }] }]
     })),
 
     directus.request(readItems("Season_Subsection", {
@@ -53,7 +53,7 @@ export async function getTeamPageData(season: string, subsection: string) {
 export async function getRandomFourMembers() {
   const pool = await directus.request<TeamMemberDisplay[]>(
     readItems("Team_Membership", {
-      fields: ["id", "is_leader", "image", { member: ["*"] }, { season_subsection: [{ subsection: ["label"] }] }],
+      fields: ["id", "is_leader", "image", { member: ["id", "name"] }, { season_subsection: [{ subsection: ["label"] }] }],
       limit: 20,
     })
   );

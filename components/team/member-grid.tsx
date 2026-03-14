@@ -15,6 +15,7 @@ export async function MemberGrid({ members }: Props) {
             key={member.id}
             member={member}
             index={i}
+            priority={i === 0}
           />
         ))}
       </div>

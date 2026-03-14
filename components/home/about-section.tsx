@@ -3,7 +3,14 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { FormulaScene } from "./formula-model"
+import dynamic from "next/dynamic"
+
+// Lazy-load the Three.js canvas: it fetches a GLB file and initialises WebGL,
+// both of which block main-thread during initial load if imported eagerly.
+const FormulaScene = dynamic(
+  () => import("./formula-model").then((m) => m.FormulaScene),
+  { ssr: false, loading: () => <div className="absolute inset-0 bg-transparent" /> }
+)
 
 gsap.registerPlugin(ScrollTrigger)
 

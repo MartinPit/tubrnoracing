@@ -1,13 +1,19 @@
 "use client"
 
-import { useRef, Suspense } from "react"
+import { useRef } from "react"
 import { useRouter } from "next/navigation"
+import dynamic from "next/dynamic"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
-import { Canvas } from "@react-three/fiber"
-import { SubsectionModel } from "@/components/team/subsection-model"
 import { TeamControlDeck } from "@/components/team/team-control-deck"
 import { Season, Subsection } from "@/types/directus-schema"
+
+// Dynamically import the Three.js canvas — prevents WebGL init and GLB network
+// request from blocking the critical render path on mobile.
+const SubsectionCanvas = dynamic(
+  () => import("@/components/team/subsection-canvas"),
+  { ssr: false, loading: () => <div className="h-60 md:h-72 w-full" /> }
+)
 
 const subsections = [
   { id: "leadership", label: "Leadership", short: "LEAD", description: "Strategic direction and team coordination for Formula Student excellence." },
@@ -123,13 +129,7 @@ export function Sidebar({
           </div>
 
           <div className="hidden md:block h-60 md:h-72 w-full relative">
-            <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
-              <ambientLight intensity={0.5} />
-              <pointLight position={[10, 10, 10]} />
-              <Suspense fallback={null}>
-                <SubsectionModel id={currentSubsection.id} />
-              </Suspense>
-            </Canvas>
+            <SubsectionCanvas id={currentSubsection.id} />
           </div>
         </div>
       </aside>
