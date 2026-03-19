@@ -5,11 +5,13 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Navigation } from "@/components/navigation"
+import { GSAPInitializer } from "@/components/gsap"
 
 const oswald = Oswald({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-oswald",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -52,6 +54,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
+        <GSAPInitializer />
       </body>
     </html>
   )

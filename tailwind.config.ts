@@ -3,7 +3,6 @@ import type { Config } from "tailwindcss"
 import plugin from "tailwindcss/plugin"
 
 const config: Config = {
-  // ... your existing config
   theme: {
     extend: {
       keyframes: {
@@ -15,7 +14,6 @@ const config: Config = {
           from: { opacity: 0, transform: "translateX(-200px)" },
           to: { opacity: 1, transform: "translateX(0)" },
         },
-        // ... ensure you have the standard shadcn animations here
       },
       animation: {
         "nav-enter": "enterFromRight 0.25s ease",
@@ -36,6 +34,16 @@ const config: Config = {
         ".backface-hidden": {
           "backface-visibility": "hidden",
         },
+        ".gsap-reveal": {
+          visibility: "hidden",
+        },
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        }
       })
     }),
   ],
