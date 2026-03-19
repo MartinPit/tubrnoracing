@@ -1,9 +1,139 @@
+export interface AboutPage {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	competition_info: string;
+	/** @required */
+	competition_stats: Array<{ value: string; statistic: string }>;
+	/** @required */
+	competition_image: DirectusFile | string;
+	/** @required */
+	team_info: string;
+	/** @required */
+	team_stats: Array<{ value: string; statistic: string }>;
+	/** @required */
+	team_image: DirectusFile | string;
+}
+
+export interface Car {
+	/** @primaryKey */
+	short_name: string;
+	/** @required */
+	long_name: string;
+	/** @required */
+	category: 'cv' | 'ev' | 'sim';
+	/** @required */
+	year: number;
+	/** @required */
+	image: DirectusFile | string;
+	/** @required */
+	description: string;
+	/** @required */
+	specifications: Array<{ title: string; value: string; metric: string }>;
+	highlights?: string[] | null;
+}
+
+export interface ContactPage {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	advisor_name: string;
+	/** @required */
+	advisor_email: string;
+	/** @required */
+	advisor_phone: string;
+	/** @required */
+	team_email: string;
+}
+
+export interface Gallery {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	type: 'video' | 'image';
+	/** @required */
+	file: DirectusFile | string;
+	/** @required */
+	title: string;
+	description?: string | null;
+	category?: 'json' | null;
+}
+
+export interface GalleryCategory {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	title: string;
+}
+
+export interface GalleryPage {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	title: string;
+	/** @required */
+	description: string;
+}
+
+export interface HomePage {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	title: string;
+	/** @required */
+	subtitle: string;
+	/** @required */
+	about_text_left: string;
+	/** @required */
+	about_text_right: string;
+	/** @required */
+	about_stats: Array<{ value: string; statistic: string }>;
+	/** @required */
+	team_title: string;
+	/** @required */
+	team_subtitle: string;
+	/** @required */
+	gallery_title: string;
+	/** @required */
+	socials_title: string;
+	/** @required */
+	parters_title: string;
+	/** @required */
+	partners_subtitle: string;
+}
+
 export interface Member {
 	/** @primaryKey */
 	id: number;
 	/** @required */
 	name: string;
 	email?: string | null;
+}
+
+export interface Partner {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	title: string;
+	/** @required */
+	logo: DirectusFile | string;
+	/** @required */
+	link: string;
+	/** @required */
+	tier: 'uni' | 'plat' | 'gold' | 'silver' | 'bronze';
+}
+
+export interface PartnersPage {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	title: string;
+	/** @required */
+	subtitle: string;
+	/** @required */
+	call_to_action: string;
+	/** @required */
+	benefits: string[];
 }
 
 export interface Season {
@@ -534,7 +664,16 @@ export interface DirectusDeploymentRun {
 }
 
 export interface Schema {
+	About_Page: AboutPage;
+	Car: Car[];
+	Contact_Page: ContactPage;
+	Gallery: Gallery[];
+	Gallery_Categories: GalleryCategory[];
+	Gallery_Page: GalleryPage;
+	Home_Page: HomePage;
 	Member: Member[];
+	Partners: Partner[];
+	Partners_Page: PartnersPage;
 	Season: Season[];
 	Season_Subsection: SeasonSubsection[];
 	Subsection: Subsection[];
@@ -571,7 +710,16 @@ export interface Schema {
 }
 
 export enum CollectionNames {
+	About_Page = 'About_Page',
+	Car = 'Car',
+	Contact_Page = 'Contact_Page',
+	Gallery = 'Gallery',
+	Gallery_Categories = 'Gallery_Categories',
+	Gallery_Page = 'Gallery_Page',
+	Home_Page = 'Home_Page',
 	Member = 'Member',
+	Partners = 'Partners',
+	Partners_Page = 'Partners_Page',
 	Season = 'Season',
 	Season_Subsection = 'Season_Subsection',
 	Subsection = 'Subsection',
