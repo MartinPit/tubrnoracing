@@ -13,6 +13,8 @@ export interface AboutPage {
 	team_stats: Array<{ value: string; statistic: string }>;
 	/** @required */
 	team_image: DirectusFile | string;
+	/** @required */
+	title: string;
 }
 
 export interface Car {

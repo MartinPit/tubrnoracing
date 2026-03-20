@@ -71,3 +71,29 @@ export interface TeamMemberDisplay {
     }
   }
 }
+
+export type CompetitionInfo = {
+  competition_info: string
+  competition_stats: {
+    value: string
+    statistic: string
+  }[]
+  competition_image: DirectusImage
+};
+
+export type TeamInfo = {
+  team_info: string
+  team_stats: {
+    value: string
+    statistic: string
+  }[]
+  team_image: DirectusImage
+};
+
+export type DirectusImage = {
+  id: string
+  title: string | null | undefined
+  description: string | null | undefined
+  width: number | null | undefined
+  height: number | null | undefined
+};
