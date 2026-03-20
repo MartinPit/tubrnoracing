@@ -6,14 +6,15 @@ import "./globals.css"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Navigation } from "@/components/navigation"
 import { GSAPInitializer } from "@/components/gsap"
-import { directus } from "@/lib/directus"
 import { getSocials } from "@/lib/data"
+import { env } from "@/env"
 
 const oswald = Oswald({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-oswald",
   display: "swap",
+  preload: true,
 })
 
 export const metadata: Metadata = {
@@ -53,6 +54,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link rel="preconnect" href={env.NEXT_PUBLIC_DIRECTUS_URL} />
+      </head>
       <body className={`font-sans ${oswald.variable} antialiased`}>
         <Navigation socials={socials} />
         {children}

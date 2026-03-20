@@ -144,7 +144,7 @@ html {
   scroll-behavior: smooth;
 }
 
-@layer utilities {
+@layer components {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
