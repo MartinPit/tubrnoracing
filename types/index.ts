@@ -1,5 +1,5 @@
-import { MEDIA_CATEGORIES } from "@/lib/data"
-import { DirectusFile, Member } from "./directus-schema"
+import { MEDIA_CATEGORIES, VEHICLE_CATS } from "@/lib/data"
+import { Car, DirectusFile, Member } from "./directus-schema"
 
 export type Media = {
   type: "image" | "video"
@@ -11,18 +11,11 @@ export type Media = {
 }
 
 export type MediaCategory = (typeof MEDIA_CATEGORIES)[number]
-export type VehicleCategory = "cv" | "ev" | "simulator"
+export type VehicleCategory = typeof VEHICLE_CATS[number];
 
-export type Vehicle = {
-  id: string
-  name: string
-  category: VehicleCategory
-  year: number
-  image: string
-  description: string
-  stats: { label: string; value: string; unit?: string }[]
-  highlights: string[]
-}
+export interface Vehicle extends Omit<Car, "image"> {
+  image: DirectusImage
+};
 
 export type Social = {
   platform: "instagram" | "youtube" | "facebook"

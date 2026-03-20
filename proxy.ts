@@ -5,27 +5,34 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   const defaultSeason = '2026'
-  const defaultSub = encodeURIComponent('sw&dv')
+  const defaultSub = 'sw&dv'
 
-  // 1. Handle exact /team
+  const defaultCarCategory = 'ev'
+  const defaultCarModel = 'ed5'
+
   if (pathname === '/team') {
     return NextResponse.redirect(new URL(`/team/${defaultSeason}/${defaultSub}`, request.url))
   }
 
-  // 2. Handle /team/[season]
-  // We split the path into segments: ["", "team", "2026"]
+  if (pathname === '/garage') {
+    return NextResponse.redirect(new URL(`/garage/${defaultCarCategory}/${defaultCarModel}`, request.url))
+  }
+
   const segments = pathname.split('/').filter(Boolean)
 
-  // If there are exactly 2 segments (team + season), redirect to default sub
   if (segments.length === 2 && segments[0] === 'team') {
     const season = segments[1]
     return NextResponse.redirect(new URL(`/team/${season}/${defaultSub}`, request.url))
+  }
+
+  if (segments.length === 2 && segments[0] === 'garage') {
+    const carCategory = segments[1]
+    return NextResponse.redirect(new URL(`/garage/${carCategory}/${defaultCarModel}`, request.url))
   }
 
   return NextResponse.next()
 }
 
 export const config = {
-  // Only trigger middleware for these specific starting paths
-  matcher: ['/team', '/team/:path*'],
+  matcher: ['/team', '/team/:path*', '/garage', '/garage/:path*'],
 }

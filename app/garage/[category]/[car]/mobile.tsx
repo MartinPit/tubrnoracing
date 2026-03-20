@@ -1,39 +1,69 @@
 "use client"
 
+import gsap from "gsap"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { VEHICLE_CATEGORIES, VEHICLES } from "@/lib/data"
+import { VEHICLE_CATEGORIES } from "@/lib/data"
 import { Vehicle, VehicleCategory } from "@/types"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useEffect, useRef } from "react"
 import Image from "next/image"
+import { useGSAP } from "@gsap/react"
+import { useSmoothNavigate } from "@/hooks/useSmoothNavigate"
+import directusLoader from "@/lib/utils"
+import { StatisticCard } from "@/components/garage/statistic-card"
+import { Stage } from "@/components/garage/stage"
+import { Info } from "@/components/garage/info"
 
 interface Props {
   category: VehicleCategory
-  car: string
-  navigate: (cat: VehicleCategory, carId: string) => void
-  list: Vehicle[]
+  shortName: string
+  list: {
+    short_name: string
+    long_name: string
+    year: number
+  }[]
   vehicle: Vehicle
 };
 
+const elementsToAnimate = [".select", ".select2"]
+
 export function GarageMobile({
   category,
-  car,
-  navigate,
+  shortName,
   list,
   vehicle
 }: Props) {
-  const idx = Math.max(0, list.findIndex((v) => v.id === car))
+  const { smoothNavigate } = useSmoothNavigate({
+    root: "/garage",
+    slugs: [category, shortName],
+    elements: [".select", ".stage", ".select2", ".info"]
+  });
+  const idx = Math.max(0, list.findIndex((v) => v.short_name === shortName))
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLDivElement>(null)
+
+  useGSAP(() => {
+    gsap.set(elementsToAnimate.filter(Boolean), {
+      opacity: 0,
+      y: -20
+    })
+
+    gsap.to(elementsToAnimate.filter(Boolean), {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "power3.out",
+      clearProps: "opacity,transform"
+    })
+  }, {
+    dependencies: [category, shortName],
+    scope: container
+  })
 
   const switchCat = (cat: VehicleCategory) => {
     if (cat === category) return
-    const first = VEHICLES.find((v) => v.category === cat)
-    if (first) navigate(cat, first.id)
-  }
-
-  const switchIdx = (i: number) => {
-    if (i === idx || i < 0 || i >= list.length) return
-    navigate(category, list[i].id)
+    smoothNavigate([cat])
   }
 
   useEffect(() => {
@@ -47,11 +77,10 @@ export function GarageMobile({
         });
       }
     }
-  }, [car]);
+  }, [shortName]);
 
   return (
-    <div className="lg:hidden flex flex-col pt-8">
-      {/* Category Selector */}
+    <div ref={container} className="lg:hidden flex flex-col pt-8">
       <Tabs
         value={category}
         onValueChange={(v) => switchCat(v as VehicleCategory)}
@@ -72,42 +101,24 @@ export function GarageMobile({
           ))}
         </TabsList>
       </Tabs>
-      {/* 3D Stage / Hero */}
-      <div
-        className="relative mx-4 mt-4 shrink-0 bg-card border border-border/20 stage"
-        style={{
-          height: "38vh",
-          clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px))",
-        }}
-      >
 
-        <Image src={vehicle.image} alt={vehicle.name} fill className="object-cover opacity-30" />
-        <button onClick={() => switchIdx(idx - 1)} disabled={idx === 0}
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-background/70 border border-border/40 disabled:opacity-20 backdrop-blur-sm">
-          <ChevronLeft className="w-4 h-4" />
-        </button>
-        <button onClick={() => switchIdx(idx + 1)} disabled={idx === list.length - 1}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-background/70 border border-border/40 disabled:opacity-20 backdrop-blur-sm">
-          <ChevronRight className="w-4 h-4" />
-        </button>
+      <Stage
+        idx={idx}
+        list={list}
+        vehicle={vehicle}
+        navigate={smoothNavigate}
+        isMobile
+      />
 
-        <div className="pointer-events-none absolute bottom-3 left-4">
-          <p className="font-heading text-[9px] uppercase tracking-[0.3em] text-primary/70">{vehicle.year}</p>
-          <h2 className="font-heading text-2xl font-bold uppercase tracking-tight text-foreground/90">{vehicle.name}</h2>
-        </div>
-      </div>
-
-      {/* Car Selector List */}
-      {/* --- MOBILE CAR SELECTOR --- */}
-      <Tabs value={car} onValueChange={(v) => navigate(category, v)} className="w-full">
+      <Tabs value={shortName} onValueChange={(v) => smoothNavigate([category, v])} className="w-full">
         <TabsList
           ref={scrollContainerRef}
           className="select2 no-scrollbar group-data-[orientation=horizontal]/tabs:h-20 flex w-full gap-2 overflow-x-auto px-4 pt-3 pb-2 bg-transparent h-auto rounded-none no-scrollbar justify-start flex-nowrap border-none shadow-none"
         >
           {list.map((v) => (
             <TabsTrigger
-              key={v.id}
-              value={v.id}
+              key={v.short_name}
+              value={v.short_name}
               className="min-w-[120px] flex flex-col items-start px-4 py-2.5 border transition-all duration-150 rounded-none shadow-none h-auto
                    bg-card text-muted-foreground border-border/30
                    data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-foreground"
@@ -116,45 +127,18 @@ export function GarageMobile({
                 {v.year}
               </span>
               <span className="font-heading text-xs font-bold uppercase tracking-wider data-[state=active]:text-primary pointer-events-none">
-                {v.name}
+                {v.long_name}
               </span>
             </TabsTrigger>
           ))}
         </TabsList>
       </Tabs>
-
-      {/* Vehicle Info */}
-      <div className="flex flex-col gap-6 px-4 p-5 info">
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-heading mb-2">About</p>
-          <p className="text-sm text-muted-foreground leading-relaxed">{vehicle.description}</p>
-        </div>
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-heading mb-3">Specifications</p>
-          <div className="grid grid-cols-2 gap-2">
-            {vehicle.stats.map((s, i) => (
-              <div key={i} className="bg-card border border-border/30 p-4"
-                style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}>
-                <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground/60 mb-1">{s.label}</p>
-                <p className="font-heading text-3xl font-bold leading-none">{s.value}</p>
-                {s.unit && <p className="text-[9px] text-primary uppercase tracking-wider mt-1">{s.unit}</p>}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-heading mb-3">Highlights</p>
-          <ul className="flex flex-col gap-3">
-            {vehicle.highlights.map((h, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                <span className="mt-1.5 w-1.5 h-1.5 shrink-0 bg-primary"
-                  style={{ clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }} />
-                {h}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <Info
+        specifications={vehicle.specifications}
+        highlights={vehicle.highlights}
+        description={vehicle.description}
+        isMobile
+      />
     </div>
   )
 }
