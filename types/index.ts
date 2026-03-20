@@ -1,11 +1,5 @@
 import { MEDIA_CATEGORIES } from "@/lib/data"
-import { DirectusFile, Member as Mem } from "./directus-schema"
-
-export type Member = {
-  name: string
-  subsection: Subsection
-  imageUrl: string
-}
+import { DirectusFile, Member } from "./directus-schema"
 
 export type Media = {
   type: "image" | "video"
@@ -64,13 +58,24 @@ export interface TeamMemberDisplay {
   id: number;
   is_leader: boolean;
   image: string | DirectusFile | null;
-  member: Mem,
+  member: Member,
   season_subsection: {
     subsection: {
       label: string
     }
   }
 }
+
+export interface LeaderContactDisplay {
+  id: number;
+  member: Member
+  season_subsection: {
+    subsection: {
+      label: string
+      short: string
+    }
+  }
+};
 
 export type CompetitionInfo = {
   competition_info: string

@@ -45,7 +45,9 @@ export interface ContactPage {
 	/** @required */
 	advisor_phone: string;
 	/** @required */
-	team_email: string;
+	title: string;
+	/** @required */
+	subtitle: string;
 }
 
 export interface Gallery {
@@ -125,6 +127,7 @@ export interface Member {
 	/** @required */
 	name: string;
 	email?: string | null;
+	phone?: string | null;
 }
 
 export interface Partner {

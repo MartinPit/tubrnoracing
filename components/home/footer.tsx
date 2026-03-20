@@ -6,7 +6,7 @@ import { directus } from "@/lib/directus"
 
 export async function Footer() {
   const socials = await getSocials()
-  const {email} = await directus.request(
+  const { email } = await directus.request(
     readSingleton("General_Info", {
       fields: ["email"],
       limit: 1,
@@ -32,7 +32,7 @@ export async function Footer() {
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-primary" />
                 <a href={`mailto:${email}`} className="hover:text-primary transition-colors">
-                  info@tubrnoracing.cz
+                  {email}
                 </a>
               </div>
               <div className="flex items-start gap-3">
