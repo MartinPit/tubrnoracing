@@ -1,16 +1,27 @@
 import { getRandomFourMembers } from "@/lib/directus/team";
 import { NavigationButton } from "../navigation-button"
 import { MemberCard } from "../team/member-card"
+import { directus } from "@/lib/directus";
+import { readSingleton } from "@directus/sdk";
 
 export async function TeamSection() {
   const members = await getRandomFourMembers();
+  const { team_title, team_subtitle } = await directus.request(
+    readSingleton("Home_Page", {
+      fields: ["team_title", "team_subtitle"],
+      limit: 1,
+    })
+  );
+
+  const parts = team_title.split(" ")
+  const lastPart = parts.pop()
 
   return (
     <section id="team" className="min-h-screen py-24 px-6 bg-muted">
       <div className="container mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16">
           <h2 className="font-heading text-5xl sm:text-7xl font-bold uppercase tracking-tight">
-            Our <span className="text-primary">Team</span>
+            {parts.join(" ") + " "}<span className="text-primary">{lastPart}</span>
           </h2>
         </div>
 
@@ -25,7 +36,7 @@ export async function TeamSection() {
         </div>
 
         <div className="mt-16 flex flex-col items-center gap-4">
-          <p className="text-muted-foreground">200+ passionate students working together to push the limits</p>
+          <p className="text-muted-foreground">{team_subtitle}</p>
           <NavigationButton href="/team">Meet The Full Team</NavigationButton>
         </div>
       </div>
