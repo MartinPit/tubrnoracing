@@ -8,13 +8,7 @@ import { TeamInfo } from "@/types"
 import ReactMarkdown from "react-markdown"
 import Image from "next/image"
 import directusLoader from "@/lib/utils"
-
-const tuStats = [
-  { value: "100+", label: "Active team members" },
-  { value: "15", label: "Combustion cars built" },
-  { value: "5", label: "Electric cars built" },
-  { value: "2004", label: "Year founded" },
-]
+import ScrollTrigger from "gsap/ScrollTrigger"
 
 interface Props {
   data: TeamInfo
@@ -58,6 +52,8 @@ export function AboutTeam({ data }: Props) {
         start: "top 72%"
       },
     })
+
+    ScrollTrigger.refresh()
   }, { scope: sectionRef })
 
   return (
@@ -117,7 +113,8 @@ export function AboutTeam({ data }: Props) {
             sizes="(max-width: 768px) 100vw, 50vw"
             width={data.team_image.width || 600}
             height={data.team_image.height || 400}
-            priority
+            fetchPriority="high"
+            loading="eager"
             className="w-full h-80 md:h-[420px] object-cover"
           />
           <div className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-gradient-to-t from-background/90 to-transparent">

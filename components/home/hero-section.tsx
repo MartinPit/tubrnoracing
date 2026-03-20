@@ -11,8 +11,6 @@ export async function HeroSection() {
     })
   )
 
-  console.log("Fetched hero data:", { title, subtitle })
-
   return (
     <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       <Hero title={title} subtitle={subtitle}/>

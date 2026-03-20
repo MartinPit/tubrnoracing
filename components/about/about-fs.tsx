@@ -8,6 +8,7 @@ import { CompetitionInfo } from "@/types"
 import Image from "next/image"
 import ReactMarkdown from "react-markdown"
 import directusLoader from "@/lib/utils"
+import ScrollTrigger from "gsap/ScrollTrigger"
 
 interface Props {
   data: CompetitionInfo
@@ -51,9 +52,8 @@ export function AboutFS({ data }: Props) {
         start: "top 72%"
       },
     })
+    ScrollTrigger.refresh()
   }, { scope: sectionRef })
-
-  console.log(data)
 
   return (
     <section ref={sectionRef} className="mb-28">
@@ -83,7 +83,7 @@ export function AboutFS({ data }: Props) {
             sizes="(max-width: 768px) 100vw, 50vw"
             width={data.competition_image.width || 600}
             height={data.competition_image.height || 400}
-            priority
+            preload
             className="w-full h-80 md:h-[420px] object-cover"
           />
           <div className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-gradient-to-t from-background/90 to-transparent">
