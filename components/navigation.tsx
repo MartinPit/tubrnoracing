@@ -5,7 +5,6 @@ import Link from "next/link"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { LucideIcon } from "lucide-react"
 
 const navLinks = [
   { href: "/about", label: "ABOUT", highlight: false },
@@ -83,7 +82,15 @@ export function Navigation({ socials }: Props) {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 h-24 z-[100] bg-background/80 backdrop-blur-md border-b flex items-center justify-between px-6">
-        <Link href="/" className="z-[100]">
+        <Link
+          href="/"
+          className="z-[100]"
+          onClick={() => {
+            if (isMenuOpen) {
+              setIsMenuOpen(false)
+            }
+          }}
+        >
           <div className="font-heading text-xl font-bold tracking-wider leading-tight">
             <span className="text-foreground">TU BRNO</span>
             <br />
