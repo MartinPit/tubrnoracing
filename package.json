@@ -9,6 +9,12 @@
     "lint": "eslint .",
     "start": "next start"
   },
+  "browserlist": [
+    "defaults",
+    "last 2 versions",
+    "not dead",
+    "> 0.2%"
+  ],
   "dependencies": {
     "@directus/sdk": "^21.2.0",
     "@gsap/react": "2.1.2",

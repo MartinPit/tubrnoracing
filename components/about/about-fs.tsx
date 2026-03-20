@@ -84,6 +84,8 @@ export function AboutFS({ data }: Props) {
             width={data.competition_image.width || 600}
             height={data.competition_image.height || 400}
             preload
+            fetchPriority="high"
+            loading="eager"
             className="w-full h-80 md:h-[420px] object-cover"
           />
           <div className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-gradient-to-t from-background/90 to-transparent">
