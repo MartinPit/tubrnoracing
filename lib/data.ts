@@ -1,33 +1,33 @@
 import { PartnerTier, Vehicle, VehicleCategory } from "@/types";
 import { ClassValue } from "clsx";
 import { Facebook, Flame, Instagram, Linkedin, LucideIcon, Monitor, Youtube, Zap } from "lucide-react"
+import { directus } from "./directus";
+import { readSingleton } from "@directus/sdk";
 
-export const SOCIALS: {
-  icon: LucideIcon
+export async function getSocials(): Promise<{
   name: string
   link: string
-}[] = [
-    {
-      icon: Instagram,
-      name: "Instagram",
-      link: "https://www.instagram.com/tubrnoracing",
-    },
-    {
-      icon: Youtube,
-      name: "YouTube",
-      link: "https://www.youtube.com/user/TUBrnoracing",
-    },
-    {
-      icon: Facebook,
-      name: "Facebook",
-      link: "https://www.facebook.com/tubrnoracing/",
-    },
-    {
-      icon: Linkedin,
-      name: "LinkedIn",
-      link: "https://www.linkedin.com/company/tubrnoracing/",
-    }
+}[]> {
+  const urls = await directus.request(
+    readSingleton("General_Info", {
+      fields: ["youtube", "instagram", "facebook", "linkedin"],
+    })
+  );
+
+  return [
+    { name: "Instagram", link: urls.instagram },
+    { name: "YouTube", link: urls.youtube },
+    { name: "Facebook", link: urls.facebook },
+    { name: "LinkedIn", link: urls.linkedin }
   ];
+}
+
+export const IconMap: Record<string, LucideIcon> = {
+  Instagram: Instagram,
+  YouTube: Youtube,
+  Facebook: Facebook,
+  LinkedIn: Linkedin,
+}
 
 interface TierConfig {
   color: string

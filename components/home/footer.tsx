@@ -1,15 +1,18 @@
 import Link from "next/link"
-import { Instagram, Facebook, Youtube, Linkedin, Mail, MapPin } from "lucide-react"
-import { SOCIALS } from "@/lib/data"
+import { Mail, MapPin } from "lucide-react"
+import { getSocials, IconMap } from "@/lib/data"
+import { readSingleton } from "@directus/sdk"
+import { directus } from "@/lib/directus"
 
-const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-]
+export async function Footer() {
+  const socials = await getSocials()
+  const {email} = await directus.request(
+    readSingleton("General_Info", {
+      fields: ["email"],
+      limit: 1,
+    })
+  )
 
-export function Footer() {
   return (
     <footer id="contact" className="bg-card py-16 px-6 border-t border-border">
       <div className="container mx-auto">
@@ -28,7 +31,7 @@ export function Footer() {
             <div className="space-y-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-primary" />
-                <a href="mailto:info@tubrnoracing.cz" className="hover:text-primary transition-colors">
+                <a href={`mailto:${email}`} className="hover:text-primary transition-colors">
                   info@tubrnoracing.cz
                 </a>
               </div>
@@ -36,6 +39,8 @@ export function Footer() {
                 <MapPin className="w-4 h-4 text-primary mt-0.5" />
                 <span>
                   Brno University of Technology
+                  <br />
+                  Faculty of Mechanical Engineering
                   <br />
                   Technická 2896/2
                   <br />
@@ -48,17 +53,21 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold uppercase tracking-wider mb-6">Follow Us</h3>
             <div className="flex gap-4">
-              {SOCIALS.map((social) => (
-                <Link
-                  key={social.name}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors"
-                >
-                  <social.icon className="w-5 h-5" />
-                </Link>
-              ))}
+              {socials.map((social) => {
+                const Icon = IconMap[social.name]
+
+                return (
+                  <Link
+                    key={social.name}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </div>

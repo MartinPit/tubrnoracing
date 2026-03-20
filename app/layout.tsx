@@ -6,6 +6,8 @@ import "./globals.css"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Navigation } from "@/components/navigation"
 import { GSAPInitializer } from "@/components/gsap"
+import { directus } from "@/lib/directus"
+import { getSocials } from "@/lib/data"
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -42,15 +44,17 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const socials = await getSocials();
+
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body className={`font-sans ${oswald.variable} antialiased`}>
-        <Navigation />
+        <Navigation socials={socials} />
         {children}
         <Analytics />
         <SpeedInsights />

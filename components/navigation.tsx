@@ -5,7 +5,7 @@ import Link from "next/link"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { SOCIALS } from "@/lib/data"
+import { LucideIcon } from "lucide-react"
 
 const navLinks = [
   { href: "/about", label: "ABOUT", highlight: false },
@@ -16,7 +16,11 @@ const navLinks = [
   { href: "/contact", label: "CONTACT", highlight: true },
 ]
 
-export function Navigation() {
+interface Props {
+  socials: { name: string, link: string }[]
+}
+
+export function Navigation({ socials }: Props) {
   const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
@@ -165,7 +169,7 @@ export function Navigation() {
               </div>
 
               <div className="flex gap-8">
-                {SOCIALS.filter(({ name }) => name != "LinkedIn").map(({ name, link }) => (
+                {socials.filter(({ name }) => name != "LinkedIn").map(({ name, link }) => (
                   <Link
                     key={name}
                     href={link}

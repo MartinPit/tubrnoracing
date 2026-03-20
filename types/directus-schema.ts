@@ -75,6 +75,21 @@ export interface GalleryPage {
 	description: string;
 }
 
+export interface GeneralInfo {
+	/** @primaryKey */
+	id: number;
+	/** @required */
+	instagram: string;
+	/** @required */
+	youtube: string;
+	/** @required */
+	facebook: string;
+	/** @required */
+	linkedin: string;
+	/** @required */
+	email: string;
+}
+
 export interface HomePage {
 	/** @primaryKey */
 	id: number;
@@ -670,6 +685,7 @@ export interface Schema {
 	Gallery: Gallery[];
 	Gallery_Categories: GalleryCategory[];
 	Gallery_Page: GalleryPage;
+	General_Info: GeneralInfo;
 	Home_Page: HomePage;
 	Member: Member[];
 	Partners: Partner[];
@@ -716,6 +732,7 @@ export enum CollectionNames {
 	Gallery = 'Gallery',
 	Gallery_Categories = 'Gallery_Categories',
 	Gallery_Page = 'Gallery_Page',
+	General_Info = 'General_Info',
 	Home_Page = 'Home_Page',
 	Member = 'Member',
 	Partners = 'Partners',

@@ -41,6 +41,7 @@ export function MediaSection() {
             end: () => `+=${scrollWidth}`,
             pin: true,
             scrub: 1,
+            refreshPriority: 1,
             anticipatePin: 1,
           },
         })

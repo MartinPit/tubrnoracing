@@ -49,8 +49,7 @@ export function About({ leftText, rightText, stats }: Props) {
       },
     })
   }, {
-    scope: containerRef,
-    dependencies: []
+    scope: containerRef
   });
 
   return (
