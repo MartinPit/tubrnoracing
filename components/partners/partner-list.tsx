@@ -1,6 +1,11 @@
+"use client"
+
 import { PARTNER_TIERS } from "@/lib/data"
 import { Partner, PartnerTier } from "@/types"
 import { PartnerCard } from "./partner-card"
+import { useRef } from "react"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
 
 const sponsors: Record<PartnerTier, Partner[]> = {
   university: [
@@ -23,6 +28,7 @@ const sponsors: Record<PartnerTier, Partner[]> = {
     { name: "Hella", logoUrl: "/placeholder.svg?height=48&width=130", website: "https://www.hella.com", tier: "silver" },
     { name: "Brose", logoUrl: "/placeholder.svg?height=48&width=130", website: "https://www.brose.com", tier: "silver" },
     { name: "KSR Group", logoUrl: "/placeholder.svg?height=48&width=130", website: "https://www.ksr-group.com", tier: "silver" },
+    { name: "KSR Group 2", logoUrl: "/placeholder.svg?height=48&width=130", website: "https://www.ksr-group.com", tier: "silver" },
   ],
   bronze: [
     { name: "Motul", logoUrl: "/placeholder.svg?height=40&width=110", website: "https://www.motul.com", tier: "bronze" },
@@ -31,21 +37,52 @@ const sponsors: Record<PartnerTier, Partner[]> = {
     { name: "Partner G", logoUrl: "/placeholder.svg?height=40&width=110", website: "#", tier: "bronze" },
     { name: "Partner H", logoUrl: "/placeholder.svg?height=40&width=110", website: "#", tier: "bronze" },
     { name: "Partner I", logoUrl: "/placeholder.svg?height=40&width=110", website: "#", tier: "bronze" },
+    { name: "Partner I2", logoUrl: "/placeholder.svg?height=40&width=110", website: "#", tier: "bronze" },
   ],
 }
 
-interface Props {
-  tierRefs: React.RefObject<(HTMLDivElement | null)[]>
-}
+export function PartnerList() {
+  const containerRef = useRef<HTMLDivElement>(null)
 
-export function PartnerList({tierRefs}: Props) {
+  useGSAP(() => {
+    const tiers = gsap.utils.toArray<HTMLElement>(".partner-tier-section")
+
+    tiers.forEach((tier) => {
+      gsap.from(tier.querySelector(".tier-header"), {
+        y: 40,
+        opacity: 0,
+        duration: 0.65,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: tier,
+          start: "top 82%",
+        }
+      })
+
+      // Stagger the cards inside this specific tier
+      gsap.from(tier.querySelectorAll(".partner-card"), {
+        scale: 0.95,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: tier,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        },
+        clearProps: "all"
+      })
+    })
+  }, { scope: containerRef })
+
   return (
-    <div className="flex flex-col gap-16">
+    <div ref={containerRef} className="flex flex-col gap-16">
       {Object.entries(PARTNER_TIERS).map(([name, tier], index) => (
 
         <div
           key={name}
-          ref={(element) => { tierRefs.current[index] = element }}
+          className="partner-tier-section"
         >
           <div className="flex items-center gap-4 mb-3">
             <div
@@ -67,7 +104,7 @@ export function PartnerList({tierRefs}: Props) {
             </span>
           </div>
           <p className="text-xs text-muted-foreground mb-6 ml-1">{tier.description}</p>
-          <div className={`grid ${tier.columns} gap-3`}>
+          <div className="flex flex-wrap items-stretch justify-center gap-4">
             {sponsors[name as PartnerTier].map((sponsor) => (
               <PartnerCard
                 key={sponsor.name}

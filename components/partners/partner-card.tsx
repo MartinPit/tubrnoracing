@@ -10,59 +10,65 @@ interface Props {
   className?: string
 }
 
+
+const CARD_SIZES: Record<string, string> = {
+  university: "w-72 h-72",
+  platinum: "w-72 h-72",
+  gold: "w-56 h-56",
+  silver: "w-44 h-44",
+  bronze: "w-36 h-36",
+}
+
 export function PartnerCard({ partner, variant = "university", className }: Props) {
   const config = PARTNER_TIERS[variant]
+  const sizeClass = CARD_SIZES[variant] || "w-48 h-48"
 
-  // Consistent clip path for both layers
-  const hexClip = "polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px))"
+  // Adjusted slant to be proportional to static sizes
+  const hexClip = "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px))"
 
   return (
-    <div className={cn("group relative transition-transform duration-300 hover:scale-[1.02]", className)}>
-      <Link
-        href={partner.website || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block relative w-full h-full"
+  <div className={cn("group relative transition-transform duration-300 hover:scale-[1.02] shrink-0", sizeClass, className)}>
+    <Link
+      href={partner.website || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block relative w-full h-full p-[1px]" // Standardized 1px padding for the "border"
+      style={{
+        backgroundColor: config.border, // Default border color
+        clipPath: hexClip
+      }}
+    >
+      {/* Hover Accent Layer (Now covers the background of the link) */}
+      <div
+        className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+        style={{ backgroundColor: config.color }}
+      />
+
+      {/* Content Container */}
+      <div
+        className="relative flex flex-col items-center justify-center h-full w-full bg-zinc-950 p-4"
+        style={{
+          clipPath: hexClip, // Clip again to keep corners sharp
+          color: config.color
+        }}
       >
-        <div
-          className="absolute inset-0 transition-colors duration-500"
-          style={{
-            backgroundColor: config.border,
-            clipPath: hexClip
-          }}
-        />
-
-        <div
-          className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-          style={{ backgroundColor: config.color, clipPath: hexClip }}
-        />
-
-        <div
-          className="relative inset-[1px] flex flex-col items-center justify-center gap-4 p-8 bg-zinc-950"
-          style={{
-            clipPath: hexClip,
-            height: "calc(100% - 2px)",
-            width: "calc(100% - 2px)",
-            color: config.color
-          }}
-        >
-          <div className={cn("relative w-full flex items-center justify-center z-10", config.height)}>
-            <Image
-              src={partner.logoUrl || "/placeholder.svg"}
-              alt={partner.name}
-              fill
-              className="object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
-            />
-          </div>
-
-          <p className={cn("relative z-10 text-sm text-center font-heading uppercase tracking-[0.25em]",
-            "text-muted-foreground/50 transition-colors duration-300",
-            config.color && `group-hover:text-[inherit]`
-          )}>
-            {partner.name}
-          </p>
+        {/* Logo Wrapper - Fixed aspect ratio box for consistency */}
+        <div className="relative w-full aspect-square flex items-center justify-center z-10 mb-2">
+          <Image
+            src={partner.logoUrl || "/placeholder.svg"}
+            alt={partner.name}
+            fill
+            className="object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 p-2"
+          />
         </div>
-      </Link>
-    </div>
-  )
+
+        {/* Text Wrapper - Fixed height or absolute bottom to prevent pushing */}
+        <p className="relative z-10 text-[9px] sm:text-[10px] text-center font-heading uppercase tracking-[0.2em] text-muted-foreground/50 group-hover:text-[inherit] leading-tight px-1 mt-auto">
+          {partner.name}
+        </p>
+      </div>
+    </Link>
+  </div>
+)
 }
+

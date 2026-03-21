@@ -45,7 +45,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     accent: "oklch(0.55 0.22 25 / 0.1)",
     border: "oklch(0.55 0.22 25 / 0.3)",
     height: "h-20",
-    columns: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
+    columns: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
     description: "Academic institutions fostering innovation and education in motorsports."
   },
   platinum: {
@@ -53,7 +53,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     accent: "rgba(232,230,227,0.07)",
     border: "rgba(232,230,227,0.25)",
     height: "h-20",
-    columns: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3",
+    columns: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
     description: "Our most prestigious tier, offering unparalleled visibility and exclusive benefits."
   },
   gold: {
@@ -61,7 +61,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     accent: "rgba(245,200,66,0.06)",
     border: "rgba(245,200,66,0.25)",
     height: "h-16",
-    columns: "grid-cols-2 md:grid-cols-4",
+    columns: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
     description: "Strategic partners who help us push performance boundaries."
   },
   silver: {
@@ -69,7 +69,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     accent: "rgba(176,176,176,0.05)",
     border: "rgba(176,176,176,0.2)",
     height: "h-12",
-    columns: "grid-cols-2 sm:grid-cols-3 md:grid-cols-5",
+    columns: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6",
     description: "Valued partners contributing expertise and materials."
   },
   bronze: {
@@ -77,7 +77,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     accent: "rgba(201,124,74,0.05)",
     border: "rgba(201,124,74,0.2)",
     height: "h-10",
-    columns: "grid-cols-3 sm:grid-cols-4 md:grid-cols-6",
+    columns: "grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7",
     description: "Community supporters who believe in the next generation of engineers."
   }
 }
