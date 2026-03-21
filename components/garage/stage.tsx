@@ -7,25 +7,28 @@ import { useGSAP } from "@gsap/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { useSmoothNavigate } from "@/hooks/useSmoothNavigate";
+import { GARAGE_ANIMATED } from "@/lib/data";
 
 interface Props {
-  idx: number
   list: { short_name: string }[]
   isMobile?: boolean
   vehicle: Vehicle
-  navigate: (slugs: string[]) => void
 }
 
 export function Stage(
   {
-    idx,
     list,
     isMobile = false,
     vehicle,
-    navigate,
   }: Props
 ) {
   const container = useRef<HTMLDivElement>(null)
+  const { smoothNavigate } = useSmoothNavigate({
+    root: "/garage",
+    slugs: [vehicle.category, vehicle.short_name],
+    elements: GARAGE_ANIMATED
+  })
 
   useGSAP(() => {
     gsap.set(container.current, {
@@ -47,7 +50,7 @@ export function Stage(
 
   const switchIdx = (i: number) => {
     if (i === idx || i < 0 || i >= list.length) return
-    navigate([vehicle.category, list[i].short_name])
+    smoothNavigate([vehicle.category, list[i].short_name])
   }
 
   useEffect(() => {
@@ -58,6 +61,8 @@ export function Stage(
     window.addEventListener("keydown", handler)
     return () => window.removeEventListener("keydown", handler)
   })
+
+  const idx = Math.max(0, list.findIndex((v) => v.short_name === vehicle.short_name))
 
   return (
     <div

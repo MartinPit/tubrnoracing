@@ -135,7 +135,7 @@ export function Navigation({ socials }: Props) {
           }}
         />
 
-        <div className="container mx-auto h-full px-6 py-24 flex flex-col lg:flex-row">
+        <div className="container mx-auto h-dvh px-6 py-24 flex flex-col lg:flex-row">
           <div ref={linksRef} className="flex flex-col justify-center lg:w-1/2 lg:pl-12">
             <nav className="space-y-1">
               {navLinks.map((link) => (

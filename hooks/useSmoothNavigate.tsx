@@ -25,7 +25,6 @@ export function useSmoothNavigate({
       duration: 0.3,
       ease: "power2.in",
       onComplete: () => {
-        // 4. Actual Navigation
         router.push(`${root}/${newSlugs.join("/")}`);
       }
     });

@@ -92,3 +92,5 @@ export const VEHICLE_CATEGORIES: { id: VehicleCategory; label: string; Icon: Luc
 ]
 
 export const MEDIA_CATEGORIES = ["All", "Car", "Team", "Competition", "Workshop"] as const
+
+export const GARAGE_ANIMATED = [".select", ".stage", ".select2", ".info"]
