@@ -154,6 +154,8 @@ export interface PartnersPage {
 	call_to_action: string;
 	/** @required */
 	benefits: string[];
+	/** @required */
+	call_to_action_description: string;
 }
 
 export interface Season {

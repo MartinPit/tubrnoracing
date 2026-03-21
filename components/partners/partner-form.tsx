@@ -14,11 +14,21 @@ import { FormTextArea } from "../forms/text-area"
 import { RefObject, useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
-import { Button } from "../ui/button"
 
-export function PartnerForm() {
+interface Props {
+  cta: string
+  ctaDescription: string
+  benefits: string[]
+};
+
+export function PartnerForm({ cta, ctaDescription, benefits }: Props) {
   const container = useRef<HTMLDivElement>(null)
-  const formRef = useRef<HTMLFormElement>(null) // Pass this down
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const twoWords = cta.split(" ").slice(0, 2).join(" ")
+  const rest = cta.substring(twoWords.length)
+
+  console.log(twoWords)
 
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -29,20 +39,17 @@ export function PartnerForm() {
       }
     });
 
-    // 1. Fade in the whole section container slightly
     tl.from(container.current, { opacity: 0, duration: 0.5 });
 
-    // 2. Animate the left text column
     tl.from(".form-info-side > *", {
       x: -20,
       opacity: 0,
       stagger: 0.1,
       duration: 0.6,
       ease: "power2.out"
-    }, "-=0.3"); // Overlap slightly with container fade
+    }, "-=0.3");
 
     console.log(formRef.current!.querySelectorAll(":scope > *"))
-    // 3. Stagger the form fields
     tl.from(formRef.current!.querySelectorAll(":scope > *"), {
       y: 20,
       opacity: 0,
@@ -50,7 +57,7 @@ export function PartnerForm() {
       duration: 0.5,
       ease: "power2.out",
 
-    }, "-=0.4"); // Start staggering while text is still finishing
+    }, "-=0.4");
 
   }, { scope: container })
 
@@ -60,19 +67,14 @@ export function PartnerForm() {
         <div className="form-info-side">
           <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-heading mb-4">Become a Partner</p>
           <h2 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none tracking-tight mb-6">
-            Join Our<br />
-            <span className="text-primary">Racing Family.</span>
+            {twoWords}<br />
+            <span className="text-primary">{rest}</span>
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-sm">
-            Partner with TUBrnoRacing to reach a passionate engineering community, gain brand exposure at international competitions, and support the next generation of technical talent.
+            {ctaDescription}
           </p>
           <ul className="flex flex-col gap-3">
-            {[
-              "Logo on car, race suits, and team gear",
-              "Social media features and content collaboration",
-              "Recruitment access to 100+ engineering students",
-              "Brand presence at international Formula Student events",
-            ].map((item) => (
+            {benefits.map((item) => (
               <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
                 <span
                   className="mt-1.5 w-1.5 h-1.5 shrink-0 bg-primary"
