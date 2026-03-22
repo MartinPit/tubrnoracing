@@ -28,8 +28,6 @@ export function PartnerForm({ cta, ctaDescription, benefits }: Props) {
   const twoWords = cta.split(" ").slice(0, 2).join(" ")
   const rest = cta.substring(twoWords.length)
 
-  console.log(twoWords)
-
   useGSAP(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -49,7 +47,6 @@ export function PartnerForm({ cta, ctaDescription, benefits }: Props) {
       ease: "power2.out"
     }, "-=0.3");
 
-    console.log(formRef.current!.querySelectorAll(":scope > *"))
     tl.from(formRef.current!.querySelectorAll(":scope > *"), {
       y: 20,
       opacity: 0,

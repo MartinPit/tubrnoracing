@@ -1,22 +1,11 @@
 "use client"
 
-import { Partner } from "@/types"
+import { Partner } from "@/types/directus-schema"
 import { PartnerCard } from "../partners/partner-card"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 
-const partners: Partner[] = [
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-  { name: "Brno University of Technology", logoUrl: "/placeholder.svg?height=64&width=160", website: "https://www.vut.cz", tier: "university" },
-]
-
-export function PartnersCards() {
+export function PartnersCards({ partners }: { partners: Partner[] }) {
   useGSAP(() => {
     gsap.from(".partner-card", {
       y: 30,

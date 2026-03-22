@@ -1,4 +1,4 @@
-import { MEDIA_CATEGORIES, VEHICLE_CATS } from "@/lib/data"
+import { MEDIA_CATEGORIES, TIERS, VEHICLE_CATS } from "@/lib/data"
 import { Car, DirectusFile, Member } from "./directus-schema"
 
 export type Media = {
@@ -12,6 +12,7 @@ export type Media = {
 
 export type MediaCategory = (typeof MEDIA_CATEGORIES)[number]
 export type VehicleCategory = typeof VEHICLE_CATS[number];
+export type PartnerTier = (typeof TIERS)[number]
 
 export interface Vehicle extends Omit<Car, "image"> {
   image: DirectusImage
@@ -45,7 +46,6 @@ export type Partner = {
   tier: PartnerTier
 }
 
-export type PartnerTier = "platinum" | "gold" | "silver" | "bronze" | "university"
 
 export interface TeamMemberDisplay {
   id: number;
@@ -94,4 +94,12 @@ export type DirectusImage = {
   description: string | null | undefined
   width: number | null | undefined
   height: number | null | undefined
+};
+
+export type GalleryFile = DirectusImage & {
+  type?: string | null
+  duration?: number | null
+  tags?: string[] | null
+  uploaded_on?: string | null
+  aspectRatio: "tall" | "wide" | "square"
 };

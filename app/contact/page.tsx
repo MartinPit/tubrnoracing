@@ -8,8 +8,6 @@ export default async function ContactPage() {
   const { email, contact } = await getContactInfo()
   const leaders = await getLeaders()
 
-  console.log(leaders)
-
   return (
     <main
       className="bg-background text-foreground min-h-screen pb-32"

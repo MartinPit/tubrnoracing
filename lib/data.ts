@@ -1,4 +1,4 @@
-import { PartnerTier, Vehicle, VehicleCategory } from "@/types";
+import { Partner, PartnerTier, Vehicle, VehicleCategory } from "@/types";
 import { ClassValue } from "clsx";
 import { Facebook, Flame, Instagram, Linkedin, LucideIcon, Monitor, Youtube, Zap } from "lucide-react"
 import { directus } from "./directus";
@@ -31,6 +31,7 @@ export const IconMap: Record<string, LucideIcon> = {
 }
 
 interface TierConfig {
+  name: string
   color: string
   accent: string
   border: string
@@ -40,7 +41,8 @@ interface TierConfig {
 }
 
 export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
-  university: {
+  uni: {
+    name: "University",
     color: "#d40924",
     accent: "oklch(0.55 0.22 25 / 0.1)",
     border: "oklch(0.55 0.22 25 / 0.3)",
@@ -48,7 +50,8 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     columns: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
     description: "Academic institutions fostering innovation and education in motorsports."
   },
-  platinum: {
+  plat: {
+    name: "Platinum",
     color: "#e8e6e3",
     accent: "rgba(232,230,227,0.07)",
     border: "rgba(232,230,227,0.25)",
@@ -57,6 +60,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     description: "Our most prestigious tier, offering unparalleled visibility and exclusive benefits."
   },
   gold: {
+    name: "Gold",
     color: "#f5c842",
     accent: "rgba(245,200,66,0.06)",
     border: "rgba(245,200,66,0.25)",
@@ -65,6 +69,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     description: "Strategic partners who help us push performance boundaries."
   },
   silver: {
+    name: "Silver",
     color: "#b0b0b0",
     accent: "rgba(176,176,176,0.05)",
     border: "rgba(176,176,176,0.2)",
@@ -73,6 +78,7 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
     description: "Valued partners contributing expertise and materials."
   },
   bronze: {
+    name: "Bronze",
     color: "#c97c4a",
     accent: "rgba(201,124,74,0.05)",
     border: "rgba(201,124,74,0.2)",
@@ -83,7 +89,10 @@ export const PARTNER_TIERS: Record<PartnerTier, TierConfig> = {
 }
 
 export const VEHICLE_CATS = ['cv', 'ev', 'sim'] as const;
+export const TIERS = ["uni", "plat", "gold", "silver", "bronze"] as const;
+
 type _ = (typeof VEHICLE_CATEGORIES[number]) extends Car['category'] ? true : never;
+type __ = (typeof PARTNER_TIERS[keyof typeof PARTNER_TIERS]) extends Partner['tier'] ? true : never;
 
 export const VEHICLE_CATEGORIES: { id: VehicleCategory; label: string; Icon: LucideIcon }[] = [
   { id: "cv", label: "Combustion", Icon: Flame },
