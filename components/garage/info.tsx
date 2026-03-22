@@ -8,8 +8,8 @@ import gsap from "gsap";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  specifications: Vehicle["specifications"]
-  highlights?: Vehicle["highlights"]
+  specifications?: Vehicle["specifications"]
+  highlights: Vehicle["highlights"]
   description: string
   isMobile?: boolean
 };
@@ -59,7 +59,7 @@ export function Info(
       <div>
         <p className="text-[10px] uppercase tracking-[0.25em] text-primary font-heading mb-3">Specifications</p>
         <div className="grid grid-cols-2 gap-2">
-          {specifications.map((s, i) => (
+          {highlights.map((s, i) => (
             <StatisticCard
               key={i}
               statistic={s}
@@ -76,7 +76,7 @@ export function Info(
             : "gap-2",
         )}
         >
-          {highlights?.map((h, i) => (
+          {specifications?.map((h, i) => (
             <li key={i} className={cn(
               "flex items-start text-sm text-muted-foreground",
               isMobile

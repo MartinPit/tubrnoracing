@@ -19,20 +19,22 @@ export interface AboutPage {
 
 export interface Car {
 	/** @primaryKey */
+	id: number;
+	/** @required */
 	short_name: string;
 	/** @required */
 	long_name: string;
 	/** @required */
-	category: 'cv' | 'ev' | 'sim';
+	category: 'ev' | 'cv' | 'sim';
 	/** @required */
 	year: number;
 	/** @required */
 	image: DirectusFile | string;
 	/** @required */
 	description: string;
+	specifications?: string[] | null;
 	/** @required */
-	specifications: Array<{ title: string; value: string; metric: string }>;
-	highlights?: string[] | null;
+	highlights: Array<{ title: string; value: string; metric: string }>;
 }
 
 export interface ContactPage {
@@ -48,19 +50,6 @@ export interface ContactPage {
 	title: string;
 	/** @required */
 	subtitle: string;
-}
-
-export interface Gallery {
-	/** @primaryKey */
-	id: number;
-	/** @required */
-	type: 'video' | 'image';
-	/** @required */
-	file: DirectusFile | string;
-	/** @required */
-	title: string;
-	description?: string | null;
-	category?: 'json' | null;
 }
 
 export interface GalleryCategory {
@@ -689,7 +678,6 @@ export interface Schema {
 	About_Page: AboutPage;
 	Car: Car[];
 	Contact_Page: ContactPage;
-	Gallery: Gallery[];
 	Gallery_Categories: GalleryCategory[];
 	Gallery_Page: GalleryPage;
 	General_Info: GeneralInfo;
@@ -736,7 +724,6 @@ export enum CollectionNames {
 	About_Page = 'About_Page',
 	Car = 'Car',
 	Contact_Page = 'Contact_Page',
-	Gallery = 'Gallery',
 	Gallery_Categories = 'Gallery_Categories',
 	Gallery_Page = 'Gallery_Page',
 	General_Info = 'General_Info',
