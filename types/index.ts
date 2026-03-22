@@ -103,4 +103,5 @@ export type GalleryFile = DirectusImage & {
   tags?: string[] | null
   uploaded_on?: string | null
   aspectRatio: "tall" | "wide" | "square"
+  categories: string[]
 };

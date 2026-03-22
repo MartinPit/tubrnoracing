@@ -5,14 +5,14 @@ import Image from "next/image"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { X, Play } from "lucide-react"
-import { Media } from "@/types"
+import { GalleryFile } from "@/types"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { cn } from "@/lib/utils"
+import directusLoader, { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import { Separator } from "../ui/separator"
 
 interface Props {
-  item: Media
+  item: GalleryFile
   onClose: () => void
 }
 
@@ -69,11 +69,13 @@ export function Lightbox({ item, onClose }: Props) {
         )}>
           <AspectRatio ratio={ratio}>
             <Image
-              src={item.src || "/placeholder.svg"}
-              alt={item.name}
+              src={item.id}
+              loader={directusLoader}
+              alt={item.title || "Gallery Image"}
               fill
               className="object-cover"
-              priority
+              loading="eager"
+              fetchPriority="high"
             />
 
             {item.type === "video" && (
@@ -104,11 +106,11 @@ export function Lightbox({ item, onClose }: Props) {
                 </p>
                 <div className="h-px w-4 md:w-6 bg-primary" />
                 <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
-                  {item.category}
+                  {item.categories.join(", ")}
                 </p>
               </div>
               <h2 className="font-heading text-2xl md:text-3xl font-bold uppercase leading-tight tracking-tighter text-foreground max-w-sm">
-                {item.name}
+                {item.title}
               </h2>
               {item.description && (
                 <p className="text-xs text-muted-foreground leading-relaxed max-w-xs opacity-70">
@@ -128,11 +130,6 @@ export function Lightbox({ item, onClose }: Props) {
             />
           </div>
 
-          <div className={cn(isWide ? "hidden md:block" : "mt-12 md:mt-0")}>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/60 italic font-heading">
-              TU Brno Racing / {new Date().getFullYear()}
-            </p>
-          </div>
         </div>
 
         <Button

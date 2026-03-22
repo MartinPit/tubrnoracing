@@ -8,7 +8,7 @@ export function proxy(request: NextRequest) {
   const defaultSub = 'sw&dv'
 
   const defaultCarCategory = 'ev'
-  const defaultCarModel = 'ed5'
+  const defaultCarModel = 'ED5'
 
   if (pathname === '/team') {
     return NextResponse.redirect(new URL(`/team/${defaultSeason}/${defaultSub}`, request.url))
@@ -16,6 +16,10 @@ export function proxy(request: NextRequest) {
 
   if (pathname === '/garage') {
     return NextResponse.redirect(new URL(`/garage/${defaultCarCategory}/${defaultCarModel}`, request.url))
+  }
+
+  if (pathname === '/gallery') {
+    return NextResponse.redirect(new URL("/gallery/all", request.url))
   }
 
   const segments = pathname.split('/').filter(Boolean)
@@ -34,5 +38,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/team', '/team/:path*', '/garage', '/garage/:path*'],
+  matcher: ['/team', '/team/:path*', '/garage', '/garage/:path*', '/gallery'],
 }

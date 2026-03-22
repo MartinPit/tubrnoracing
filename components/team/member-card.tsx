@@ -80,8 +80,6 @@ export function MemberCard({
   const hexClip = "polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)"
   const person = member.member as Member
 
-  console.log(member)
-
   return (
     <div
       ref={container}

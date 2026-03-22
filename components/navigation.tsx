@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/about", label: "ABOUT", highlight: false },
   { href: "/team", label: "TEAM", highlight: true },
   { href: "/garage", label: "GARAGE", highlight: false },
-  { href: "/media", label: "MEDIA", highlight: true },
+  { href: "/gallery", label: "GALLERY", highlight: true },
   { href: "/partners", label: "PARTNERS", highlight: false },
   { href: "/contact", label: "CONTACT", highlight: true },
 ]

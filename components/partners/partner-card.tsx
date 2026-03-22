@@ -59,12 +59,12 @@ export function PartnerCard({ partner, variant = "uni", className }: Props) {
                 loading="eager"
                 fill
                 sizes="(max-width: 768px) 80vw, 250px"
-                className="object-contain opacity-40 group-hover:opacity-100 transition-all duration-700"
+                className="object-contain transition-all duration-700"
               />
             </div>
           </div>
 
-          <p className="relative z-10 shrink-0 pt-4 text-[10px] sm:text-xs text-center font-heading uppercase tracking-[0.2em] text-muted-foreground/50 group-hover:text-[inherit] leading-tight">
+          <p className="transition-colors duration-400 relative z-10 shrink-0 pt-4 text-[10px] sm:text-xs text-center font-heading uppercase tracking-[0.2em] text-muted-foreground/50 group-hover:text-[inherit] leading-tight">
             {partner.title}
           </p>
         </div>

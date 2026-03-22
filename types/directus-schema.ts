@@ -110,6 +110,13 @@ export interface HomePage {
 	partners_subtitle: string;
 }
 
+export interface JunctionDirectusFilesGalleryCategory {
+	/** @primaryKey */
+	id: number;
+	directus_files_id?: DirectusFile | string | null;
+	Gallery_Categories_id?: GalleryCategory | string | null;
+}
+
 export interface Member {
 	/** @primaryKey */
 	id: number;
@@ -299,6 +306,7 @@ export interface DirectusFile {
 	tus_id?: string | null;
 	tus_data?: 'json' | null;
 	uploaded_on?: string | null;
+	category?: JunctionDirectusFilesGalleryCategory[] | string[];
 }
 
 export interface DirectusFolder {
@@ -683,6 +691,7 @@ export interface Schema {
 	Gallery_Page: GalleryPage;
 	General_Info: GeneralInfo;
 	Home_Page: HomePage;
+	junction_directus_files_Gallery_Categories: JunctionDirectusFilesGalleryCategory[];
 	Member: Member[];
 	Partners: Partner[];
 	Partners_Page: PartnersPage;
@@ -729,6 +738,7 @@ export enum CollectionNames {
 	Gallery_Page = 'Gallery_Page',
 	General_Info = 'General_Info',
 	Home_Page = 'Home_Page',
+	junction_directus_files_Gallery_Categories = 'junction_directus_files_Gallery_Categories',
 	Member = 'Member',
 	Partners = 'Partners',
 	Partners_Page = 'Partners_Page',

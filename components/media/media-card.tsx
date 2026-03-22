@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils"
-import { Media } from "@/types"
+import directusLoader, { cn } from "@/lib/utils"
+import { GalleryFile } from "@/types"
 import { Play } from "lucide-react"
 import Image from "next/image"
 
 interface Props {
-  item: Media
+  item: GalleryFile
   className?: string
 }
 
@@ -18,8 +18,9 @@ export function MediaCard({ item, className }: Props) {
       )}
     >
       <Image
-        src={item.src || "/placeholder.svg"}
-        alt={item.name || "Media"}
+        src={item.id}
+        loader={directusLoader}
+        alt={item.title || "Media"}
         fill
         sizes="(max-width: 640px) 70vw, (max-width: 1024px) 50vw, 35vw"
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

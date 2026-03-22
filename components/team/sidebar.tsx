@@ -1,11 +1,8 @@
 "use client"
 
-import { useRef, Suspense } from "react"
-import { useRouter } from "next/navigation"
+import { useRef } from "react"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
-import { Canvas } from "@react-three/fiber"
-import { SubsectionModel } from "@/components/team/subsection-model"
 import { TeamControlDeck } from "@/components/team/team-control-deck"
 import { Season, Subsection } from "@/types/directus-schema"
 import { useSmoothNavigate } from "@/hooks/useSmoothNavigate"
@@ -109,16 +106,6 @@ export function Sidebar({
             <p className="text-xs md:text-sm text-muted-foreground leading-relaxed max-w-sm opacity-80">
               {currentSubsection.description}
             </p>
-          </div>
-
-          <div className="hidden md:block h-60 md:h-72 w-full relative">
-            <Canvas camera={{ position: [0, 0, 5], fov: 40 }}>
-              <ambientLight intensity={0.5} />
-              <pointLight position={[10, 10, 10]} />
-              <Suspense fallback={null}>
-                <SubsectionModel id={currentSubsection.id} />
-              </Suspense>
-            </Canvas>
           </div>
         </div>
       </aside>

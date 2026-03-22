@@ -9,18 +9,16 @@ export default function directusLoader(
   {
     src,
     width,
-    quality
   }: {
     src: string,
     width: number,
-    quality?: number
   }) {
   if (src === "placeholder") {
     return "/placeholder.svg"
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL;
-  return `${baseUrl}/assets/${src}?fit=cover&width=${width}&quality=${quality || 75}&format=auto`;
+  return `${baseUrl}/assets/${src}?key=gallery-card&width=${width}`;
 }
 
 export const shellClasses = (invalid: boolean) => cn(
