@@ -1,23 +1,11 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef  } from "react"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { TeamControlDeck } from "@/components/team/team-control-deck"
 import { Season, Subsection } from "@/types/directus-schema"
 import { useSmoothNavigate } from "@/hooks/useSmoothNavigate"
-
-const subsections = [
-  { id: "leadership", label: "Leadership", short: "LEAD", description: "Strategic direction and team coordination for Formula Student excellence." },
-  { id: "aerodynamics", label: "Aerodynamics", short: "AERO", description: "Designing airflow solutions for maximum downforce and minimal drag." },
-  { id: "chassis", label: "Chassis", short: "CHAS", description: "Engineering the structural backbone and safety cell of the vehicle." },
-  { id: "suspension", label: "Suspension", short: "SUSP", description: "Optimizing handling dynamics and tire contact for peak performance." },
-  { id: "software", label: "Software", short: "SOFT", description: "Developing data acquisition and vehicle control systems." },
-  { id: "vehicle-performance", label: "Vehicle Performance", short: "PERF", description: "Analyzing telemetry and optimizing setup for competitive advantage." },
-  { id: "electric-powertrain", label: "Electric Powertrain", short: "ELEC", description: "Designing battery systems and electric motor integration." },
-  { id: "drivetrain-cooling", label: "Drivetrain & Cooling", short: "DRIV", description: "Managing power delivery and thermal management systems." },
-  { id: "marketing", label: "Marketing", short: "MRKT", description: "Building brand presence and engaging with partners and community." },
-]
 
 interface TeamSidebarProps {
   currentSeason: string

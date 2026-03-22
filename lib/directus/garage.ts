@@ -20,9 +20,13 @@ export async function getCarsByCategory(category: VehicleCategory) {
 }
 
 export async function getVehicle(short_name: string): Promise<Vehicle> {
-  return directus.request<Vehicle>(
-    readItem("Car", short_name, {
-      fields: ["*", { image: ["id", "title", "description", "width", "height"] }],
+  const data = await directus.request<Vehicle[]>(
+    readItems("Car", {
+      fields: ["*", { image: ["title", "description", "id", "width", "height"] }],
+      filter: { short_name: { _eq: short_name } },
+      limit: 1,
     })
   );
+
+  return data[0];
 }

@@ -6,7 +6,7 @@ import { getGaragePaths } from "@/lib/directus/garage"
 interface Props {
   params: Promise<{
     category: VehicleCategory;
-    car: string;
+    short_name: string;
   }>
 };
 
@@ -20,7 +20,7 @@ export default async function GaragePage({ params }: Props) {
   const category: VehicleCategory = ["cv", "ev", "sim"].includes(prs.category)
     ? prs.category
     : "ev";
-  const short_name: string = prs.car ?? "e5"
+  const short_name: string = prs.short_name ?? "e5"
 
   return (
     <main className="bg-background text-foreground overflow-hidden pt-20">
