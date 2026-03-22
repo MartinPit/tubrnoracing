@@ -21,8 +21,10 @@ export function useSmoothNavigate({
 
     gsap.to(elements, {
       opacity: 0,
-      y: 20,
-      duration: 0.3,
+      y: -20,
+      scale: 0.95,
+      duration: 0.4,
+      stagger: 0.03,
       ease: "power2.in",
       onComplete: () => {
         router.push(`${root}/${newSlugs.join("/")}`);

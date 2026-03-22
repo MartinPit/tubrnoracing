@@ -8,6 +8,7 @@ import { Canvas } from "@react-three/fiber"
 import { SubsectionModel } from "@/components/team/subsection-model"
 import { TeamControlDeck } from "@/components/team/team-control-deck"
 import { Season, Subsection } from "@/types/directus-schema"
+import { useSmoothNavigate } from "@/hooks/useSmoothNavigate"
 
 const subsections = [
   { id: "leadership", label: "Leadership", short: "LEAD", description: "Strategic direction and team coordination for Formula Student excellence." },
@@ -34,26 +35,14 @@ export function Sidebar({
   seasons,
   subsections
 }: TeamSidebarProps) {
-  const router = useRouter()
   const sidebarRef = useRef<HTMLDivElement>(null)
   const busyRef = useRef(false)
 
-  const navigate = (newSeason: string, newSubsection: string) => {
-    if (busyRef.current) return
-    if (newSeason === currentSeason && newSubsection === currentSubsection.id) return
-
-    busyRef.current = true
-
-    gsap.to(sidebarRef.current, {
-      opacity: 0,
-      y: 20,
-      duration: 0.3,
-      ease: "power2.in",
-      onComplete: () => {
-        router.push(`/team/${newSeason}/${newSubsection}`)
-      }
-    })
-  }
+  const { smoothNavigate } = useSmoothNavigate({
+    root: "/team",
+    slugs: [currentSeason, currentSubsection.id],
+    elements: [".parallax-img", ".sidebar-content", ".parallax-text"]
+  });
 
   useGSAP(() => {
     busyRef.current = false
@@ -72,20 +61,20 @@ export function Sidebar({
 
   return (
     <>
-      <div className="md:hidden fixed top-24 left-0 right-0 z-[45] bg-background/80 backdrop-blur-xl border-b border-border/10 px-5 py-3">
+      <div className="sidebar-content md:hidden fixed top-24 left-0 right-0 z-[45] bg-background/80 backdrop-blur-xl border-b border-border/10 px-5 py-3">
         <TeamControlDeck
           currentSeason={currentSeason}
           seasons={seasons}
           subsections={subsections}
           currentSubsection={currentSubsection}
-          onNavigate={(yr, sec) => navigate(yr ?? currentSeason, sec ?? currentSubsection.id)}
+          onNavigate={(yr, sec) => smoothNavigate([yr ?? currentSeason, sec ?? currentSubsection.id])}
         />
       </div>
 
       <aside className="w-full md:w-[40%] lg:w-[35%] md:sticky md:top-16 pt-8 z-30 self-start">
         <div className="h-[72px] md:hidden" />
 
-        <div ref={sidebarRef} className="px-5 py-6 md:px-10 md:py-12 space-y-6 md:space-y-10">
+        <div ref={sidebarRef} className="sidebar-content px-5 py-6 md:px-10 md:py-12 space-y-6 md:space-y-10">
 
           <div className="hidden md:block">
             <TeamControlDeck
@@ -93,7 +82,7 @@ export function Sidebar({
               seasons={seasons}
               subsections={subsections}
               currentSubsection={currentSubsection}
-              onNavigate={(yr, sec) => navigate(yr ?? currentSeason, sec ?? currentSubsection.id)}
+              onNavigate={(yr, sec) => smoothNavigate([yr ?? currentSeason, sec ?? currentSubsection.id])}
             />
           </div>
 

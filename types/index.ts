@@ -50,7 +50,7 @@ export type PartnerTier = "platinum" | "gold" | "silver" | "bronze" | "universit
 export interface TeamMemberDisplay {
   id: number;
   is_leader: boolean;
-  image: string | DirectusFile | null;
+  image: DirectusImage | null;
   member: Member,
   season_subsection: {
     subsection: {

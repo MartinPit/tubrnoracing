@@ -1,12 +1,11 @@
 "use client"
 
-import { useMemo, useRef } from "react"
+import { useRef } from "react"
 import Image from "next/image"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
-import { cn } from "@/lib/utils"
-import { DirectusFile, Member } from "@/types/directus-schema"
-import { env } from "@/env"
+import directusLoader, { cn } from "@/lib/utils"
+import { Member } from "@/types/directus-schema"
 import { TeamMemberDisplay } from "@/types"
 
 interface Props {
@@ -43,9 +42,6 @@ export function MemberCard({
         toggleActions: "play none none none",
       } : undefined
     })
-  }, { scope: container });
-
-  useGSAP(() => {
     gsap.set(".parallax-img", { scale: 1.1 });
   }, { scope: container });
 
@@ -75,7 +71,7 @@ export function MemberCard({
       y: 0,
       duration: 0.6,
       ease: "power2.inOut",
-      overwrite: "auto"
+      overwrite: "auto",
     })
     gsap.to(".parallax-text", { x: 0, y: 0, duration: 0.6 })
     gsap.to(".corner-accent", { opacity: 0, scale: 0.8, duration: 0.4 })
@@ -83,12 +79,7 @@ export function MemberCard({
 
   const hexClip = "polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)"
   const person = member.member as Member
-
-  const src = useMemo(() => {
-    if (!member.image) return "/placeholder.svg"
-    const image = member.image as DirectusFile
-    return `${env.NEXT_PUBLIC_DIRECTUS_URL}/assets/${image.id}?width=600&quality=80&format=webp`
-  }, [member.image]);
+  console.log(member)
 
   return (
     <div
@@ -102,13 +93,18 @@ export function MemberCard({
       )}
       style={{ clipPath: hexClip }}
     >
-      <div className="parallax-img absolute inset-0 w-full h-full grayscale transition-opacity duration-700 will-change-transform">
+      <div className={cn(
+        "parallax-img absolute inset-0 w-full h-full grayscale-[90%] group-hover:grayscale-0",
+        "transition-[filter] duration-700 ease-in-out will-change-transform"
+      )}>
         <Image
-          src={src || "/placeholder.svg"}
-          alt={person.name || "Team Member"}
+          src={member.image?.id || "placeholder"}
+          loader={directusLoader}
+          alt={person.name}
           fill
+          loading="eager"
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+          className="object-cover transition-opacity"
         />
       </div>
 
