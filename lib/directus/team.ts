@@ -31,6 +31,7 @@ export async function getTeamPageData(season: string, subsection: string) {
       fields: [
         "id",
         "is_leader",
+        "custom_title",
         { image: ["id", "title", "description", "width", "height"] },
         {
           member: ["*"]
@@ -70,6 +71,7 @@ export async function getRandomFourMembers() {
       fields: [
         "id",
         "is_leader",
+        "custom_title",
         {
           image: ["id", "title", "description", "width", "height"]
         },

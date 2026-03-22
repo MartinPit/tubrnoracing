@@ -80,6 +80,8 @@ export function MemberCard({
   const hexClip = "polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)"
   const person = member.member as Member
 
+  console.log(member)
+
   return (
     <div
       ref={container}
@@ -93,7 +95,7 @@ export function MemberCard({
       style={{ clipPath: hexClip }}
     >
       <div className={cn(
-        "parallax-img absolute inset-0 w-full h-full grayscale-[90%] group-hover:grayscale-0",
+        "parallax-img absolute inset-0 w-full h-full",
         "transition-[filter] duration-700 ease-in-out will-change-transform"
       )}>
         <Image
@@ -111,7 +113,7 @@ export function MemberCard({
 
       <div className="parallax-text absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-none">
         <div className="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-black italic">
-          {member.season_subsection.subsection.label} {member.is_leader && " Leader"}
+          {member.custom_title ? member.custom_title : `${member.season_subsection.subsection.label} ${member.is_leader ? "Leader" : ""}`}
         </div>
         <div className="font-heading text-3xl font-bold text-white tracking-tighter uppercase leading-none">
           {person.name}

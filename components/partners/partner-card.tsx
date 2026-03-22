@@ -59,7 +59,7 @@ export function PartnerCard({ partner, variant = "uni", className }: Props) {
                 loading="eager"
                 fill
                 sizes="(max-width: 768px) 80vw, 250px"
-                className="object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                className="object-contain opacity-40 group-hover:opacity-100 transition-all duration-700"
               />
             </div>
           </div>

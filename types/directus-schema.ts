@@ -185,6 +185,7 @@ export interface TeamMembership {
 	season_subsection: SeasonSubsection | string;
 	is_leader?: boolean | null;
 	image?: DirectusFile | string | null;
+	custom_title?: string | null;
 }
 
 export interface DirectusAccess {

@@ -51,6 +51,7 @@ export interface TeamMemberDisplay {
   id: number;
   is_leader: boolean;
   image: DirectusImage | null;
+  custom_title: string | null;
   member: Member,
   season_subsection: {
     subsection: {
