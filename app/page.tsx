@@ -13,7 +13,9 @@ export default function HomePage() {
       <AboutSection />
       <TeamSection />
       <MediaSection />
-      <SocialSection />
+      {
+        // <SocialSection />
+      }
       <PartnersSection />
       <Footer />
     </main>

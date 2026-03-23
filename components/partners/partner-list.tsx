@@ -7,6 +7,7 @@ import { useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { Partner } from "@/types/directus-schema"
+import { cn } from "@/lib/utils"
 
 interface Props {
   partners: Record<PartnerTier, Partner[]>
@@ -74,7 +75,7 @@ export function PartnerList({ partners }: Props) {
                 {partners[name as PartnerTier].length} {partners[name as PartnerTier].length === 1 ? "partner" : "partners"}
               </span>
             </div>
-            <div className="flex flex-wrap items-stretch justify-center gap-4">
+            <div className={cn("grid items-stretch justify-center gap-4", tier.columns)}>
               {partners[name as PartnerTier].map((partner) => (
                 <PartnerCard
                   key={partner.id}

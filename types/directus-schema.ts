@@ -37,6 +37,20 @@ export interface Car {
 	highlights: Array<{ title: string; value: string; metric: string }>;
 }
 
+export interface ContactFormSubmission {
+	/** @primaryKey */
+	id: number;
+	date_created?: string | null;
+	/** @required */
+	name: string;
+	/** @required */
+	email: string;
+	/** @required */
+	subject: string;
+	/** @required */
+	message: string;
+}
+
 export interface ContactPage {
 	/** @primaryKey */
 	id: number;
@@ -126,6 +140,22 @@ export interface Member {
 	name: string;
 	email?: string | null;
 	phone?: string | null;
+}
+
+export interface PartnerFormSubmission {
+	/** @primaryKey */
+	id: number;
+	date_created?: string | null;
+	/** @required */
+	email: string;
+	/** @required */
+	company: string;
+	/** @required */
+	phone: string;
+	/** @required */
+	tier: string;
+	/** @required */
+	message: string;
 }
 
 export interface Partner {
@@ -688,6 +718,7 @@ export interface DirectusDeploymentRun {
 export interface Schema {
 	About_Page: AboutPage;
 	Car: Car[];
+	contact_form_submissions: ContactFormSubmission[];
 	Contact_Page: ContactPage;
 	Gallery_Categories: GalleryCategory[];
 	Gallery_Page: GalleryPage;
@@ -695,6 +726,7 @@ export interface Schema {
 	Home_Page: HomePage;
 	junction_directus_files_Gallery_Categories: JunctionDirectusFilesGalleryCategory[];
 	Member: Member[];
+	partner_form_submissions: PartnerFormSubmission[];
 	Partners: Partner[];
 	Partners_Page: PartnersPage;
 	Season: Season[];
@@ -735,6 +767,7 @@ export interface Schema {
 export enum CollectionNames {
 	About_Page = 'About_Page',
 	Car = 'Car',
+	contact_form_submissions = 'contact_form_submissions',
 	Contact_Page = 'Contact_Page',
 	Gallery_Categories = 'Gallery_Categories',
 	Gallery_Page = 'Gallery_Page',
@@ -742,6 +775,7 @@ export enum CollectionNames {
 	Home_Page = 'Home_Page',
 	junction_directus_files_Gallery_Categories = 'junction_directus_files_Gallery_Categories',
 	Member = 'Member',
+	partner_form_submissions = 'partner_form_submissions',
 	Partners = 'Partners',
 	Partners_Page = 'Partners_Page',
 	Season = 'Season',

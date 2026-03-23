@@ -11,11 +11,11 @@ import { contactFormSchema } from "@/schemas"
 import z from "zod"
 import { FormTextArea } from "../forms/text-area"
 import { PrimaryButton } from "../primary-button"
+import { directus } from "@/lib/directus"
+import { createItem } from "@directus/sdk"
 
 
 type FormValues = z.infer<typeof contactFormSchema>
-
-const clip = "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))"
 
 export function ContactForm() {
   const container = useRef(null)
@@ -57,8 +57,16 @@ function Form() {
   }
 
   async function onSubmit(data: FormValues) {
-    await new Promise((r) => setTimeout(r, 1500))
-    console.log("Form Data:", data)
+    try {
+      await directus.request(
+        createItem(
+          "contact_form_submissions",
+          data
+        )
+      )
+    } catch (error) {
+      console.error("Form submission error:", error)
+    }
   }
 
   return (

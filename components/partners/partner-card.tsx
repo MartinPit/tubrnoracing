@@ -9,25 +9,17 @@ interface Props {
   partner: Partner
   variant?: PartnerTier
   className?: string
+  imageLoading?: "eager" | "lazy"
 }
 
-const CARD_SIZES: Record<string, string> = {
-  university: "w-72 h-72",
-  platinum: "w-72 h-72",
-  gold: "w-56 h-56",
-  silver: "w-44 h-44",
-  bronze: "w-36 h-36",
-}
-
-export function PartnerCard({ partner, variant = "uni", className }: Props) {
+export function PartnerCard({ partner, variant = "uni", className, imageLoading = "eager" }: Props) {
   const config = PARTNER_TIERS[variant]
-  const sizeClass = CARD_SIZES[variant] || "w-48 h-48"
-  const image = partner.logo as DirectusImage
+  const image = partner.logo as (DirectusImage & { type: string })
 
   const hexClip = "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px))"
 
   return (
-    <div className={cn("group relative transition-transform duration-300 hover:scale-[1.02] shrink-0", sizeClass, className)}>
+    <div className={cn("group relative transition-transform duration-300 hover:scale-[1.02] shrink-0 aspect-square", className)}>
       <Link
         href={partner.link}
         target="_blank"
@@ -51,12 +43,12 @@ export function PartnerCard({ partner, variant = "uni", className }: Props) {
           }}
         >
           <div className="relative w-full flex-1 flex items-center justify-center z-10 min-h-0">
-            <div className="relative w-full h-full max-h-[80%]">
+            <div className={cn("relative w-full h-full max-h-[80%]")}>
               <Image
                 src={image.id || "placeholder"}
                 loader={directusLoader}
                 alt={partner.title}
-                loading="eager"
+                loading={imageLoading}
                 fill
                 sizes="(max-width: 768px) 80vw, 250px"
                 className="object-contain transition-all duration-700"

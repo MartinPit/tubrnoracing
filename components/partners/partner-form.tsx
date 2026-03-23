@@ -14,6 +14,8 @@ import { FormTextArea } from "../forms/text-area"
 import { RefObject, useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
+import { directus } from "@/lib/directus"
+import { createItem } from "@directus/sdk"
 
 interface Props {
   cta: string
@@ -97,7 +99,16 @@ function Form({ formRef }: { formRef?: RefObject<HTMLFormElement | null> }) {
   })
 
   async function onSubmit(data: FormValues) {
-    await new Promise((r) => setTimeout(r, 1200))
+    try {
+      await directus.request(
+        createItem(
+          "partner_form_submissions",
+          data
+        )
+      );
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   }
 
   if (form.formState.isSubmitSuccessful) {

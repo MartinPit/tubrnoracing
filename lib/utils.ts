@@ -14,7 +14,7 @@ export default function directusLoader(
     width: number,
   }) {
   if (src === "placeholder") {
-    return "/placeholder.svg"
+    return "/placeholder.png?width=400&height=400";
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL;

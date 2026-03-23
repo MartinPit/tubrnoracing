@@ -5,6 +5,7 @@ import Link from "next/link"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
+import { Logo } from "./logo"
 
 const navLinks = [
   { href: "/about", label: "ABOUT", highlight: false },
@@ -91,11 +92,7 @@ export function Navigation({ socials }: Props) {
             }
           }}
         >
-          <div className="font-heading text-xl font-bold tracking-wider leading-tight">
-            <span className="text-foreground">TU BRNO</span>
-            <br />
-            <span className="text-primary">RACING</span>
-          </div>
+          <Logo />
         </Link>
 
         <button
@@ -171,7 +168,7 @@ export function Navigation({ socials }: Props) {
             <div className="menu-footer mt-16 pt-8 border-t border-foreground/10">
               <div className="flex items-center gap-3 mb-8">
                 <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  Formula Student Since 2009
+                  Formula Student Since 2010
                 </span>
               </div>
 

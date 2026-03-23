@@ -36,23 +36,6 @@ export const metadata: Metadata = {
   description:
     "We are a student team from Brno University of Technology, designing and building Formula Student racing cars to compete worldwide.",
   keywords: ["Formula Student", "TU Brno", "Racing", "Engineering", "University"],
-  icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
-  },
 }
 
 export const viewport: Viewport = {

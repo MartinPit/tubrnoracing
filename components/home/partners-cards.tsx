@@ -24,7 +24,7 @@ export function PartnersCards({ partners }: { partners: Partner[] }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
       {partners.map((partner, index) => (
-        <PartnerCard key={index} partner={partner} className="partner-card" />
+        <PartnerCard key={index} partner={partner} className="partner-card" imageLoading="lazy" />
       ))}
     </div>
   )

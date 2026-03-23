@@ -12,6 +12,11 @@ const nextConfig = {
         pathname: '/assets/**',
       },
     ],
+    localPatterns: [
+      {
+        pathname: '/placeholder.png'
+      },
+    ],
   },
 
 }

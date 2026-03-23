@@ -36,13 +36,15 @@ export function ContactCard({ leader }: { leader: LeaderContactDisplay }) {
             <Mail className="w-3 h-3 shrink-0 text-primary/60" />
             <span className="truncate">{leader.member.email}</span>
           </a>
-          <a
-            href={`tel:${leader.member.phone}`}
-            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors duration-150 group/link"
-          >
-            <Phone className="w-3 h-3 shrink-0 text-primary/60" />
-            <span className="truncate">{leader.member.phone}</span>
-          </a>
+          {leader.member.phone && (
+            <a
+              href={`tel:${leader.member.phone}`}
+              className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors duration-150 group/link"
+            >
+              <Phone className="w-3 h-3 shrink-0 text-primary/60" />
+              <span className="truncate">{leader.member.phone}</span>
+            </a>
+          )}
         </div>
       </div>
     </div>

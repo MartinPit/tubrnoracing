@@ -15,7 +15,7 @@ export async function getPartners() {
   const fetchPromises = TIERS.map((tier) =>
     directus.request(
       readItems("Partners", {
-        fields: ["*", { logo: ["id", "title", "description", "width", "height"] }],
+        fields: ["*", { logo: ["id", "title", "description", "width", "height", "type"] }],
         filter: {
           tier: { _eq: tier },
         }
@@ -35,10 +35,12 @@ export async function getPartners() {
 }
 
 export async function getRandomPartners() {
-  return await directus.request(
+  const pool = await directus.request(
     readItems("Partners", {
-      fields: ["*", { logo: ["id", "title", "description", "width", "height"] }],
-      limit: 8,
+      fields: ["*", { logo: ["id", "title", "description", "width", "height", "type"] }],
+      limit: 40,
     })
   );
+
+  return pool.sort(() => 0.5 - Math.random()).slice(0, 4);
 }

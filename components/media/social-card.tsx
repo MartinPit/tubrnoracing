@@ -37,7 +37,7 @@ export function SocialCard({ item, className }: Props) {
       )}
     >
       <Image
-        src={item.image || "/placeholder.svg"}
+        src={item.image || "/placeholder.png"}
         alt={item.name || `${item.platform} post`}
         fill
         sizes="(max-width: 768px) 256px, 320px"

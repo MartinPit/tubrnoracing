@@ -7,13 +7,13 @@ import gsap from "gsap"
 import { useRef } from "react"
 
 const socialPosts: Social[] = [
-  { platform: "instagram", image: "/placeholder.svg?height=400&width=400", link: "#", name: "Instagram Post" },
-  { platform: "youtube", image: "/placeholder.svg?height=400&width=600", link: "#", name: "YouTube Video" },
-  { platform: "instagram", image: "/placeholder.svg?height=400&width=400", link: "#", name: "Instagram Post" },
-  { platform: "facebook", image: "/placeholder.svg?height=400&width=500", link: "#", name: "Facebook Post" },
-  { platform: "instagram", image: "/placeholder.svg?height=400&width=400", link: "#", name: "Instagram Post" },
-  { platform: "youtube", image: "/placeholder.svg?height=400&width=600", link: "#", name: "YouTube Video" },
-  { platform: "youtube", image: "/placeholder.svg?height=400&width=600", link: "#", name: "YouTube Video" },
+  { platform: "instagram", image: "/placeholder.png?height=400&width=400", link: "#", name: "Instagram Post" },
+  { platform: "youtube", image: "/placeholder.png?height=400&width=600", link: "#", name: "YouTube Video" },
+  { platform: "instagram", image: "/placeholder.png?height=400&width=400", link: "#", name: "Instagram Post" },
+  { platform: "facebook", image: "/placeholder.png?height=400&width=500", link: "#", name: "Facebook Post" },
+  { platform: "instagram", image: "/placeholder.png?height=400&width=400", link: "#", name: "Instagram Post" },
+  { platform: "youtube", image: "/placeholder.png?height=400&width=600", link: "#", name: "YouTube Video" },
+  { platform: "youtube", image: "/placeholder.png?height=400&width=600", link: "#", name: "YouTube Video" },
 ]
 
 export function SocialTrack() {

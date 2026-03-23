@@ -5,6 +5,7 @@ import { Field, FieldLabel } from "../ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { cn, shellClasses } from "@/lib/utils";
 import { AnimatedError } from "./animated-error";
+import { TierConfig } from "@/lib/data";
 
 const clip = "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))"
 
@@ -12,7 +13,7 @@ interface Props<T extends FieldValues> {
   control: Control<T>
   name: Path<T>
   placeholder: string
-  entries: [string, any][]
+  entries: [string, TierConfig][]
 };
 
 export function FormSelect<T extends FieldValues>({
@@ -40,8 +41,8 @@ export function FormSelect<T extends FieldValues>({
                 <SelectValue placeholder={placeholder}/>
               </SelectTrigger>
               <SelectContent className="border-border/40 font-heading uppercase text-xs">
-                {entries.map(([name]) => (
-                  <SelectItem key={name} value={name} className="h-11 capitalize">{name}</SelectItem>
+                {entries.map(([name, tier]) => (
+                  <SelectItem key={name} value={name} className="h-11 capitalize">{tier.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
