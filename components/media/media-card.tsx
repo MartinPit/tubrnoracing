@@ -6,9 +6,10 @@ import Image from "next/image"
 interface Props {
   item: GalleryFile
   className?: string
+  imageLoading?: "eager" | "lazy"
 }
 
-export function MediaCard({ item, className }: Props) {
+export function MediaCard({ item, className, imageLoading = "eager" }: Props) {
   return (
     <div
       className={cn(
@@ -22,6 +23,7 @@ export function MediaCard({ item, className }: Props) {
         loader={directusLoader}
         alt={item.title || "Media"}
         fill
+        loading={imageLoading}
         sizes="(max-width: 640px) 70vw, (max-width: 1024px) 50vw, 35vw"
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       />

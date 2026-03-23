@@ -52,7 +52,7 @@ export function MediaSectionScroller({ items }: { items: GalleryFile[] }) {
 
         <div ref={scrollContentRef} className="flex gap-6 px-6 items-center">
           {items.map((item, index) => (
-            <MediaCard key={index} item={item} />
+            <MediaCard key={index} item={item} imageLoading="lazy" />
           ))}
         </div>
 

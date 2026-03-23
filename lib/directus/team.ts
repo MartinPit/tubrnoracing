@@ -1,6 +1,6 @@
 import { TeamMemberDisplay } from "@/types";
 import { directus } from "./index";
-import { readItems } from "@directus/sdk";
+import { readItem, readItems } from "@directus/sdk";
 
 export async function getAllTeamPaths() {
   return await directus.request(
@@ -8,8 +8,7 @@ export async function getAllTeamPaths() {
       fields: [
         { season: ["id"] },
         { subsection: ["id"] }
-      ],
-      limit: -1
+      ]
     })
   );
 }
@@ -51,46 +50,43 @@ export async function getTeamPageData(season: string, subsection: string) {
       fields: [{ subsection: ["id", "label", "short"] }]
     })),
 
-    directus.request(readItems("Subsection", {
-      filter: { id: { _eq: subsection } },
-      limit: 1
-    }))
+    directus.request(readItem("Subsection", subsection))
   ]);
 
   return {
     seasons,
     members,
     subsectionsInSeason,
-    subsection: currentSub[0]
+    subsection: currentSub
   };
 }
 
 export async function getRandomFourMembers() {
-  const pool = await directus.request<TeamMemberDisplay[]>(
+  const allMembers = await directus.request(
     readItems("Team_Membership", {
+      fields: ["id"],
+      limit: -1,
+    })
+  );
+
+  const shuffledIds = allMembers
+    .map((m) => m.id)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4);
+
+  return await directus.request<TeamMemberDisplay[]>(
+    readItems("Team_Membership", {
+      filter: {
+        id: { _in: shuffledIds },
+      },
       fields: [
         "id",
         "is_leader",
         "custom_title",
-        {
-          image: ["id", "title", "description", "width", "height"]
-        },
-        {
-          member: ["*"]
-        },
-        {
-          season_subsection: [
-            {
-              subsection: ["label"]
-            }
-          ]
-        }
+        { image: ["id", "title", "description", "width", "height"] },
+        { member: ["*"] },
+        { season_subsection: [{ subsection: ["label"] }] }
       ],
-      limit: 20,
     })
   );
-
-  return pool
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 4);
 }

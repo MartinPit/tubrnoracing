@@ -82,6 +82,7 @@ export function PartnerList({ partners }: Props) {
                   partner={partner}
                   variant={name as PartnerTier}
                   className="partner-card"
+                  imageLoading="lazy"
                 />
               ))}
             </div>

@@ -13,13 +13,15 @@ interface Props {
   index: number
   className?: string,
   isScrollAnimated?: boolean
+  imageLoading?: "eager" | "lazy"
 };
 
 export function MemberCard({
   member,
   className,
   index,
-  isScrollAnimated = true
+  isScrollAnimated = true,
+  imageLoading = "eager"
 }: Props) {
   const container = useRef<HTMLDivElement>(null)
 
@@ -101,7 +103,7 @@ export function MemberCard({
           loader={directusLoader}
           alt={person.name}
           fill
-          loading="eager"
+          loading={imageLoading}
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover transition-opacity"
         />

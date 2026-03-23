@@ -95,7 +95,8 @@ export function TeamControlDeck({
                       </span>
                     </button>
                   </li>
-                ))}
+                )
+                )}
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>

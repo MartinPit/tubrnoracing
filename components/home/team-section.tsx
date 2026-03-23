@@ -3,8 +3,10 @@ import { NavigationButton } from "../navigation-button"
 import { MemberCard } from "../team/member-card"
 import { directus } from "@/lib/directus";
 import { readSingleton } from "@directus/sdk";
+import { connection } from "next/server";
 
 export async function TeamSection() {
+  connection()
   const members = await getRandomFourMembers();
   const { team_title, team_subtitle } = await directus.request(
     readSingleton("Home_Page", {
@@ -31,6 +33,7 @@ export async function TeamSection() {
               key={index}
               member={member}
               index={index}
+              imageLoading="lazy"
             />
           ))}
         </div>
