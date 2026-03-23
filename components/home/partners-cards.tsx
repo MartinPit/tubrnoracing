@@ -18,6 +18,7 @@ export function PartnersCards({ partners }: { partners: Partner[] }) {
         toggleActions: "play none none reverse",
         refreshPriority: 0,
       },
+      clearProps: "all"
     })
   }, { dependencies: [partners] })
 
