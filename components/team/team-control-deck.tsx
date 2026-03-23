@@ -26,6 +26,9 @@ export function TeamControlDeck({
   subsections,
   onNavigate,
 }: TeamControlDeckProps) {
+
+  const leaders = subsections.find(s => s.id === "LDSHP")
+
   return (
     <div className="flex items-center gap-2 p-1.5 bg-background border rounded-md shadow-sm w-fit mx-auto">
       <NavigationMenu className="max-w-full justify-center">
@@ -69,7 +72,10 @@ export function TeamControlDeck({
                 <div className="col-span-full mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
                   Select Department
                 </div>
-                {subsections.map((sec) => (
+                {[
+                  leaders!,
+                  ...subsections.filter(s => s.id !== "LDSHP")
+                ].map((sec) => (
                   <li key={sec.id}>
                     <button
                       onClick={() => onNavigate(currentSeason, sec.id)}

@@ -20,6 +20,10 @@ export function LeadersGrid({ leaders }: Props) {
     })
   }, { scope: container })
 
+
+  const teamLead = leaders.find(leader => leader.custom_title === "Team Leader");
+  const technicalLead = leaders.find(leader => leader.custom_title === "Technical Leader");
+
   return (
     <div ref={container} className="border-t border-border/20">
       <div className="flex items-center gap-4 mb-8">
@@ -36,7 +40,11 @@ export function LeadersGrid({ leaders }: Props) {
       </div>
 
       <div className="leaders-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {leaders.map((leader, i) => (
+        {[
+          teamLead!,
+          technicalLead!,
+          ...leaders.filter(leader => ![teamLead!.id, technicalLead!.id].includes(leader.id))
+        ].map((leader, i) => (
           <ContactCard key={i} leader={leader} />
         ))}
       </div>

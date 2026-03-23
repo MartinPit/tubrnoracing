@@ -62,6 +62,7 @@ export interface TeamMemberDisplay {
 
 export interface LeaderContactDisplay {
   id: number;
+  custom_title: string | null;
   member: Member
   season_subsection: {
     subsection: {

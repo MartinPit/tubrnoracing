@@ -27,6 +27,7 @@ export async function getLeaders(): Promise<LeaderContactDisplay[]> {
     readItems("Team_Membership", {
       fields: [
         "id",
+        "custom_title",
         { member: ["*"] },
         {
           season_subsection: [

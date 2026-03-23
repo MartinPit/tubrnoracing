@@ -19,7 +19,7 @@ export function ContactCard({ leader }: { leader: LeaderContactDisplay }) {
               {leader.season_subsection.subsection.short}
             </p>
             <p className="text-xs font-heading font-bold uppercase tracking-wide text-muted-foreground">
-              {leader.season_subsection.subsection.label}
+              {leader.custom_title || leader.season_subsection.subsection.label}
             </p>
           </div>
         </div>
