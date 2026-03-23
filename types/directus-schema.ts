@@ -108,6 +108,8 @@ export interface HomePage {
 	parters_title: string;
 	/** @required */
 	partners_subtitle: string;
+	/** @required */
+	model: DirectusFile | string;
 }
 
 export interface JunctionDirectusFilesGalleryCategory {

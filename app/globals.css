@@ -75,10 +75,9 @@
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
-  --font-mono: "Geist Mono", "Geist Mono Fallback";
-  /* Add heading font */
-  --font-heading: "Oswald", "Oswald Fallback", sans-serif;
+  --font-sans: var(--font-vafle);
+  --font-mono: var(--font-vafle);
+  --font-heading: var(--font-vafle);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

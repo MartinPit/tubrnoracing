@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Oswald } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import localFont from "next/font/local"
 import "./globals.css"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Navigation } from "@/components/navigation"
@@ -9,13 +9,27 @@ import { GSAPInitializer } from "@/components/gsap"
 import { getSocials } from "@/lib/data"
 import { env } from "@/env"
 
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-oswald",
-  display: "swap",
-  preload: true,
-})
+const vafleVUT = localFont({
+  src: [
+    {
+      path: "../public/fonts/vafle-vut-light.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/vafle-vut-regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/vafle-vut-bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-vafle",
+  fallback: ["Arial", "sans-serif"],
+});
 
 export const metadata: Metadata = {
   title: "TU Brno Racing | Formula Student Team",
@@ -57,7 +71,7 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href={env.NEXT_PUBLIC_DIRECTUS_URL} />
       </head>
-      <body className={`font-sans ${oswald.variable} antialiased`}>
+      <body className={`font-sans ${vafleVUT.variable} antialiased`}>
         <Navigation socials={socials} />
         {children}
         <Analytics />
