@@ -5,7 +5,7 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   const defaultSeason = '2026'
-  const defaultSub = 'sw&dv'
+  const defaultSub = 'LDSHP'
 
   const defaultCarCategory = 'ev'
   const defaultCarModel = 'ED5'
