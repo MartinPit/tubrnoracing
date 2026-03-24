@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { useGLTF, Environment, Float, ContactShadows, PresentationControls } from "@react-three/drei"
+import { useGLTF, Environment, Float, ContactShadows, PresentationControls, Center } from "@react-three/drei"
 import gsap from "gsap"
 import type * as THREE from "three"
 import { env } from "@/env"
@@ -48,7 +48,9 @@ function FormulaModel({ modelId }: { modelId: string }) {
         damping={0.5}
       >
         <group ref={meshRef} scale={viewport.width > 10 ? 3 : 2} position={[0, 1, 0]}>
+          <Center top>
           <primitive object={scene} scale={0.16} />
+          </Center>
         </group>
       </PresentationControls>
     </Float>

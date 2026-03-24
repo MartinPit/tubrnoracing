@@ -5,6 +5,7 @@ import { MediaSection } from "@/components/home/media-section"
 import { PartnersSection } from "@/components/home/partners-section"
 import { SocialSection } from "@/components/home/social-section"
 import { Footer } from "@/components/home/footer"
+import { Suspense } from "react"
 
 export default function HomePage() {
   return (

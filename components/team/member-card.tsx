@@ -64,7 +64,6 @@ export function MemberCard({
       ease: "power2.out",
       overwrite: "auto"
     })
-    gsap.to(".corner-accent", { opacity: 1, scale: 1, duration: 0.4, stagger: 0.1 })
   })
   const handleMouseLeave = contextSafe(() => {
     gsap.to(".parallax-img", {
@@ -76,7 +75,6 @@ export function MemberCard({
       overwrite: "auto",
     })
     gsap.to(".parallax-text", { x: 0, y: 0, duration: 0.6 })
-    gsap.to(".corner-accent", { opacity: 0, scale: 0.8, duration: 0.4 })
   })
 
   const hexClip = "polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)"
@@ -89,7 +87,7 @@ export function MemberCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "group relative aspect-[3/4] overflow-hidden bg-zinc-950 cursor-pointer",
+        "member-card group relative aspect-[3/4] overflow-hidden bg-zinc-950 cursor-pointer",
         className
       )}
       style={{ clipPath: hexClip }}
@@ -109,7 +107,7 @@ export function MemberCard({
         />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40 z-15 pointer-events-none" />
+      <div className="member-card absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40 z-15 pointer-events-none" />
 
       <div className="parallax-text absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-none">
         <div className="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-black italic">

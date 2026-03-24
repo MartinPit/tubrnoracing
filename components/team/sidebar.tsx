@@ -26,7 +26,7 @@ export function Sidebar({
   const { smoothNavigate } = useSmoothNavigate({
     root: "/team",
     slugs: [currentSeason, currentSubsection.id],
-    elements: [".parallax-img", ".sidebar-content", ".parallax-text"]
+    elements: [".parallax-img", ".member-card", ".sidebar-content", ".parallax-text"]
   });
 
   useGSAP(() => {

@@ -14,7 +14,7 @@ export function MediaCard({ item, className, imageLoading = "eager" }: Props) {
     <div
       className={cn(
         "relative flex-shrink-0 w-[70vw] sm:w-[50vw] lg:w-[35vw] aspect-[4/3]",
-        "overflow-hidden group cursor-pointer",
+        "overflow-hidden group",
         className,
       )}
     >

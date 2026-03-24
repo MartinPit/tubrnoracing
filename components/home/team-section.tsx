@@ -1,13 +1,11 @@
-import { getRandomFourMembers } from "@/lib/directus/team";
 import { NavigationButton } from "../navigation-button"
-import { MemberCard } from "../team/member-card"
 import { directus } from "@/lib/directus";
 import { readSingleton } from "@directus/sdk";
-import { connection } from "next/server";
+import { Suspense } from "react";
+import { MemberList } from "./member-list";
+import { TeamSkeleton } from "./team-skeleton";
 
 export async function TeamSection() {
-  connection()
-  const members = await getRandomFourMembers();
   const { team_title, team_subtitle } = await directus.request(
     readSingleton("Home_Page", {
       fields: ["team_title", "team_subtitle"],
@@ -27,16 +25,9 @@ export async function TeamSection() {
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {members.map((member, index) => (
-            <MemberCard
-              key={index}
-              member={member}
-              index={index}
-              imageLoading="lazy"
-            />
-          ))}
-        </div>
+        <Suspense fallback={<TeamSkeleton />}>
+          <MemberList />
+        </Suspense>
 
         <div className="mt-16 flex flex-col items-center gap-4">
           <p className="text-muted-foreground">{team_subtitle}</p>

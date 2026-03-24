@@ -37,7 +37,7 @@ export function Hero({ title = "TU BRNO RACING", subtitle}: Props) {
 
   return (
     <div ref={container} className="relative z-20 text-center px-6">
-      <h1 className="hero-title font-heading text-6xl sm:text-8xl lg:text-[12rem] font-bold uppercase tracking-normal leading-40">
+      <h1 className="hero-title font-heading text-6xl sm:text-8xl lg:text-[12rem] font-bold uppercase tracking-normal lg:leading-40 leading-none">
         <span className="block text-foreground">{parts.join(" ")}</span>
         <span className="block text-primary">{lastPart}</span>
       </h1>
