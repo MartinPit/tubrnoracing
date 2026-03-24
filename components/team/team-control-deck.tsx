@@ -31,7 +31,7 @@ export function TeamControlDeck({
 
   return (
     <div className="flex items-center gap-2 p-1.5 bg-background border rounded-md shadow-sm w-fit mx-auto">
-      <NavigationMenu className="max-w-full justify-center">
+      <NavigationMenu viewport={false} className="z-50 max-w-full justify-center">
         <NavigationMenuList className="space-x-1">
 
           <NavigationMenuItem>
@@ -80,13 +80,13 @@ export function TeamControlDeck({
                     <button
                       onClick={() => onNavigate(currentSeason, sec.id)}
                       className={cn(
-                        "cursor-pointer group flex w-full flex-col items-start rounded-md p-3 text-left transition-all hover:bg-accent",
+                        "cursor-pointer flex w-full flex-col hover:[&>span:first-child]:text-primary items-start rounded-md p-3 text-left transition-all hover:bg-accent",
                         sec.id === currentSubsection.id ? "bg-accent/50 ring-1 ring-inset ring-border" : ""
                       )}
                     >
                       <span className={cn(
-                        "text-sm font-medium",
-                        sec.id === currentSubsection.id ? "text-primary" : "text-foreground group-hover:text-primary"
+                        "text-sm font-medium ",
+                        sec.id === currentSubsection.id ? "text-primary" : "text-foreground"
                       )}>
                         {sec.label}
                       </span>
@@ -100,7 +100,6 @@ export function TeamControlDeck({
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-
         </NavigationMenuList>
       </NavigationMenu>
     </div>
