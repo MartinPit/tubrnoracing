@@ -48,35 +48,34 @@ export function PartnerList({ partners }: Props) {
   }, { scope: containerRef })
 
   return (
-    <div ref={containerRef} className="flex flex-col gap-16">
+    <div ref={containerRef} className="flex flex-col gap-24">
       {Object.entries(PARTNER_TIERS).map(([name, tier]) => {
-        if (partners[name as PartnerTier].length === 0) return null
+        const tierPartners = partners[name as PartnerTier]
+        if (tierPartners.length === 0) return null
+
         return (
-          <div
+          <section
             key={name}
-            className="partner-tier-section"
+            className="partner-tier-section relative"
           >
-            <div className="flex items-center gap-4 mb-3">
-              <div
-                className="shrink-0 px-5 py-2 font-heading text-xs font-bold uppercase tracking-[0.22em]"
-                style={{
-                  clipPath: "polygon(10px 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0% 50%)",
-                  background: tier.color,
-                  color: "#0a0a0a",
-                }}
-              >
-                {tier.name}
+            <div className="sticky top-24 z-20 py-4 bg-background/80 backdrop-blur-sm">
+              <div className="tier-header-content flex items-center gap-4">
+                <div
+                  className="shrink-0 px-5 py-2 font-heading text-xs font-bold uppercase tracking-[0.22em]"
+                  style={{
+                    clipPath: "polygon(10px 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0% 50%)",
+                    background: tier.color,
+                    color: "#0a0a0a",
+                  }}
+                >
+                  {tier.name}
+                </div>
+                <div className="flex-1 h-px" style={{ background: tier.border }} />
               </div>
-              <div className="flex-1 h-px" style={{ background: tier.border }} />
-              <span
-                className="shrink-0 text-[10px] font-heading uppercase tracking-[0.22em]"
-                style={{ color: `${tier.color}/90` }}
-              >
-                {partners[name as PartnerTier].length} {partners[name as PartnerTier].length === 1 ? "partner" : "partners"}
-              </span>
             </div>
-            <div className={cn("grid items-stretch justify-center gap-4", tier.columns)}>
-              {partners[name as PartnerTier].map((partner) => (
+
+            <div className={cn("grid items-stretch justify-center gap-4 mt-8", tier.columns)}>
+              {tierPartners.map((partner) => (
                 <PartnerCard
                   key={partner.id}
                   partner={partner}
@@ -86,7 +85,7 @@ export function PartnerList({ partners }: Props) {
                 />
               ))}
             </div>
-          </div>
+          </section>
         )
       })}
     </div>

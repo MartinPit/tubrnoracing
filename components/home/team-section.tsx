@@ -4,6 +4,7 @@ import { readSingleton } from "@directus/sdk";
 import { Suspense } from "react";
 import { MemberList } from "./member-list";
 import { TeamSkeleton } from "./team-skeleton";
+import { WidthContainer } from "../width-container";
 
 export async function TeamSection() {
   const { team_title, team_subtitle } = await directus.request(
@@ -17,8 +18,8 @@ export async function TeamSection() {
   const lastPart = parts.pop()
 
   return (
-    <section id="team" className="min-h-screen py-24 px-6 bg-muted">
-      <div className="container mx-auto">
+    <section id="team" className="py-24 px-6 bg-muted">
+      <WidthContainer>
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16">
           <h2 className="font-heading text-5xl sm:text-7xl font-bold uppercase tracking-tight">
             {parts.join(" ") + " "}<span className="text-primary">{lastPart}</span>
@@ -33,7 +34,7 @@ export async function TeamSection() {
           <p className="text-muted-foreground">{team_subtitle}</p>
           <NavigationButton href="/team">Meet The Full Team</NavigationButton>
         </div>
-      </div>
+      </WidthContainer>
     </section>
   )
 }

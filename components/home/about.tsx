@@ -54,50 +54,46 @@ export function About({ leftText, rightText, stats }: Props) {
 
   return (
     <div ref={containerRef} className="relative z-10 -mt-[120vh] pointer-events-none">
-      <div className="mx-auto px-6">
-        <div className="min-h-screen flex items-center">
-          <div className="grid lg:grid-cols-2 gap-16 w-full">
-            <div
-              id="about-left"
-              className="max-w-lg pointer-events-auto bg-background/80 backdrop-blur-sm p-8"
-            >
-              <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tight">
-                About
-                <span className="block text-primary">Us</span>
-              </h2>
-
-              <div className="whitespace-pre-wrap text-lg leading-relaxed text-muted-foreground mt-12">
-                <ReactMarkdown>
-                  {leftText}
-                </ReactMarkdown>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="min-h-[50vh] flex items-center justify-end">
+      <div className="min-h-screen flex items-center">
+        <div className="grid lg:grid-cols-2 gap-16 w-full">
           <div
-            id="about-right"
-            className="max-w-lg pointer-events-auto bg-background/80 backdrop-blur-sm p-8"
+            id="about-left"
+            className="max-w-lg pointer-events-auto bg-background/80 backdrop-blur-sm"
           >
-            <div className="whitespace-pre-wrap text-lg leading-relaxed text-muted-foreground">
+            <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl font-bold uppercase tracking-tight">
+              About
+              <span className="block text-primary">Us</span>
+            </h2>
+
+            <div className="whitespace-pre-wrap text-lg leading-relaxed text-muted-foreground mt-12">
               <ReactMarkdown>
-                {rightText}
+                {leftText}
               </ReactMarkdown>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="py-24">
-          <div className="stats-grid grid grid-cols-2 lg:grid-cols-4 gap-6 pointer-events-auto">
-            {stats.map((stat, index) => (
-              <div key={index} className="stat-item bg-background/80 backdrop-blur-sm p-6 border-l-2 border-primary">
-                <div className="font-heading text-4xl sm:text-5xl font-bold text-primary">{stat.value}</div>
-                <div className="text-sm text-muted-foreground uppercase tracking-wider mt-2">{stat.statistic}</div>
-              </div>
-            ))}
+      <div className="min-h-[50vh] flex items-center justify-end">
+        <div
+          id="about-right"
+          className="max-w-lg pointer-events-auto bg-background/80 backdrop-blur-sm"
+        >
+          <div className="whitespace-pre-wrap text-lg leading-relaxed text-muted-foreground">
+            <ReactMarkdown>
+              {rightText}
+            </ReactMarkdown>
           </div>
         </div>
+      </div>
+
+      <div className="stats-grid grid grid-cols-2 lg:grid-cols-4 gap-6 pointer-events-auto">
+        {stats.map((stat, index) => (
+          <div key={index} className="stat-item bg-background/80 backdrop-blur-sm p-6 border-l-2 border-primary">
+            <div className="font-heading text-4xl sm:text-5xl font-bold text-primary">{stat.value}</div>
+            <div className="text-sm text-muted-foreground uppercase tracking-wider mt-2">{stat.statistic}</div>
+          </div>
+        ))}
       </div>
     </div>
   )

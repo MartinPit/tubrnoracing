@@ -8,16 +8,17 @@ export default async function SponsorsPage() {
   const partners = await getPartners()
 
   return (
-    <main className="bg-background text-foreground min-h-screen pb-32" style={{ paddingTop: "120px" }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
+    <main
+      className="bg-background text-foreground min-h-screen pb-32 max-w-7xl mx-auto px-6 md:px-10"
+      style={{ paddingTop: "120px" }}
+    >
         <PartnerHero title={data.title} subtitle={data.subtitle} />
-        <PartnerList partners={partners}/>
+        <PartnerList partners={partners} />
         <PartnerForm
           cta={data.call_to_action}
           ctaDescription={data.call_to_action_description}
           benefits={data.benefits}
         />
-      </div>
     </main>
   )
 }

@@ -3,6 +3,7 @@ import { Mail, MapPin } from "lucide-react"
 import { getSocials, IconMap } from "@/lib/data"
 import { readSingleton } from "@directus/sdk"
 import { directus } from "@/lib/directus"
+import { WidthContainer } from "../width-container"
 
 export async function Footer() {
   const socials = await getSocials()
@@ -15,7 +16,7 @@ export async function Footer() {
 
   return (
     <footer id="contact" className="bg-card py-16 px-6 border-t border-border">
-      <div className="container mx-auto">
+      <WidthContainer>
         <div className="grid md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
@@ -75,7 +76,7 @@ export async function Footer() {
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} TU Brno Racing. All rights reserved.</p>
         </div>
-      </div>
+      </WidthContainer>
     </footer>
   )
 }

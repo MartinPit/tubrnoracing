@@ -10,24 +10,22 @@ export default async function ContactPage() {
 
   return (
     <main
-      className="bg-background text-foreground min-h-screen pb-32"
+      className="bg-background text-foreground min-h-screen pb-32 max-w-7xl mx-auto px-6 md:px-10"
       style={{ paddingTop: "120px" }}
     >
-      <div className="max-w-6xl mx-auto px-6 md:px-10">
-        <ContactHero title={contact.title} subtitle={contact.subtitle} />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
-          <ContactForm />
-          <ContactInfo
-            email={email}
-            advisor={{
-              advisor_name: contact.advisor_name,
-              advisor_email: contact.advisor_email,
-              advisor_phone: contact.advisor_phone,
-            }}
-          />
-        </div>
-        <LeadersGrid leaders={leaders} />
+      <ContactHero title={contact.title} subtitle={contact.subtitle} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+        <ContactForm />
+        <ContactInfo
+          email={email}
+          advisor={{
+            advisor_name: contact.advisor_name,
+            advisor_email: contact.advisor_email,
+            advisor_phone: contact.advisor_phone,
+          }}
+        />
       </div>
+      <LeadersGrid leaders={leaders} />
     </main>
   )
 }

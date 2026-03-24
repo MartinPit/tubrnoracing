@@ -24,15 +24,12 @@ export default async function MediaCategoryPage({
   return (
     <>
       <main
-        className="bg-background text-foreground min-h-screen pb-32"
+        className="bg-background text-foreground min-h-screen pb-32 max-w-7xl mx-auto px-6 md:px-10"
         style={{ paddingTop: "120px" }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-
-          <Hero title={pageInfo.title} subtitle={pageInfo.description}/>
-          <CategorySelect category={activeCategory} categories={categories} />
-          <GalleryGrid items={items}/>
-        </div>
+        <Hero title={pageInfo.title} subtitle={pageInfo.description} />
+        <CategorySelect category={activeCategory} categories={categories} />
+        <GalleryGrid items={items} activeCategory={activeCategory} />
       </main>
     </>
   )
