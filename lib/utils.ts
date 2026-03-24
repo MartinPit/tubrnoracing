@@ -22,6 +22,6 @@ export default function directusLoader(
 }
 
 export const shellClasses = (invalid: boolean) => cn(
-  "w-full p-[1px] transition-colors duration-200",
-  invalid ? "bg-red-600" : "bg-border/40 focus-within:bg-primary/60"
+  "w-full p-[1px] transition-colors duration-200 bg-primary/60",
+  invalid && "bg-red-600"
 )
