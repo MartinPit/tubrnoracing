@@ -70,7 +70,7 @@ function VehicleSelectDesktop({ list, vehicle, navigate }: Omit<Props, "isMobile
               <span className="block text-[9px] text-muted-foreground/50 tracking-[0.18em] mb-0.5">
                 {v.year}
               </span>
-              {vehicle.long_name}
+              {v.long_name}
             </div>
           </TabsTrigger>
         ))}
