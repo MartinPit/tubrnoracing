@@ -1,48 +1,64 @@
 "use client"
 
-import { useRef  } from "react"
+import { useRef, useState } from "react"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { TeamControlDeck } from "@/components/team/team-control-deck"
 import { Season, Subsection } from "@/types/directus-schema"
 import { useSmoothNavigate } from "@/hooks/useSmoothNavigate"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 interface TeamSidebarProps {
   currentSeason: string
-  currentSubsection: Subsection
   seasons: Pick<Season, "id" | "label">[]
-  subsections: Pick<Subsection, "id" | "label" | "short">[]
+  subsections: Subsection[]
 }
 
 export function Sidebar({
   currentSeason,
-  currentSubsection,
   seasons,
   subsections
 }: TeamSidebarProps) {
   const sidebarRef = useRef<HTMLDivElement>(null)
-  const busyRef = useRef(false)
+  const [activeSub, setActiveSub] = useState(subsections[0]);
 
   const { smoothNavigate } = useSmoothNavigate({
     root: "/team",
-    slugs: [currentSeason, currentSubsection.id],
+    slugs: [currentSeason],
     elements: [".parallax-img", ".member-card", ".sidebar-content", ".parallax-text"]
   });
 
   useGSAP(() => {
-    busyRef.current = false
+    gsap.registerPlugin(ScrollTrigger)
 
-    const tl = gsap.timeline()
+    ScrollTrigger.getAll().forEach(t => t.kill())
 
-    tl.set(sidebarRef.current, { opacity: 0, y: -20 })
-    tl.to(sidebarRef.current, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: "power3.out",
-      clearProps: "all"
+    subsections.forEach((sub: any) => {
+      const section = document.querySelector(`[id="${sub.id}"]`)
+
+      if (section) {
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top 40%",
+          end: "bottom 40%",
+          onEnter: () => setActiveSub(sub),
+          onEnterBack: () => setActiveSub(sub),
+          onToggle: (self) => {
+            if (self.isActive) setActiveSub(sub)
+          },
+        })
+      }
     })
-  }, { dependencies: [currentSeason, currentSubsection], scope: sidebarRef })
+
+  }, { dependencies: [subsections], scope: sidebarRef })
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+    tl.fromTo(".sidebar-content",
+      { opacity: 0, x: -10 },
+      { opacity: 1, x: 0, duration: 0.4 }
+    );
+  }, { dependencies: [activeSub] });
 
   return (
     <>
@@ -51,8 +67,8 @@ export function Sidebar({
           currentSeason={currentSeason}
           seasons={seasons}
           subsections={subsections}
-          currentSubsection={currentSubsection}
-          onNavigate={(yr, sec) => smoothNavigate([yr ?? currentSeason, sec ?? currentSubsection.id])}
+          currentSubsection={activeSub}
+          onNavigate={(yr, sec) => smoothNavigate([yr ?? currentSeason, sec ?? activeSub.id])}
         />
       </div>
 
@@ -66,12 +82,12 @@ export function Sidebar({
               currentSeason={currentSeason}
               seasons={seasons}
               subsections={subsections}
-              currentSubsection={currentSubsection}
-              onNavigate={(yr, sec) => smoothNavigate([yr ?? currentSeason, sec ?? currentSubsection.id])}
+              currentSubsection={activeSub}
+              onNavigate={(yr, sec) => smoothNavigate([yr ?? currentSeason, sec ?? activeSub.id])}
             />
           </div>
 
-          <div className="space-y-4 md:space-y-6">
+          <div className="info space-y-4 md:space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-px w-6 md:w-8 bg-primary" />
               <p className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-primary font-heading">
@@ -80,19 +96,19 @@ export function Sidebar({
             </div>
 
             <h1 className="font-heading text-3xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.9] tracking-tighter">
-              {currentSubsection.label.includes(" ") ? (
+              {activeSub.label.includes(" ") ? (
                 <>
-                  <span className="text-foreground">{currentSubsection.label.split(" ")[0]}</span>
+                  <span className="text-foreground">{activeSub.label.split(" ")[0]}</span>
                   <br className="hidden md:block" />{" "}
-                  <span className="text-primary">{currentSubsection.label.split(" ").slice(1).join(" ")}</span>
+                  <span className="text-primary">{activeSub.label.split(" ").slice(1).join(" ")}</span>
                 </>
               ) : (
-                <span className="text-foreground">{currentSubsection.label}</span>
+                <span className="text-foreground">{activeSub.label}</span>
               )}
             </h1>
 
             <p className="text-xs md:text-sm text-muted-foreground leading-relaxed max-w-sm opacity-80">
-              {currentSubsection.description}
+              {activeSub.description}
             </p>
           </div>
         </div>

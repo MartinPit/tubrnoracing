@@ -36,7 +36,7 @@ export function MemberCard({
       opacity: 0,
       y: 40,
       rotateX: -10,
-      duration: 1,
+      duration: .5,
       delay: index * 0.08,
       ease: "power4.out",
       clearProps: "opacity, transform",

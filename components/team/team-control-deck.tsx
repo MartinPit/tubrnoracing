@@ -15,7 +15,7 @@ interface TeamControlDeckProps {
   currentSeason: string
   seasons: Pick<Season, "id" | "label">[]
   currentSubsection: Subsection
-  subsections: Pick<Subsection, "id" | "label" | "short">[]
+  subsections: Subsection[]
   onNavigate: (year?: string, section?: string) => void
 }
 
@@ -28,6 +28,15 @@ export function TeamControlDeck({
 }: TeamControlDeckProps) {
 
   const leaders = subsections.find(s => s.id === "LDSHP")
+
+  const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    const yOffset = -70;
+    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+};
 
   return (
     <div className="flex items-center gap-2 p-1.5 bg-background border rounded-md shadow-sm w-fit mx-auto">
@@ -78,7 +87,7 @@ export function TeamControlDeck({
                 ].map((sec) => (
                   <li key={sec.id}>
                     <button
-                      onClick={() => onNavigate(currentSeason, sec.id)}
+                      onClick={() => scrollToSection(sec.id)}
                       className={cn(
                         "cursor-pointer flex w-full flex-col hover:[&>span:first-child]:text-primary items-start rounded-md p-3 text-left transition-all hover:bg-accent",
                         sec.id === currentSubsection.id ? "bg-accent/50 ring-1 ring-inset ring-border" : ""

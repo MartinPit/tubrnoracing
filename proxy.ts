@@ -6,11 +6,10 @@ export function proxy(request: NextRequest) {
   const segments = pathname.split('/').filter(Boolean)
 
   const defaultSeason = '2026'
-  const defaultSub = 'LDSHP'
 
 
   if (pathname === '/team') {
-    return NextResponse.redirect(new URL(`/team/${defaultSeason}/${defaultSub}`, request.url))
+    return NextResponse.redirect(new URL(`/team/${defaultSeason}`, request.url))
   }
 
   if (pathname === '/garage') {
@@ -19,13 +18,6 @@ export function proxy(request: NextRequest) {
 
   if (pathname === '/gallery') {
     return NextResponse.redirect(new URL("/gallery/all", request.url))
-  }
-
-
-
-  if (segments.length === 2 && segments[0] === 'team') {
-    const season = segments[1]
-    return NextResponse.redirect(new URL(`/team/${season}/${defaultSub}`, request.url))
   }
 
   const defaultEVCarModel = 'ED5'

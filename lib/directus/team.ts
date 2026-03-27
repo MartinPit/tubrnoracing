@@ -7,23 +7,23 @@ export async function getAllTeamPaths() {
     readItems("Season_Subsection", {
       fields: [
         { season: ["id"] },
-        { subsection: ["id"] }
       ]
     })
   );
 }
 
-export async function getTeamPageData(season: string, subsection: string) {
-  const [seasons, members, subsectionsInSeason, currentSub] = await Promise.all([
+export async function getTeamPageData(season: string) {
+  const [seasons, allMembers, subsectionsInSeason] = await Promise.all([
+    // 1. Fetch all seasons for the switcher
     directus.request(readItems("Season", {
       sort: ["-label"],
       fields: ["id", "label"]
     })),
 
+    // 2. Fetch ALL members for the entire season in one go
     directus.request<TeamMemberDisplay[]>(readItems("Team_Membership", {
       filter: {
         season_subsection: {
-          subsection: { id: { _eq: subsection } },
           season: { id: { _eq: season } },
         }
       },
@@ -32,14 +32,10 @@ export async function getTeamPageData(season: string, subsection: string) {
         "is_leader",
         "custom_title",
         { image: ["id", "title", "description", "width", "height"] },
-        {
-          member: ["*"]
-        },
+        { member: ["*"] },
         {
           season_subsection: [
-            {
-              subsection: ["label"]
-            }
+            { subsection: ["id", "label", "short", "description"] }
           ]
         }
       ]
@@ -47,17 +43,22 @@ export async function getTeamPageData(season: string, subsection: string) {
 
     directus.request(readItems("Season_Subsection", {
       filter: { season: { id: { _eq: season } } },
-      fields: [{ subsection: ["id", "label", "short"] }]
+      fields: [{ subsection: ["id", "label", "short", "description"] }]
     })),
-
-    directus.request(readItem("Subsection", subsection))
   ]);
+
+  const subsections = subsectionsInSeason.map(ss => ss.subsection as Subsection);
+
+  const sections = subsections.map(sub => ({
+    subsection: sub,
+    members: allMembers.filter(m =>
+      (m.season_subsection as any).subsection.id === sub.id
+    ).sort((a, b) => (b.is_leader ? 1 : 0) - (a.is_leader ? 1 : 0))
+  }));
 
   return {
     seasons,
-    members,
-    subsectionsInSeason,
-    subsection: currentSub
+    sections,
   };
 }
 
