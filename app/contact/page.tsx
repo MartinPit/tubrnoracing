@@ -8,6 +8,9 @@ export default async function ContactPage() {
   const { email, contact } = await getContactInfo()
   const leaders = await getLeaders()
 
+  const teamLead = leaders.find(leader => leader.custom_title === "Team Leader");
+  const marketingLead = leaders.find(leader => leader.season_subsection.subsection.short === "MKT&PR");
+
   return (
     <main
       className="bg-background text-foreground min-h-screen pb-32 max-w-7xl mx-auto px-6 md:px-10"
@@ -23,9 +26,16 @@ export default async function ContactPage() {
             advisor_email: contact.advisor_email,
             advisor_phone: contact.advisor_phone,
           }}
+          members={[teamLead!, marketingLead!]}
         />
       </div>
-      <LeadersGrid leaders={leaders} />
+      <LeadersGrid
+        leaders={
+          leaders.filter(
+            (member) => ![teamLead?.id, marketingLead?.id].includes(member.id)
+          )
+        }
+      />
     </main>
   )
 }

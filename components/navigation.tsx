@@ -97,7 +97,7 @@ export function Navigation({ socials }: Props) {
 
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="z-[100] w-14 h-14 bg-primary rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-primary/90"
+          className="z-[100] w-14 h-14 bg-primary rounded-full flex items-center justify-center transition-all duration-300 hover:bg-primary/90"
           aria-label="Toggle menu"
         >
           <div className="relative w-6 h-5 flex flex-col justify-center items-center">

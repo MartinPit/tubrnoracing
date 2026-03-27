@@ -4,15 +4,8 @@ import { useRef } from "react"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { Mail, Phone, MapPin } from "lucide-react"
-
-const facultyManager = {
-  name: "Guy Guy",
-  role: "Faculty Manager",
-  department: "Faculty of Mechanical Engineering, BUT",
-  email: "guy.guy@vutbr.cz",
-  phone: "+420 000 000 000",
-  office: "Building A1, Room 69",
-}
+import { LargeContactCard } from "./large-contact-card"
+import { LeaderContactDisplay } from "@/types"
 
 interface Props {
   email: string
@@ -20,10 +13,11 @@ interface Props {
     advisor_name: string
     advisor_email: string
     advisor_phone: string
-  }
+  },
+  members: LeaderContactDisplay[]
 }
 
-export function ContactInfo({ email, advisor }: Props) {
+export function ContactInfo({ email, advisor, members }: Props) {
   const container = useRef(null)
 
   useGSAP(() => {
@@ -52,51 +46,34 @@ export function ContactInfo({ email, advisor }: Props) {
               clipPath: "polygon(10px 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0% 50%)"
             }}
           >
-            Faculty Manager
+            Main Contacts
           </div>
         </div>
         <div className="flex-1 h-px bg-border/30" />
       </div>
-      <div
-        className="relative p-[1px] bg-primary/40"
-        style={{
-          clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px))"
-        }}
-      >
-        <div
-          className="bg-card p-6 h-full relative"
-          style={{
-            clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px))"
-          }}
-        >
-          <p className="text-[10px] uppercase tracking-[0.22em] text-primary font-heading mb-1">
-            Faculty Advisor
-          </p>
-          <h3 className="font-heading text-xl font-bold uppercase tracking-wide mb-0.5">
-            {advisor.advisor_name}
-          </h3>
-          <p className="text-xs text-muted-foreground mb-5">
-            Faculty of Mechanical Engineering
-          </p>
-
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              <Mail className="w-4 h-4 text-primary" />
-              <a href={`mailto:${advisor.advisor_email}`} className="hover:text-primary transition-colors">
-                {advisor.advisor_email}
-              </a>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              <Phone className="w-4 h-4 text-primary" />
-              <a href={`tel:${advisor.advisor_phone}`} className="hover:text-primary transition-colors">
-                {advisor.advisor_phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      {members.length > 0 && (
+        members.map((member, i) => (
+          <LargeContactCard key={i} member={member} />
+        ))
+      )}
+      <LargeContactCard
+        member={{
+          id: -1,
+          member: {
+            id: -1,
+            name: advisor.advisor_name,
+            email: advisor.advisor_email,
+            phone: advisor.advisor_phone
+          },
+          custom_title: "Faculty Advisor",
+          season_subsection: {
+            subsection: {
+              label: "Faculty of Mechanical Engineering",
+              short: "FME"
+            }
+          }
+        }} />
       <div>
-        <h3 className="text-lg font-semibold uppercase tracking-wider mb-6">Contact</h3>
         <div className="space-y-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-3">
             <Mail className="w-4 h-4 text-primary" />

@@ -31,7 +31,7 @@ export function TeamControlDeck({
 
   return (
     <div className="flex items-center gap-2 p-1.5 bg-background border rounded-md shadow-sm w-fit mx-auto">
-      <NavigationMenu viewport={false} className="z-50 max-w-full justify-center">
+      <NavigationMenu viewport={true} className="z-50 max-w-full justify-center">
         <NavigationMenuList className="space-x-1">
 
           <NavigationMenuItem>
