@@ -25,7 +25,6 @@ export async function GarageMobile({
       />
 
       <Stage
-        list={carList}
         vehicle={vehicle}
         isMobile
       />

@@ -1,138 +1,151 @@
 "use client"
 
 import directusLoader, { cn } from "@/lib/utils";
-import { Vehicle } from "@/types";
+import { Vehicle, DirectusImage } from "@/types";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
-import { useSmoothNavigate } from "@/hooks/useSmoothNavigate";
-import { GARAGE_ANIMATED } from "@/lib/data";
+import { useEffect, useRef, useState, useMemo } from "react";
 
-interface Props {
-  list: { short_name: string }[]
-  isMobile?: boolean
-  vehicle: Vehicle
-}
+export function Stage({ isMobile = false, vehicle }: { isMobile?: boolean, vehicle: Vehicle }) {
+  const container = useRef<HTMLDivElement>(null);
+  const touchStart = useRef<number | null>(null);
 
-export function Stage(
-  {
-    list,
-    isMobile = false,
-    vehicle,
-  }: Props
-) {
-  const container = useRef<HTMLDivElement>(null)
-  const { smoothNavigate } = useSmoothNavigate({
-    root: "/garage",
-    slugs: [vehicle.category, vehicle.short_name],
-    elements: GARAGE_ANIMATED
-  })
+  const [state, setState] = useState({
+    activeIdx: 0,
+    prevIdx: 0,
+    direction: 1,
+    isAnimating: false
+  });
 
-  useGSAP(() => {
-    gsap.set(container.current, {
-      opacity: 0,
-      y: -20
-    })
+  const gallery: DirectusImage[] = useMemo(() => {
+    return vehicle.images
+  }, [vehicle.images]);
 
-    gsap.to(container.current, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      delay: 0.2,
-      ease: "power3.out",
-      clearProps: "opacity,transform"
-    })
-  }, {
-    scope: container
-  })
+  const switchImg = (newIdx: number) => {
+    if (state.isAnimating || newIdx < 0 || newIdx >= gallery.length) return;
 
-  const switchIdx = (i: number) => {
-    if (i === idx || i < 0 || i >= list.length) return
-    smoothNavigate([vehicle.category, list[i].short_name])
+    setState({
+      activeIdx: newIdx,
+      prevIdx: state.activeIdx,
+      direction: newIdx > state.activeIdx ? 1 : -1,
+      isAnimating: true
+    });
   }
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") switchIdx(idx - 1)
-      if (e.key === "ArrowRight") switchIdx(idx + 1)
-    }
-    window.addEventListener("keydown", handler)
-    return () => window.removeEventListener("keydown", handler)
-  })
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+  };
 
-  const idx = Math.max(0, list.findIndex((v) => v.short_name === vehicle.short_name))
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart.current === null) return;
+
+    const touchEnd = e.changedTouches[0].clientX;
+    const distance = touchStart.current - touchEnd;
+    const threshold = 50;
+
+    if (Math.abs(distance) > threshold) {
+      if (distance > 0) {
+        switchImg(state.activeIdx + 1);
+      } else {
+        switchImg(state.activeIdx - 1);
+      }
+    }
+
+    touchStart.current = null;
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (state.isAnimating) return;
+      if (e.key === "ArrowLeft") switchImg(state.activeIdx - 1);
+      if (e.key === "ArrowRight") switchImg(state.activeIdx + 1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [state.activeIdx, state.isAnimating, gallery.length]);
+
+  useGSAP(() => {
+    if (gallery.length <= 1 || !state.isAnimating) return;
+
+    const xMove = state.direction === 1 ? '100%' : '-100%';
+    const tl = gsap.timeline({
+      onComplete: () => setState(prev => ({ ...prev, isAnimating: false }))
+    });
+
+    tl.set(".incoming-image", { x: xMove, opacity: 1, visibility: "visible" });
+    tl.to(".incoming-image", { x: 0, duration: 0.4, ease: "expo.inOut" });
+
+  }, { dependencies: [state.activeIdx], scope: container });
 
   return (
     <div
       ref={container}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       className={cn(
-        "stage bg-card border border-border/20",
-        isMobile
-          ? "relative mx-4 mt-4 shrink-0"
-          : "flex-1 relative min-h-0"
+        "stage bg-card border border-border/20 overflow-hidden relative touch-pan-y",
+        isMobile ? "mx-4 mt-4 shrink-0" : "flex-1 min-h-0"
       )}
       style={{
-        height: isMobile ? "38dvh" : "",
+        height: isMobile ? "38dvh" : "100%",
         clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))"
       }}
     >
-      <Image
-        src={vehicle.image.id}
-        loader={directusLoader}
-        alt={vehicle.image.title || vehicle.long_name}
-        sizes="(max-width: 768px) 100vw, 50vw"
-        fill
-        preload
-        fetchPriority="high"
-        loading="eager"
-        className="object-cover"
-      />
-      <button onClick={() => switchIdx(idx - 1)} disabled={idx === 0}
-        className={cn(
-          "absolute top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-background/60 border border-border/40 hover:border-primary/60 hover:text-primary disabled:opacity-20 transition-all duration-200 backdrop-blur-sm",
-          isMobile ? "left-3" : "left-2"
-        )}>
-        <ChevronLeft className="w-4 h-4" />
-      </button>
-      <button onClick={() => switchIdx(idx + 1)} disabled={idx === list.length - 1}
-        className={cn(
-          "absolute top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-background/60 border border-border/40 hover:border-primary/60 hover:text-primary disabled:opacity-20 transition-all duration-200 backdrop-blur-sm",
-          isMobile ? "right-3" : "right-2"
-        )}>
-        <ChevronRight className="w-4 h-4" />
-      </button>
-      <div className={cn(
-        "pointer-events-none absolute",
-        isMobile ? "bottom-3 left-4" : "bottom-4 left-6"
-      )}
-      >
-        <p className={cn(
-          "font-heading text-sm uppercase tracking-[0.3em] text-primary/70",
-          !isMobile && "mb-0.5"
-        )}
-        >
-          {vehicle.year}
-        </p>
-        <h2 className={cn(
-          "font-heading font-bold uppercase tracking-tight text-foreground/90",
-          isMobile ? "text-2xl" : "text-4xl"
-        )}
-        >
-          {vehicle.long_name}
-        </h2>
+      <div className="previous-image absolute inset-0 w-full h-full">
+        <Image src={gallery[state.prevIdx].id} loader={directusLoader} alt="prev" fill className="object-cover" />
       </div>
-      {!isMobile &&
-        <div className="pointer-events-none absolute bottom-5 right-6 flex gap-1.5">
-          {list.map((_, i) => (
-            <div key={i}
-              className={`transition-all duration-200 ${i === idx ? "bg-primary scale-125" : "bg-foreground/20"}`}
+
+      <div className="incoming-image absolute inset-0 w-full h-full visibility-hidden z-10">
+        <Image src={gallery[state.activeIdx].id} loader={directusLoader} alt="active" fill priority className="object-cover" />
+      </div>
+
+      {!isMobile && (
+        <>
+          <button
+            onClick={() => switchImg(state.activeIdx - 1)}
+            disabled={state.activeIdx === 0 || state.isAnimating}
+            className={cn(
+              "absolute top-1/2 -translate-y-1/2 w-8 h-8 z-30 flex items-center justify-center bg-background/60 border border-border/40 hover:text-primary backdrop-blur-sm transition-all disabled:opacity-0",
+              isMobile ? "left-3" : "left-2"
+            )}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={() => switchImg(state.activeIdx + 1)}
+            disabled={state.activeIdx === gallery.length - 1 || state.isAnimating}
+            className={cn(
+              "absolute top-1/2 -translate-y-1/2 w-8 h-8 z-30 flex items-center justify-center bg-background/60 border border-border/40 hover:text-primary backdrop-blur-sm transition-all disabled:opacity-0",
+              isMobile ? "right-3" : "right-2"
+            )}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </>
+      )}
+
+      <div className={cn(
+        "pointer-events-none absolute z-20",
+        isMobile ? "bottom-3 left-4" : "bottom-4 left-6"
+      )}>
+        <p className={cn("font-heading text-sm uppercase tracking-[0.3em] text-primary/70", !isMobile && "mb-0.5")}>{vehicle.year}</p>
+        <h2 className={cn("font-heading font-bold uppercase tracking-tight text-foreground/90", isMobile ? "text-2xl" : "text-4xl")}>{vehicle.long_name}</h2>
+      </div>
+
+      {gallery.length > 1 && (
+        <div className="pointer-events-none absolute bottom-5 right-6 z-20 flex gap-1.5">
+          {gallery.map((_, i) => (
+            <div
+              key={i}
+              className={cn("transition-all duration-500", i === state.activeIdx ? "bg-primary scale-125" : "bg-foreground/20")}
               style={{ width: 6, height: 6, clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }}
             />
           ))}
         </div>
-      }
+      )}
     </div>
   );
 }

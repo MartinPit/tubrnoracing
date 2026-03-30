@@ -30,7 +30,6 @@ export async function GarageDesktop({
         />
 
         <Stage
-          list={carList}
           vehicle={vehicle}
         />
 

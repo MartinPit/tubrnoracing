@@ -29,12 +29,19 @@ export interface Car {
 	/** @required */
 	year: number;
 	/** @required */
-	image: DirectusFile | string;
-	/** @required */
 	description: string;
 	specifications?: string[] | null;
 	/** @required */
 	highlights: Array<{ title: string; value: string; metric: string }>;
+	/** @required */
+	images: CarFile[] | string[];
+}
+
+export interface CarFile {
+	/** @primaryKey */
+	id: number;
+	Car_id?: Car | string | null;
+	directus_files_id?: DirectusFile | string | null;
 }
 
 export interface ContactFormSubmission {
@@ -718,6 +725,7 @@ export interface DirectusDeploymentRun {
 export interface Schema {
 	About_Page: AboutPage;
 	Car: Car[];
+	Car_files: CarFile[];
 	contact_form_submissions: ContactFormSubmission[];
 	Contact_Page: ContactPage;
 	Gallery_Categories: GalleryCategory[];
@@ -767,6 +775,7 @@ export interface Schema {
 export enum CollectionNames {
 	About_Page = 'About_Page',
 	Car = 'Car',
+	Car_files = 'Car_files',
 	contact_form_submissions = 'contact_form_submissions',
 	Contact_Page = 'Contact_Page',
 	Gallery_Categories = 'Gallery_Categories',
