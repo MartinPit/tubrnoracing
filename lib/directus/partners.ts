@@ -34,13 +34,14 @@ export async function getPartners() {
   };
 }
 
-export async function getRandomPartners() {
-  const pool = await directus.request(
+export async function getPlatinumPartners() {
+  return await directus.request(
     readItems("Partners", {
       fields: ["*", { logo: ["id", "title", "description", "width", "height", "type"] }],
+      filter: {
+        tier: { _eq: "plat" },
+      },
       limit: 40,
     })
   );
-
-  return pool.sort(() => 0.5 - Math.random()).slice(0, 4);
 }

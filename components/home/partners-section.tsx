@@ -2,8 +2,8 @@ import { directus } from "@/lib/directus"
 import { NavigationButton } from "../navigation-button"
 import { PartnersCards } from "./partners-cards"
 import { readSingleton } from "@directus/sdk"
-import { getRandomPartners } from "@/lib/directus/partners"
 import { WidthContainer } from "../width-container"
+import { getPlatinumPartners } from "@/lib/directus/partners"
 
 export async function PartnersSection() {
   const { parters_title, partners_subtitle } = await directus.request(
@@ -12,7 +12,7 @@ export async function PartnersSection() {
       limit: 1,
     })
   )
-  const partners = await getRandomPartners()
+  const partners = await getPlatinumPartners()
 
   const parts = parters_title.split(" ")
   const lastPart = parts.pop()
