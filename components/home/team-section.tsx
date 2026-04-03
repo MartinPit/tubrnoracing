@@ -1,10 +1,9 @@
 import { NavigationButton } from "../navigation-button"
 import { directus } from "@/lib/directus";
 import { readSingleton } from "@directus/sdk";
-import { Suspense } from "react";
-import { MemberList } from "./member-list";
-import { TeamSkeleton } from "./team-skeleton";
 import { WidthContainer } from "../width-container";
+import { getTeamImage } from "@/lib/directus/team";
+import { TeamImage } from "./team-image";
 
 export async function TeamSection() {
   const { team_title, team_subtitle } = await directus.request(
@@ -13,9 +12,11 @@ export async function TeamSection() {
       limit: 1,
     })
   );
+  const team_image = await getTeamImage()
 
   const parts = team_title.split(" ")
   const lastPart = parts.pop()
+
 
   return (
     <section id="team" className="py-24 px-6 bg-muted">
@@ -26,9 +27,7 @@ export async function TeamSection() {
           </h2>
         </div>
 
-        <Suspense fallback={<TeamSkeleton />}>
-          <MemberList />
-        </Suspense>
+        <TeamImage image={team_image} />
 
         <div className="mt-16 flex flex-col items-center gap-4">
           <p className="text-muted-foreground">{team_subtitle}</p>

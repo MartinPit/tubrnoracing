@@ -1,6 +1,6 @@
-import { TeamMemberDisplay } from "@/types";
+import { DirectusImage, Subsection, TeamMemberDisplay } from "@/types";
 import { directus } from "./index";
-import { readItem, readItems } from "@directus/sdk";
+import { readItem, readItems, readSingleton } from "@directus/sdk";
 
 export async function getAllTeamPaths() {
   return await directus.request(
@@ -62,32 +62,13 @@ export async function getTeamPageData(season: string) {
   };
 }
 
-export async function getRandomFourMembers() {
-  const allMembers = await directus.request(
-    readItems("Team_Membership", {
-      fields: ["id"],
-      limit: -1,
+export async function getTeamImage(): Promise<DirectusImage> {
+  const data = await directus.request(
+    readSingleton("About_Page", {
+      fields: [{ team_image: ["id", "title", "description", "width", "height"] }],
+      limit: 1,
     })
   );
 
-  const shuffledIds = allMembers
-    .map((m) => m.id)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 4);
-
-  return await directus.request<TeamMemberDisplay[]>(
-    readItems("Team_Membership", {
-      filter: {
-        id: { _in: shuffledIds },
-      },
-      fields: [
-        "id",
-        "is_leader",
-        "custom_title",
-        { image: ["id", "title", "description", "width", "height"] },
-        { member: ["*"] },
-        { season_subsection: [{ subsection: ["label"] }] }
-      ],
-    })
-  );
-}
+  return data.team_image;
+};
