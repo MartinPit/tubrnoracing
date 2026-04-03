@@ -46,7 +46,7 @@ export default async function TeamPage({
             className="scroll-mt-32 border-b border-border/5"
           >
             <div className="px-5 py-8 md:px-12">
-              <h2 className="md:hidden text-2xl font-bold uppercase mb-4">{subsection.label}</h2>
+              <h2 className="md:hidden text-2xl text-center font-bold uppercase mb-4">{subsection.label}</h2>
               <MemberGrid members={members} />
             </div>
           </section>
