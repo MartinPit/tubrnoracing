@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { Partner } from "@/types/directus-schema"
 import { cn } from "@/lib/utils"
+import { WidthContainer } from "../width-container"
 
 interface Props {
   partners: Record<PartnerTier, Partner[]>
@@ -88,6 +89,6 @@ export function PartnerList({ partners }: Props) {
           </section>
         )
       })}
-    </div>
+    </div >
   )
 }
