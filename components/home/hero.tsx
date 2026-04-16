@@ -123,9 +123,9 @@ export function Hero({ title = "TU BRNO RACING" }: Props) {
       </p>
 
       {/* Countdown */}
-      <div className="flex items-end gap-6 sm:gap-10">
+      <div className="flex items-center gap-4 sm:gap-8">
         {units.map(({ label, value }, i) => (
-          <div key={label} className="flex items-end gap-6 sm:gap-10">
+          <div key={label} className="flex items-center gap-4 sm:gap-8">
             <div className="hero-countdown-unit flex flex-col items-center gap-1">
               <span className="font-heading font-bold text-5xl sm:text-7xl lg:text-8xl text-foreground tabular-nums inline-block w-[2.2ch] text-center">
                 <AnimatedNumber
@@ -140,7 +140,7 @@ export function Hero({ title = "TU BRNO RACING" }: Props) {
               </span>
             </div>
             {i < units.length - 1 && (
-              <span className="text-primary font-bold text-4xl sm:text-6xl lg:text-7xl pb-5 select-none leading-none">
+              <span className="text-primary font-bold text-4xl sm:text-6xl lg:text-7xl mb-5 select-none leading-none self-center">
                 :
               </span>
             )}
