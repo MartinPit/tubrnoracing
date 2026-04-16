@@ -127,7 +127,7 @@ export function Hero({ title = "TU BRNO RACING" }: Props) {
         {units.map(({ label, value }, i) => (
           <div key={label} className="flex items-end gap-6 sm:gap-10">
             <div className="hero-countdown-unit flex flex-col items-center gap-1">
-              <span className="font-heading font-bold text-5xl sm:text-7xl lg:text-8xl text-foreground tabular-nums">
+              <span className="font-heading font-bold text-5xl sm:text-7xl lg:text-8xl text-foreground tabular-nums inline-block w-[2.2ch] text-center">
                 <AnimatedNumber
                   value={value}
                   stiffness={120}
