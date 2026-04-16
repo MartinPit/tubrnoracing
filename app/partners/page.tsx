@@ -15,6 +15,7 @@ export default async function SponsorsPage() {
         <PartnerHero title={data.title} subtitle={data.subtitle} />
         <PartnerList partners={partners} />
         <PartnerForm
+          id="form"
           cta={data.call_to_action}
           ctaDescription={data.call_to_action_description}
           benefits={data.benefits}

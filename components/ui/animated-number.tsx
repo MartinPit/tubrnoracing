@@ -38,5 +38,5 @@ export function AnimatedNumber({
     return () => unsubscribe()
   }, [spring, value, onAnimationStart, onAnimationComplete])
 
-  return <motion.span>{display}</motion.span>
+  return <motion.span className="select-none">{display}</motion.span>
 }

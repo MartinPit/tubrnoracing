@@ -61,7 +61,7 @@ export function PartnerForm({ cta, ctaDescription, benefits }: Props) {
   }, { scope: container })
 
   return (
-    <div ref={container} className="mt-24 pt-16 border-t border-border/20">
+    <div ref={container} id="form" className="mt-24 pt-16 border-t border-border/20">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         <div className="form-info-side">
           <p className="text-[10px] uppercase tracking-[0.35em] text-primary font-heading mb-4">Become a Partner</p>
